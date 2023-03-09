@@ -2,8 +2,6 @@ const express = require("express");
 const path = require("path");
 //const a = require('./assets/js/Controllers');
 
-
-
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080
 app.use(express.static(__dirname+'/assets'));
@@ -21,3 +19,5 @@ function onHttpStart(){
 app.get("/",function(req,res) {
     res.render("Main/Home.html");
 })
+
+app.listen(HTTP_PORT,onHttpStart);
