@@ -19,4 +19,8 @@ app.get("/",function(req,res) {
     res.render("Main/Home.html");
 })
 
+app.get("/About",function(req,res) {
+    res.render("Main/About.html");
+})
+
 app.listen(HTTP_PORT,onHttpStart);

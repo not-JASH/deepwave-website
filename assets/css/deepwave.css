@@ -1,0 +1,103 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* Reset default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Set body font and background color */
+    body {
+      font-family: Helvetica, Arial;
+      color: #fff;
+      background-color: #000;
+    }
+
+    /* Set a max width for the page */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Set a simple heading style */
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Set a simple paragraph style */
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* Set a simple link style */
+    a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 2px solid #fff;
+    }
+
+    /* Style the image background */
+    .bg-image {
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Style the image background text */
+    .bg-image h1 {
+      font-size: 72px;
+      margin-bottom: 20px;
+    }
+
+    .bg-image nav {
+      margin-top: 40px;
+    }
+
+    .bg-image nav a {
+      margin-right: 40px;
+    }
+	  
+	/* nav bar style */
+	header {
+	  background-color: transparent;
+	}
+
+	nav {
+	  display: flex;
+	  justify-content: center;
+	}
+
+	nav ul {
+	  display: flex;
+	  justify-content: space-between;
+	  list-style: none;
+
+	  margin: 0;
+	  background-color: transparent;
+	}
+
+	nav li {
+	  margin: 0 0;
+	}
+
+	nav a {
+	  display: block;
+		text-align: center;
+	  text-decoration: none;
+		border-bottom: none;
+	  color: #fff;
+	  padding: none;
+		width:25%;	
+	}
