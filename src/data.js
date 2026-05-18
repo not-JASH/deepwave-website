@@ -1,163 +1,103 @@
-export const researchNodes = [
+export const capabilities = [
   {
-    id: '01',
-    slug: 'signal-lab',
-    anchor: 'signal-lab',
-    title: 'Signal Lab',
-    label: 'Acoustic + hydrodynamic models',
-    status: 'ACTIVE',
-    accession: 'DWR-01-317',
-    color: '#81CBBE',
-    summary: 'Sonar traces, waveforms, anomaly detection, and model confidence systems for deep-water signals.',
-    coordinates: 'A-14 / LOWER ARRAY'
+    title: 'Signal mapping',
+    text: 'Detect structural shifts across markets, policy, culture, science, and infrastructure before they become obvious.',
   },
   {
-    id: '02',
-    slug: 'field-systems',
-    anchor: 'field-systems',
-    title: 'Field Systems',
-    label: 'Buoys, floats, coastal nodes',
-    status: 'DEPLOYED',
-    accession: 'DWR-02-104',
-    color: '#DD5F4A',
-    summary: 'Instrument networks that collect live current, pressure, weather, and wave energy readings.',
-    coordinates: 'B-08 / PIER LOCK'
+    title: 'Model critique',
+    text: 'Stress-test assumptions, incentives, datasets, and claims so teams can trust the systems they are building from.',
   },
   {
-    id: '03',
-    slug: 'current-models',
-    anchor: 'current-models',
-    title: 'Current Models',
-    label: 'Forecasts + long-range drift',
-    status: 'REVISION B',
-    accession: 'DWR-03-241',
-    color: '#9BACD5',
-    summary: 'Simulations that reconcile live sensor streams with archival current and climate datasets.',
-    coordinates: 'C-03 / MODEL ROOM'
+    title: 'Scenario design',
+    text: 'Translate uncertainty into bounded futures, decision triggers, and board-ready narrative artifacts.',
   },
   {
-    id: '04',
-    slug: 'publications',
-    anchor: 'publications',
-    title: 'Publications',
-    label: 'Reports, releases, papers',
-    status: 'PUBLIC',
-    accession: 'DWR-04-092',
-    color: '#F2CD88',
-    summary: 'Public-facing field reports, model notes, paper abstracts, and release documentation.',
-    coordinates: 'D-20 / STACKS'
+    title: 'Research portals',
+    text: 'Turn expert synthesis into live dashboards, evidence rooms, briefings, and reusable knowledge interfaces.',
   },
   {
-    id: '05',
-    slug: 'archive',
-    anchor: 'archive',
-    title: 'Archive',
-    label: 'Scans + field lineage',
-    status: 'CURATED',
-    accession: 'DWR-05-442',
-    color: '#A07254',
-    summary: 'Recovered diagrams, instrument manuals, declassified field notes, and verified project history.',
-    coordinates: 'E-11 / COLD FILE'
+    title: 'Field intelligence',
+    text: 'Combine desk research with interviews, qualitative probes, and domain expert review for grounded signals.',
   },
   {
-    id: '06',
-    slug: 'reception',
-    anchor: 'contact',
-    title: 'Reception',
-    label: 'Briefings + collaboration',
-    status: 'OPEN',
-    accession: 'DWR-06-001',
-    color: '#C86AAE',
-    summary: 'A controlled access point for field collaborations, data partnerships, and applied research briefs.',
-    coordinates: 'F-01 / ENTRY'
-  }
+    title: 'Executive translation',
+    text: 'Condense complex research into precise language, high-contrast visuals, and decision-ready recommendations.',
+  },
 ];
 
-export const metrics = [
-  { label: 'Array uptime', value: 97, unit: '%' },
-  { label: 'Signal lock', value: 82, unit: '%' },
-  { label: 'Current drift', value: 14, unit: 'cm/s' },
-  { label: 'Model confidence', value: 91, unit: '%' }
+export const methods = [
+  {
+    label: '01',
+    title: 'Frame the turbulence',
+    text: 'Define the uncertain system, its stakeholders, evidence limits, time horizon, and practical decision window.',
+  },
+  {
+    label: '02',
+    title: 'Build the signal field',
+    text: 'Gather sources, expert inputs, weak-signal clusters, and contradictory evidence into a traceable research base.',
+  },
+  {
+    label: '03',
+    title: 'Model the wavefront',
+    text: 'Map causal paths, tensions, adoption thresholds, and second-order effects using transparent assumptions.',
+  },
+  {
+    label: '04',
+    title: 'Ship the instrument',
+    text: 'Deliver the research as a briefing, interface, playbook, or operating protocol that teams can keep using.',
+  },
 ];
 
-export const modelWindows = [
+export const verticals = [
   {
-    code: 'DRIFT WINDOW / 36H',
-    title: 'North Shelf shear recovery',
-    summary: 'Assimilation now converges across lower-array telemetry and the April pressure variance event.',
-    status: 'CONFIDENCE 91%',
-    readout: '+14 cm/s'
+    eyebrow: 'Oceanic intelligence',
+    title: 'Marine systems, climate risk, and blue-economy strategy.',
+    text: 'For organizations tracking energy transition, logistics, coastal resilience, fisheries, deep-sea infrastructure, and environmental monitoring.',
+    tags: ['sensor networks', 'risk models', 'climate adaptation', 'resource governance'],
+    rotation: '-7deg',
   },
   {
-    code: 'REVISION NOTE / B.03',
-    title: 'Thermocline offset correction',
-    summary: 'Bias trims continue across two warm-water lanes where historical buoy logs underreported lateral drift.',
-    status: 'DELTA 4.2%',
-    readout: '0.7 deg C'
+    eyebrow: 'Machine intelligence',
+    title: 'AI adoption, model ecosystems, and human oversight.',
+    text: 'For teams deciding where automated reasoning helps, where it fails, and what governance patterns make the system useful in practice.',
+    tags: ['model evaluation', 'workflow design', 'AI policy', 'human review'],
+    rotation: '6deg',
   },
   {
-    code: 'OUTLOOK / 72H',
-    title: 'Array redeployment envelope',
-    summary: 'Field teams have a stable intervention window before signal scatter exceeds publication threshold.',
-    status: 'WINDOW OPEN',
-    readout: '42 hours'
-  }
+    eyebrow: 'Market behavior',
+    title: 'Early demand signals in markets that have not settled yet.',
+    text: 'For founders, investors, and strategy groups separating durable needs from noise, hype, and short-lived category language.',
+    tags: ['category maps', 'adoption curves', 'buyer research', 'competitive signals'],
+    rotation: '-11deg',
+  },
+  {
+    eyebrow: 'Public systems',
+    title: 'Research that institutions can defend, explain, and maintain.',
+    text: 'For civic and enterprise teams that need legible evidence, accessible outputs, and durable governance rather than one-off slide decks.',
+    tags: ['policy research', 'service design', 'accessibility', 'knowledge systems'],
+    rotation: '10deg',
+  },
 ];
 
-export const reports = [
+export const proof = [
   {
-    code: 'FIELD REPORT / 2026.04',
-    title: 'Abyssal Current Model, Revision B',
-    excerpt: 'Signal drift observed across three offshore nodes after a 42-hour pressure variance event.',
-    stamp: 'FIELD VERIFIED'
+    value: '4:1',
+    label: 'Signal ratio',
+    text: 'Every major claim is paired with source trails, counter-evidence, and an action threshold.',
   },
   {
-    code: 'MODEL NOTE / 2026.03',
-    title: 'Wave-Energy Boundary Inference',
-    excerpt: 'A public summary of boundary conditions used in the North Shelf simulation environment.',
-    stamp: 'OPEN DATA'
+    value: '12w',
+    label: 'Sprint ceiling',
+    text: 'Engagements are scoped to produce a usable artifact before the question goes stale.',
   },
   {
-    code: 'TECH MEMO / 2026.01',
-    title: 'Buoy Array Recovery Protocol',
-    excerpt: 'Inspection checklist and telemetry continuity procedure for offshore sensor redeployment.',
-    stamp: 'RELEASED'
-  }
+    value: 'AA',
+    label: 'Contrast target',
+    text: 'The interface avoids low-contrast pseudo-minimalism and treats legibility as a core feature.',
+  },
+  {
+    value: '1→n',
+    label: 'System logic',
+    text: 'The same identity components can scale from marketing page to dashboard and briefing room.',
+  },
 ];
-
-export const archiveEntries = [
-  {
-    code: 'DWR-0142',
-    title: 'Pressure cassette scan',
-    format: 'Verified copy',
-    year: '1987 / restored 2026',
-    status: 'Public access',
-    summary: 'Recovered from the lower-array storage room and matched against two later service annotations to confirm pressure drift during early tank tests.'
-  },
-  {
-    code: 'DWR-0201',
-    title: 'First coastal node diagram',
-    format: 'Restored plate',
-    year: '1991 / plate series',
-    status: 'Conservation complete',
-    summary: 'Original routing artwork for the first coastal telemetry node, including hand-marked redundancies that were later removed from the production plan.'
-  },
-  {
-    code: 'DWR-0330',
-    title: 'Signal room logbook',
-    format: 'Partial transcription',
-    year: '1998 / field office',
-    status: 'Cross-reference pending',
-    summary: 'Manual observations from an anomalous current event, preserved for lineage review while a second operator log is being reconciled.'
-  },
-  {
-    code: 'DWR-0447',
-    title: 'Wave tank calibration notes',
-    format: 'Public summary',
-    year: '2004 / calibration deck',
-    status: 'Release approved',
-    summary: 'Calibration tolerances and offset decisions used to align the tank simulation program with modern publication thresholds.'
-  }
-];
-
-export const waveform = [12, 18, 14, 26, 18, 34, 21, 16, 28, 18, 12, 24, 31, 19, 15, 27, 42, 24, 18, 22, 16, 30, 36, 20, 14, 18, 12];

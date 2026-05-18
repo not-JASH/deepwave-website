@@ -1,0 +1,14 @@
+{
+  "name": "deep-wave-research-website-draft",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "preview": "vite preview --host 0.0.0.0",
+    "start": "python3 -m http.server 4173"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

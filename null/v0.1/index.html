@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#24171E" />
+    <meta name="description" content="Deep Wave Research website draft — a retro-modern oceanic research terminal." />
+    <title>Deep Wave Research</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300..800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="src/styles.css" />
+    <script type="module" src="src/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-shell site-header" data-elevated="false">
+      <a class="brand" href="#top" aria-label="Deep Wave Research home">
+        <span class="brand__glyph" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <path d="M6 15h10c8 0 8 18 16 18h10" />
+            <path d="M6 24h8c10 0 10-12 20-12h8" />
+            <path d="M6 34h14c7 0 7-10 14-10h8" />
+          </svg>
+        </span>
+        <span>
+          <strong>Deep Wave</strong>
+          <small>Research</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#programs">Programs</a>
+        <a href="#signal-lab">Signal Lab</a>
+        <a href="#field-systems">Field</a>
+        <a href="#current-models">Models</a>
+        <a href="#publications">Reports</a>
+        <a href="#archive">Archive</a>
+        <a href="#contact">Reception</a>
+      </nav>
+
+      <div class="system-badge" aria-live="polite">
+        <span class="status-light"></span>
+        <span id="active-location">YOU ARE HERE / ENTRY</span>
+      </div>
+    </header>
+
+    <main id="main" class="main" tabindex="-1">
+      <section id="top" class="hero site-shell section-observed" data-location="ENTRY / FACILITY MAP">
+        <div class="hero__copy reveal">
+          <p class="kicker">DWR / OCEAN SIGNAL INTELLIGENCE</p>
+          <h1>Signal systems for complex ocean environments.</h1>
+          <p class="hero__lede">Deep Wave Research develops models, instruments, and field intelligence for wave energy, deep-current behavior, offshore infrastructure, and long-horizon climate systems.</p>
+          <div class="hero__actions" aria-label="Primary actions">
+            <a class="button button--primary" href="#programs">Enter Directory</a>
+            <a class="button button--ghost" href="#archive">Open Archive</a>
+          </div>
+        </div>
+
+        <aside class="hero__panel reveal" aria-label="Facility orientation panel">
+          <div class="panel-heading">
+            <span>FACILITY DIRECTORY</span>
+            <span>ACCESS: PUBLIC</span>
+          </div>
+          <div id="facility-map" class="facility-card"></div>
+          <div class="coordinate-strip">
+            <span>LAT 46.8139 N</span>
+            <span>LONG 71.2080 W</span>
+            <span>REV 2026.05</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="marquee-strip" aria-label="Current signal status">
+        <div class="marquee-strip__track">
+          <span>SIGNAL LOCK 81.7%</span>
+          <span>FIELD ARRAY ONLINE</span>
+          <span>NODE 03 / ACTIVE CURRENT MODEL</span>
+          <span>ARCHIVE ACCESSION DWR-0142</span>
+          <span>SEA STATE WATCH: MODERATE</span>
+          <span aria-hidden="true">SIGNAL LOCK 81.7%</span>
+          <span aria-hidden="true">FIELD ARRAY ONLINE</span>
+          <span aria-hidden="true">NODE 03 / ACTIVE CURRENT MODEL</span>
+          <span aria-hidden="true">ARCHIVE ACCESSION DWR-0142</span>
+          <span aria-hidden="true">SEA STATE WATCH: MODERATE</span>
+        </div>
+      </section>
+
+      <section id="programs" class="site-shell section programs section-observed" data-location="RESEARCH PROGRAMS">
+        <div class="section-head reveal">
+          <p class="kicker">01 / RESEARCH PROGRAMS</p>
+          <h2>Organized like a facility, operated like a field lab.</h2>
+          <p>Each program is a navigable node with its own methods, datasets, and field systems. Hover the map or cards to synchronize the active research area.</p>
+        </div>
+        <div class="program-layout">
+          <div class="map-dossier reveal" id="map-dossier"></div>
+          <div class="node-grid" id="node-grid" aria-label="Research program cards"></div>
+        </div>
+      </section>
+
+      <section id="signal-lab" class="section section--dark section-observed" data-location="SIGNAL LAB">
+        <div class="site-shell lab-grid">
+          <div class="lab-copy reveal">
+            <p class="kicker">02 / SIGNAL LAB</p>
+            <h2>Instrument UI for model traces, sonar returns, and live array status.</h2>
+            <p>The dark mode is reserved for dense technical moments: a controlled room in the site where signals, anomalies, and confidence intervals feel physical.</p>
+            <a class="button button--light" href="#contact">Request a briefing</a>
+          </div>
+          <div class="instrument-panel reveal" id="instrument-panel" aria-label="Signal lab instrument panel"></div>
+        </div>
+      </section>
+
+      <section id="field-systems" class="site-shell section field-systems section-observed" data-location="FIELD SYSTEMS">
+        <div class="section-number" aria-hidden="true">03</div>
+        <div class="field-systems__copy reveal">
+          <p class="kicker">03 / FIELD SYSTEMS</p>
+          <h2>Field arrays, buoy telemetry, and coastal instrument networks.</h2>
+          <p>Warm technical diagrams sit beside corporate-modernist panels: operational enough to trust, cinematic enough to remember.</p>
+        </div>
+        <div class="image-rack reveal">
+          <figure>
+            <img src="assets/study/similar-01-isometric-facility-map.svg" alt="Isometric facility map graphic" loading="lazy" />
+            <figcaption>DWR-MAP-01 / Wayfinding as site structure</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/study/similar-07-instrument-ui.svg" alt="Dark instrument interface graphic" loading="lazy" />
+            <figcaption>DWR-LAB-07 / Instrument mode reference</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/study/similar-03-rounded-wave-routes.svg" alt="Rounded wave routing lines" loading="lazy" />
+            <figcaption>DWR-TRACE-03 / Brand routing system</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="current-models" class="site-shell section current-models section-observed" data-location="CURRENT MODELS">
+        <div class="section-head reveal">
+          <p class="kicker">04 / CURRENT MODELS</p>
+          <h2>Forecast layers, revision control, and drift windows for changing water systems.</h2>
+          <p>Current Models is where instrument telemetry and long-horizon climate behavior are reconciled before they become public guidance, field deployment changes, or archive-grade records.</p>
+        </div>
+        <div class="current-models__layout">
+          <div id="model-board" class="model-board reveal" aria-label="Current model forecast board"></div>
+          <div id="model-stack" class="model-stack" aria-label="Current model forecast windows"></div>
+        </div>
+      </section>
+
+      <section class="route-supergraphic" aria-hidden="true">
+        <img src="assets/generated/route-network.svg" alt="" />
+      </section>
+
+      <section id="publications" class="site-shell section section-observed" data-location="PUBLICATIONS">
+        <div class="section-head reveal">
+          <p class="kicker">05 / PUBLICATIONS</p>
+          <h2>Reports with accession numbers, field notes, and model revisions.</h2>
+        </div>
+        <div id="report-grid" class="report-grid"></div>
+      </section>
+
+      <section id="archive" class="section archive section-observed" data-location="ARCHIVE">
+        <div class="site-shell archive-layout">
+          <div class="archive-poster reveal">
+            <img src="assets/study/similar-04-archival-poster.svg" alt="Archival science poster graphic" loading="lazy" />
+          </div>
+          <div class="archive-copy reveal">
+            <p class="kicker">06 / ARCHIVE</p>
+            <h2>Declassified field materials, old diagrams, and verified model lineage.</h2>
+            <p>Distress is used selectively here so the rest of the website stays clean and credible. The archive gives Deep Wave a sense of institutional memory.</p>
+            <div class="archive-console">
+              <div id="archive-preview" class="archive-preview" aria-live="polite"></div>
+              <div id="archive-list" class="archive-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="site-shell section about section-observed" data-location="INSTITUTIONAL PROFILE">
+        <div class="about__image reveal">
+          <img src="assets/study/similar-05-corporate-lobby.svg" alt="Corporate modernist lobby abstraction" loading="lazy" />
+        </div>
+        <div class="about__copy reveal">
+          <p class="kicker">07 / INSTITUTIONAL PROFILE</p>
+          <h2>Quiet authority, exact language, and systems that feel built.</h2>
+          <p>The draft combines mid-century research-campus calm with analog sci-fi detail: grids, warm materials, map logic, instrument UI, and restrained editorial type.</p>
+          <dl class="fact-list">
+            <div><dt>Mode</dt><dd>Retro-modern oceanic research terminal</dd></div>
+            <div><dt>Palette</dt><dd>Archive cream, deep umber, aqua trace, signal coral</dd></div>
+            <div><dt>Motif</dt><dd>Rounded signal-routing paths</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact section-observed" data-location="RECEPTION DESK">
+        <div class="site-shell contact-card reveal">
+          <div>
+            <p class="kicker">08 / RECEPTION DESK</p>
+            <h2>Open a secure research channel.</h2>
+            <p>For field collaborations, model releases, publication inquiries, or instrument-system briefings.</p>
+          </div>
+          <form class="contact-form" aria-label="Research inquiry form">
+            <label>
+              <span>Name</span>
+              <input name="name" autocomplete="name" placeholder="J. Analyst" required />
+            </label>
+            <label>
+              <span>Channel</span>
+              <input name="email" type="email" autocomplete="email" placeholder="name@example.org" required />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea name="message" rows="4" placeholder="Describe the research request..." required></textarea>
+            </label>
+            <div id="contact-preview" class="contact-preview" aria-live="polite"></div>
+            <div class="contact-form__actions">
+              <p id="contact-status" class="contact-form__status" role="status" aria-live="polite"></p>
+              <button class="button button--primary" type="submit">Transmit Inquiry</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer site-shell">
+      <div>
+        <strong>Deep Wave Research</strong>
+        <span>Ocean Signal Intelligence / Website Draft</span>
+      </div>
+      <a href="#top">Return to entry</a>
+    </footer>
+  </body>
+</html>

@@ -1,33 +1,69 @@
 # Deep Wave Research — Website Draft
 
-A static, modern JavaScript website draft for **Deep Wave Research**, inspired by the provided visual study: Swiss-grid research archive, analog sci-fi terminal, mid-century corporate research campus, warm archival palette, and rounded wave-routing supergraphics.
+A modern JavaScript website draft for a research company named **Deep Wave Research**.
 
-## What is included
+The draft is intentionally original: it does not copy or bundle images, logos, typefaces, or proprietary assets from the reference brands. It translates the research PDF and the referenced official case studies into a scalable design direction: restrained corporate minimalism, typographic hierarchy, high contrast, modular geometry, and purposeful motion.
 
-- `index.html` — single-page website shell.
-- `src/styles.css` — full visual system with CSS tokens, responsive layout, container queries, reduced-motion support, and modern CSS layers.
-- `src/main.js` — data-driven rendering, active section tracking, interactive SVG facility map, view-transition-aware navigation, and animated readouts.
-- `src/data.js` — editable content for research areas, reports, metrics, and archive cards.
-- `assets/study/` — the supplied study graphics copied locally for reference and use in the mockup.
-- `assets/generated/` — original site-specific SVG graphics.
+## How to run
 
-## Run locally
-
-This draft has no required runtime build step. From this folder, run:
+This is a static ES-module site with no required dependencies.
 
 ```bash
-python3 -m http.server 4173
+cd deep-wave-research-site
+python3 -m http.server 5173
 ```
 
-Then open `http://localhost:4173`.
+Then open:
 
-For a Vite development workflow:
+```text
+http://localhost:5173
+```
+
+You can also use Vite if you prefer:
 
 ```bash
-npm install
 npm run dev
 ```
 
-## Design direction
+## Project structure
 
-The site is intentionally not a generic AI/SaaS layout. It treats navigation as a research-facility directory with numbered nodes, instrument panels, report cards, warm paper surfaces, and subtle signal routing motion.
+```text
+deep-wave-research-site/
+├── assets/
+│   ├── deep-wave-logo.svg
+│   ├── favicon.svg
+│   └── og-card.svg
+├── src/
+│   ├── data.js
+│   ├── main.js
+│   └── styles.css
+├── DESIGN_NOTES.md
+├── README.md
+├── index.html
+└── package.json
+```
+
+## JavaScript and interaction features
+
+- ES modules with separated content data and interaction logic.
+- Generative canvas wave visualization for the hero panel.
+- Accessible tab interface for research verticals.
+- IntersectionObserver reveal animations.
+- View Transitions API enhancement for theme switching, with fallback.
+- Local storage for theme preference.
+- Animated counters and active navigation state.
+- Prototype mailto form that does not store or transmit data.
+
+## CSS and design-system features
+
+- CSS cascade layers for predictable scaling.
+- Custom properties for color, spacing, motion, shadow, and type tokens.
+- `@property` registration for animated conic accents.
+- Responsive layouts with modern grid, clamp-based type scale, and container-aware components.
+- High-contrast palette with dark mode.
+- Reduced-motion support.
+- System font stack; no proprietary font files are included.
+
+## Notes
+
+The copy, metrics, email address, and research offerings are prototype content. Replace them with real company positioning, case studies, contact details, and legal pages before production use.
