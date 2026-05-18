@@ -1,0 +1,13 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Deep Wave Research mark</title>
+  <desc id="desc">A modular wave grid forming a precise research signal.</desc>
+  <rect x="4" y="4" width="72" height="72" rx="22" fill="#F7F4EC"/>
+  <rect x="4.75" y="4.75" width="70.5" height="70.5" rx="21.25" stroke="#101416" stroke-opacity=".18" stroke-width="1.5"/>
+  <path d="M14 48C23.5 29.5 32.5 59 42 40C49.5 24.5 57 27.5 66 20" stroke="#075FF7" stroke-width="6" stroke-linecap="round"/>
+  <path d="M14 59C25 45 32 48 41 55C53 64 57 43 66 39" stroke="#12BDA4" stroke-width="3.5" stroke-linecap="round"/>
+  <g fill="#101416">
+    <circle cx="18" cy="24" r="2.4"/><circle cx="30" cy="21" r="2.4"/><circle cx="42" cy="22" r="2.4"/><circle cx="54" cy="19" r="2.4"/><circle cx="62" cy="31" r="2.4"/>
+    <circle cx="21" cy="38" r="2.4"/><circle cx="33" cy="39" r="2.4"/><circle cx="46" cy="36" r="2.4"/><circle cx="58" cy="46" r="2.4"/>
+    <circle cx="17" cy="61" r="2.4"/><circle cx="31" cy="59" r="2.4"/><circle cx="46" cy="62" r="2.4"/><circle cx="64" cy="58" r="2.4"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "deep-wave-research-site-draft",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Static JavaScript website draft for Deep Wave Research.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "preview": "vite preview --host 0.0.0.0",
+    "lint:syntax": "node --check src/main.js && node --check src/data.js"
+  },
+  "devDependencies": {
+    "vite": "latest"
+  }
+}

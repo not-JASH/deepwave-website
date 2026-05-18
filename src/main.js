@@ -1,359 +1,399 @@
-import { capabilities, methods, proof, verticals } from './data.js';
+import { cases, domains, methods, people, reportBodies, research, sectors } from './data.js';
+import { defineComponents, escapeHtml } from './components.js';
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const $ = (selector, parent = document) => parent.querySelector(selector);
-const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
+defineComponents();
 
-const renderCapabilities = () => {
-  const target = $('[data-capabilities]');
-  target.innerHTML = capabilities
-    .map(
-      (item, index) => `
-        <article class="capability-card reveal" data-index="${String(index + 1).padStart(2, '0')}">
-          <span class="capability-icon" aria-hidden="true"></span>
-          <div>
-            <h3>${item.title}</h3>
-          </div>
-          <p>${item.text}</p>
-        </article>
-      `,
-    )
-    .join('');
+const $ = (selector, scope = document) => scope.querySelector(selector);
+const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+
+const state = {
+  search: '',
+  topic: 'all',
+  format: 'all',
+  sort: 'newest',
 };
 
-const renderMethods = () => {
-  const target = $('[data-methods]');
-  target.innerHTML = methods
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasViewTransitions = 'startViewTransition' in document && !prefersReduced;
+const dateFormatter = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
+const listFormatter = new Intl.ListFormat('en', { style: 'short', type: 'conjunction' });
+
+function transition(update) {
+  if (hasViewTransitions) document.startViewTransition(update);
+  else update();
+}
+
+function unique(values) {
+  return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+}
+
+function populateSelect(select, values) {
+  values.forEach((value) => select.append(new Option(value, value)));
+}
+
+function renderStaticContent() {
+  const domainGrid = $('#domain-grid');
+  domains.forEach((domain) => {
+    const card = document.createElement('domain-card');
+    card.domain = domain;
+    domainGrid.append(card);
+  });
+
+  $('#method-list').innerHTML = methods
+    .map(
+      (method) => `
+        <li>
+          <span>${escapeHtml(method.step)}</span>
+          <div>
+            <h3>${escapeHtml(method.title)}</h3>
+            <p>${escapeHtml(method.summary)}</p>
+          </div>
+        </li>`,
+    )
+    .join('');
+
+  $('#sector-grid').innerHTML = sectors
+    .map(
+      ([title, summary]) => `
+        <article class="sector-card">
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(summary)}</p>
+          <a href="#library" data-filter-topic="${escapeHtml(title)}">View related evidence</a>
+        </article>`,
+    )
+    .join('');
+
+  $('#case-grid').innerHTML = cases
     .map(
       (item) => `
-        <article class="method-step reveal">
-          <strong>${item.label}</strong>
-          <div>
-            <h3>${item.title}</h3>
-            <p>${item.text}</p>
-          </div>
-        </article>
-      `,
+        <article class="case-card">
+          <p class="case-card__stat">${escapeHtml(item.stat)}</p>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.outcome)}</p>
+          <span>${escapeHtml(item.label)}</span>
+        </article>`,
     )
     .join('');
-};
 
-const renderProof = () => {
-  const target = $('[data-proof]');
-  target.innerHTML = proof
+  $('#people-grid').innerHTML = people
     .map(
-      (item) => `
-        <article class="proof-card reveal">
-          <span>${item.label}</span>
-          <strong>${item.value}</strong>
-          <p>${item.text}</p>
-        </article>
-      `,
+      (person) => `
+        <article class="person-card">
+          <div aria-hidden="true">${escapeHtml(person.name.split(' ').map((part) => part[0]).slice(0, 2).join(''))}</div>
+          <h3>${escapeHtml(person.name)}</h3>
+          <p class="person-card__role">${escapeHtml(person.role)}</p>
+          <p>${escapeHtml(person.bio)}</p>
+        </article>`,
     )
     .join('');
-};
+}
 
-const renderTabs = () => {
-  const list = $('[data-tab-list]');
-  const panel = $('[data-tab-panel]');
+function initFilters() {
+  populateSelect($('#topic'), unique(research.map((item) => item.topic)));
+  populateSelect($('#format'), unique(research.map((item) => item.format)));
 
-  const setPanel = (index) => {
-    const item = verticals[index];
-    panel.style.setProperty('--panel-rotation', item.rotation);
-    panel.innerHTML = `
-      <div>
-        <p class="eyebrow">${item.eyebrow}</p>
-        <h3>${item.title}</h3>
-      </div>
-      <div class="tab-panel-visual" aria-hidden="true"></div>
-      <div>
-        <p>${item.text}</p>
-        <div class="tag-row" aria-label="Related tags">
-          ${item.tags.map((tag) => `<span>${tag}</span>`).join('')}
+  const params = new URLSearchParams(window.location.search);
+  ['search', 'topic', 'format', 'sort'].forEach((key) => {
+    if (params.has(key)) state[key] = params.get(key) || state[key];
+    const control = $(`#${key}`);
+    if (control) control.value = state[key];
+  });
+
+  $('.library-controls').addEventListener('input', (event) => {
+    const { name, value } = event.target;
+    if (!name) return;
+    state[name] = value;
+    updateUrl();
+    transition(renderLibrary);
+  });
+
+  $('#reset-filters').addEventListener('click', () => {
+    Object.assign(state, { search: '', topic: 'all', format: 'all', sort: 'newest' });
+    ['search', 'topic', 'format', 'sort'].forEach((key) => {
+      const control = $(`#${key}`);
+      if (control) control.value = state[key];
+    });
+    updateUrl();
+    transition(renderLibrary);
+    $('#search').focus();
+  });
+}
+
+function updateUrl() {
+  const params = new URLSearchParams();
+  Object.entries(state).forEach(([key, value]) => {
+    if (value && value !== 'all' && !(key === 'sort' && value === 'newest')) params.set(key, value);
+  });
+  const next = params.toString() ? `${location.pathname}?${params}${location.hash}` : `${location.pathname}${location.hash}`;
+  history.replaceState(null, '', next);
+}
+
+function filteredResearch() {
+  const query = state.search.trim().toLowerCase();
+  const matches = research.filter((item) => {
+    const haystack = [
+      item.title,
+      item.finding,
+      item.author,
+      item.team,
+      item.topic,
+      item.method,
+      item.sector,
+      item.format,
+      item.audience,
+      ...item.tags,
+    ]
+      .join(' ')
+      .toLowerCase();
+
+    return (
+      (!query || haystack.includes(query)) &&
+      (state.topic === 'all' || item.topic === state.topic) &&
+      (state.format === 'all' || item.format === state.format)
+    );
+  });
+
+  return matches.sort((a, b) => {
+    if (state.sort === 'oldest') return new Date(`${a.date}T12:00:00`) - new Date(`${b.date}T12:00:00`);
+    if (state.sort === 'reading') return a.readingMinutes - b.readingMinutes;
+    if (state.sort === 'title') return a.title.localeCompare(b.title);
+    return new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`);
+  });
+}
+
+function renderLibrary() {
+  const grid = $('#research-grid');
+  const items = filteredResearch();
+  grid.innerHTML = '';
+
+  if (!items.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No research matched the current filters.</h3>
+        <p>Reset the filters or try a broader topic such as “AI”, “trust”, or “markets”.</p>
+      </div>`;
+  } else {
+    items.forEach((item) => {
+      const card = document.createElement('research-card');
+      card.item = item;
+      grid.append(card);
+    });
+  }
+
+  $('#result-count').textContent = `${items.length} ${items.length === 1 ? 'item' : 'items'} shown`;
+}
+
+function renderReport(id) {
+  const report = research.find((item) => item.id === id);
+  const body = reportBodies[id];
+  const reportView = $('#report-view');
+
+  if (!report || !body) {
+    reportView.hidden = true;
+    return false;
+  }
+
+  const date = dateFormatter.format(new Date(`${report.date}T12:00:00`));
+  const related = research
+    .filter((item) => item.id !== report.id && (item.topic === report.topic || item.sector === report.sector))
+    .slice(0, 3);
+
+  reportView.hidden = false;
+  reportView.innerHTML = `
+    <div class="report-shell shell">
+      <a class="text-button" href="#library">← Back to research library</a>
+      <header class="report-hero">
+        <p class="eyebrow">${escapeHtml(body.kicker)}</p>
+        <h1>${escapeHtml(body.title)}</h1>
+        <p>${escapeHtml(body.summary)}</p>
+        <dl>
+          <div><dt>Published</dt><dd>${date}</dd></div>
+          <div><dt>Author</dt><dd>${escapeHtml(report.author)}</dd></div>
+          <div><dt>Method</dt><dd>${escapeHtml(report.method)}</dd></div>
+          <div><dt>Tags</dt><dd>${escapeHtml(listFormatter.format(report.tags))}</dd></div>
+        </dl>
+      </header>
+      <div class="report-layout">
+        <aside class="report-aside" aria-label="Report metadata">
+          <div class="download-card">
+            <span>${escapeHtml(report.format)}</span>
+            <strong>${escapeHtml(report.metric)}</strong>
+            <p>${escapeHtml(report.metricLabel)}</p>
+            <a class="button button--compact" href="${escapeHtml(report.pdf)}">Download PDF placeholder</a>
+          </div>
+          <nav aria-label="Report sections">
+            ${body.sections.map((section) => `<a href="#report/${encodeURIComponent(id)}/${slug(section.heading)}">${escapeHtml(section.heading)}</a>`).join('')}
+          </nav>
+        </aside>
+        <div class="report-content">
+          ${body.sections
+            .map(
+              (section) => `
+                <section id="${slug(section.heading)}">
+                  <h2>${escapeHtml(section.heading)}</h2>
+                  <p>${escapeHtml(section.body)}</p>
+                </section>`,
+            )
+            .join('')}
+          <section>
+            <h2>Accessible figure summary</h2>
+            <figure class="chart-card">
+              <svg viewBox="0 0 640 260" role="img" aria-labelledby="chart-title chart-desc">
+                <title id="chart-title">Evidence stability by source type</title>
+                <desc id="chart-desc">A simple line chart showing primary research and modeled indicators rising more steadily than social narrative noise.</desc>
+                <g class="chart-grid">
+                  <path d="M40 40H600M40 100H600M40 160H600M40 220H600"/>
+                </g>
+                <path class="chart-line chart-line--one" d="M44 210 C120 180 170 155 250 130 S420 82 600 62"/>
+                <path class="chart-line chart-line--two" d="M44 215 C140 196 220 188 300 155 S480 122 600 90"/>
+                <path class="chart-line chart-line--three" d="M44 190 C92 60 150 230 220 105 S360 220 430 98 520 184 600 130"/>
+              </svg>
+              <figcaption>Primary research and modeled indicators held steadier than social narrative volume across the observation window.</figcaption>
+            </figure>
+          </section>
+          <section>
+            <h2>Citation-ready metadata</h2>
+            <p>${escapeHtml(report.author)}. (${new Date(`${report.date}T12:00:00`).getFullYear()}). <em>${escapeHtml(report.title)}</em>. Deep Wave Research. HTML report prototype.</p>
+          </section>
         </div>
       </div>
-    `;
+      <section class="related-research" aria-labelledby="related-title">
+        <h2 id="related-title">Related research</h2>
+        <div class="research-grid research-grid--compact">
+          ${related
+            .map(
+              (item) => `
+                <article class="mini-card">
+                  <span>${escapeHtml(item.format)} · ${escapeHtml(item.topic)}</span>
+                  <h3>${escapeHtml(item.title)}</h3>
+                  <p>${escapeHtml(item.finding)}</p>
+                  <a href="#report/${encodeURIComponent(item.id)}">Read related report</a>
+                </article>`,
+            )
+            .join('')}
+        </div>
+      </section>
+    </div>`;
 
-    $$('button', list).forEach((button, buttonIndex) => {
-      button.setAttribute('aria-selected', String(buttonIndex === index));
-      button.tabIndex = buttonIndex === index ? 0 : -1;
+  reportView.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+  reportView.focus?.();
+  return true;
+}
+
+function slug(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function route() {
+  const reportMatch = location.hash.match(/^#report\/([^/]+)(?:\/([^/]+))?$/);
+  if (reportMatch) {
+    const [, id, sectionSlug] = reportMatch;
+    transition(() => {
+      const rendered = renderReport(decodeURIComponent(id));
+      if (rendered && sectionSlug) {
+        document.getElementById(sectionSlug)?.scrollIntoView({
+          behavior: prefersReduced ? 'auto' : 'smooth',
+          block: 'start',
+        });
+      }
     });
-  };
-
-  list.innerHTML = verticals
-    .map(
-      (item, index) => `
-        <button type="button" role="tab" aria-selected="${index === 0}" data-tab="${index}">
-          <strong>${item.eyebrow}</strong>
-          <span>${String(index + 1).padStart(2, '0')} / ${item.tags[0]}</span>
-        </button>
-      `,
-    )
-    .join('');
-
-  list.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-tab]');
-    if (!button) return;
-    setPanel(Number(button.dataset.tab));
-  });
-
-  list.addEventListener('keydown', (event) => {
-    const current = Number(document.activeElement?.dataset?.tab ?? 0);
-    const last = verticals.length - 1;
-    const nextIndex = {
-      ArrowDown: current === last ? 0 : current + 1,
-      ArrowRight: current === last ? 0 : current + 1,
-      ArrowUp: current === 0 ? last : current - 1,
-      ArrowLeft: current === 0 ? last : current - 1,
-      Home: 0,
-      End: last,
-    }[event.key];
-
-    if (nextIndex === undefined) return;
-    event.preventDefault();
-    const nextButton = $(`[data-tab="${nextIndex}"]`, list);
-    nextButton?.focus();
-    setPanel(nextIndex);
-  });
-
-  setPanel(0);
-};
-
-const setupReveal = () => {
-  if (prefersReducedMotion) {
-    $$('.reveal').forEach((element) => element.classList.add('is-visible'));
-    return;
+  } else {
+    $('#report-view').hidden = true;
   }
+}
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    },
-    { rootMargin: '0px 0px -12% 0px', threshold: 0.08 },
-  );
+function initHeader() {
+  const header = $('.site-header');
+  const navToggle = $('.nav-toggle');
+  const nav = $('#primary-nav');
 
-  $$('.reveal').forEach((element) => observer.observe(element));
-};
+  const onScroll = () => header.dataset.elevated = String(window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-const setupHeader = () => {
-  const header = $('[data-header]');
-  const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
-  update();
-  window.addEventListener('scroll', update, { passive: true });
-};
+  navToggle.addEventListener('click', () => {
+    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!expanded));
+    nav.dataset.open = String(!expanded);
+  });
 
-const setupActiveNav = () => {
-  const links = $$('.site-nav a');
-  const sections = links
-    .map((link) => ({ link, section: $(link.getAttribute('href')) }))
-    .filter((item) => item.section);
+  nav.addEventListener('click', () => {
+    navToggle.setAttribute('aria-expanded', 'false');
+    nav.dataset.open = 'false';
+  });
+}
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        links.forEach((link) => link.classList.remove('is-active'));
-        const active = sections.find((item) => item.section === entry.target);
-        active?.link.classList.add('is-active');
-      });
-    },
-    { rootMargin: '-45% 0px -45% 0px', threshold: 0.01 },
-  );
-
-  sections.forEach((item) => observer.observe(item.section));
-};
-
-const setupTheme = () => {
+function initTheme() {
   const root = document.documentElement;
-  const button = $('[data-theme-toggle]');
-  const stored = localStorage.getItem('dwr-theme');
-  const fallback = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  root.dataset.theme = stored ?? fallback;
+  const stored = safeStorage('get', 'dwr-theme');
+  if (stored) root.dataset.theme = stored;
 
-  const toggle = () => {
+  $('.theme-toggle').addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    const apply = () => {
-      root.dataset.theme = next;
-      localStorage.setItem('dwr-theme', next);
-      button.setAttribute('aria-label', `Switch to ${next === 'dark' ? 'light' : 'dark'} mode`);
-    };
+    root.dataset.theme = next;
+    safeStorage('set', 'dwr-theme', next);
+  });
+}
 
-    if (document.startViewTransition && !prefersReducedMotion) {
-      document.startViewTransition(apply);
-    } else {
-      apply();
-    }
-  };
+function safeStorage(action, key, value) {
+  try {
+    if (action === 'get') return localStorage.getItem(key);
+    localStorage.setItem(key, value);
+  } catch {
+    return null;
+  }
+}
 
-  button.addEventListener('click', toggle);
-};
-
-const setupCounters = () => {
-  const counters = $$('[data-counter]');
-  if (prefersReducedMotion) {
-    counters.forEach((counter) => {
-      counter.textContent = counter.dataset.counter;
-    });
+function initReveal() {
+  if (!('IntersectionObserver' in window) || prefersReduced) {
+    $$('.reveal').forEach((node) => node.dataset.visible = 'true');
     return;
   }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.dataset.visible = 'true';
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.14 },
+  );
+  $$('.reveal').forEach((node) => observer.observe(node));
+}
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const element = entry.target;
-      const end = Number(element.dataset.counter);
-      const start = performance.now();
-      const duration = 1200;
-
-      const tick = (now) => {
-        const progress = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - progress, 4);
-        element.textContent = Math.round(end * eased);
-        if (progress < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      observer.unobserve(element);
-    });
-  });
-
-  counters.forEach((counter) => observer.observe(counter));
-};
-
-const setupMarquee = () => {
-  const track = $('[data-marquee]');
-  track.innerHTML += track.innerHTML;
-};
-
-const setupForm = () => {
-  const form = $('.brief-form');
-  const note = $('[data-form-note]');
-  form.addEventListener('submit', (event) => {
+function initContact() {
+  $('.contact-form').addEventListener('submit', (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    const subject = encodeURIComponent('Deep Wave Research brief');
-    const body = encodeURIComponent(
-      `Name: ${data.get('name') || ''}\nEmail: ${data.get('email') || ''}\n\nQuestion:\n${data.get('question') || ''}`,
-    );
-    note.textContent = 'Opening a prefilled email draft.';
-    window.location.href = `mailto:briefs@deepwave.example?subject=${subject}&body=${body}`;
+    const form = event.currentTarget;
+    const email = new FormData(form).get('email');
+    $('.form-note', form).textContent = `Prototype only: a consultation request would be drafted for ${email}.`;
   });
+}
 
-  $('[data-copy-email]').addEventListener('click', async (event) => {
-    const email = 'briefs@deepwave.example';
-    try {
-      await navigator.clipboard.writeText(email);
-      event.currentTarget.textContent = 'Copied';
-      setTimeout(() => {
-        event.currentTarget.textContent = 'Copy email';
-      }, 1800);
-    } catch {
-      window.location.href = `mailto:${email}`;
+function initSectorLinks() {
+  $('#sector-grid').addEventListener('click', (event) => {
+    const link = event.target.closest('[data-filter-topic]');
+    if (!link) return;
+    const sector = link.dataset.filterTopic;
+    const item = research.find((entry) => entry.sector === sector || entry.topic === sector);
+    if (item) {
+      state.topic = item.topic;
+      $('#topic').value = item.topic;
+      updateUrl();
+      renderLibrary();
     }
   });
-};
+}
 
-const setupWaveCanvas = () => {
-  const canvas = $('#waveCanvas');
-  const ctx = canvas.getContext('2d');
-  let width = 0;
-  let height = 0;
-  let frame = 0;
-  const points = Array.from({ length: 56 }, (_, index) => ({
-    x: Math.random(),
-    y: Math.random(),
-    r: 1.5 + (index % 5),
-    phase: Math.random() * Math.PI * 2,
-  }));
-
-  const resize = () => {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = rect.width;
-    height = rect.height;
-    canvas.width = Math.max(1, Math.floor(width * dpr));
-    canvas.height = Math.max(1, Math.floor(height * dpr));
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  };
-
-  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-
-  const drawWave = (yBase, amplitude, frequency, color, lineWidth, phaseOffset = 0) => {
-    ctx.beginPath();
-    for (let x = -20; x <= width + 20; x += 10) {
-      const y = yBase + Math.sin(x * frequency + frame * 0.018 + phaseOffset) * amplitude + Math.sin(x * frequency * 0.34 + frame * 0.011) * amplitude * 0.34;
-      if (x === -20) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-  };
-
-  const animate = () => {
-    ctx.clearRect(0, 0, width, height);
-
-    const ink = css('--ink');
-    const accent = css('--accent');
-    const accent2 = css('--accent-2');
-    const accent3 = css('--accent-3');
-    const line = css('--line-strong');
-
-    ctx.globalAlpha = 0.18;
-    for (let x = 0; x < width; x += 40) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.strokeStyle = line;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-    for (let y = 0; y < height; y += 40) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(width, y);
-      ctx.stroke();
-    }
-
-    ctx.globalAlpha = 0.95;
-    drawWave(height * 0.42, height * 0.14, 0.014, ink, Math.max(5, width * 0.011));
-    ctx.globalAlpha = 0.78;
-    drawWave(height * 0.55, height * 0.12, 0.017, accent, Math.max(4, width * 0.008), Math.PI);
-    ctx.globalAlpha = 0.54;
-    drawWave(height * 0.29, height * 0.08, 0.021, accent3, Math.max(2, width * 0.004), Math.PI * 0.45);
-
-    ctx.globalAlpha = 1;
-    points.forEach((point, index) => {
-      const x = point.x * width + Math.sin(frame * 0.01 + point.phase) * 12;
-      const y = point.y * height + Math.cos(frame * 0.012 + point.phase) * 10;
-      ctx.beginPath();
-      ctx.arc(x, y, point.r, 0, Math.PI * 2);
-      ctx.fillStyle = index % 3 === 0 ? accent2 : index % 3 === 1 ? ink : accent3;
-      ctx.fill();
-    });
-
-    frame += 1;
-    if (!prefersReducedMotion) requestAnimationFrame(animate);
-  };
-
-  resize();
-  animate();
-  window.addEventListener('resize', resize, { passive: true });
-};
-
-renderCapabilities();
-renderMethods();
-renderProof();
-renderTabs();
-setupMarquee();
-setupReveal();
-setupHeader();
-setupActiveNav();
-setupTheme();
-setupCounters();
-setupForm();
-setupWaveCanvas();
+renderStaticContent();
+initFilters();
+renderLibrary();
+initHeader();
+initTheme();
+initReveal();
+initContact();
+initSectorLinks();
+route();
+window.addEventListener('hashchange', route);

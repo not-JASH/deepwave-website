@@ -1,0 +1,19 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F7F4EC"/>
+  <path d="M0 0H1200V630H0V0Z" fill="url(#grid)" opacity=".72"/>
+  <rect x="70" y="70" width="1060" height="490" rx="42" fill="#FFFDF8" stroke="#D8D1C2" stroke-width="2"/>
+  <text x="110" y="145" fill="#027E72" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26" font-weight="700" letter-spacing="3">DEEP WAVE RESEARCH</text>
+  <text x="110" y="285" fill="#101416" font-family="Inter, IBM Plex Sans, Arial, sans-serif" font-size="98" font-weight="800" letter-spacing="-7">Evidence in motion</text>
+  <text x="112" y="345" fill="#465258" font-family="Inter, IBM Plex Sans, Arial, sans-serif" font-size="34">for complex decisions.</text>
+  <path d="M645 410C718 268 788 498 862 350C924 220 982 242 1080 155" stroke="#075FF7" stroke-width="18" stroke-linecap="round"/>
+  <path d="M642 495C724 390 778 408 852 462C950 535 985 355 1082 326" stroke="#12BDA4" stroke-width="10" stroke-linecap="round"/>
+  <g fill="#101416" opacity=".8">
+    <circle cx="690" cy="180" r="7"/><circle cx="754" cy="164" r="7"/><circle cx="818" cy="181" r="7"/><circle cx="884" cy="158" r="7"/><circle cx="956" cy="192" r="7"/><circle cx="1018" cy="236" r="7"/>
+    <circle cx="704" cy="322" r="7"/><circle cx="775" cy="340" r="7"/><circle cx="848" cy="316" r="7"/><circle cx="918" cy="385" r="7"/><circle cx="998" cy="455" r="7"/>
+  </g>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#101416" stroke-opacity=".055"/>
+    </pattern>
+  </defs>
+</svg>

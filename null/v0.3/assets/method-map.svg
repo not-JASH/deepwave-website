@@ -1,0 +1,26 @@
+<svg width="960" height="520" viewBox="0 0 960 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Deep Wave method map</title>
+  <desc id="desc">A schematic chain showing research questions becoming evidence, synthesis, and decisions.</desc>
+  <rect width="960" height="520" rx="38" fill="#FFFDF8"/>
+  <path d="M0 0H960V520H0V0Z" fill="url(#grid)"/>
+  <g stroke="#101416" stroke-opacity=".18" stroke-width="2">
+    <rect x="90" y="122" width="170" height="82" rx="24"/>
+    <rect x="312" y="122" width="170" height="82" rx="24"/>
+    <rect x="534" y="122" width="170" height="82" rx="24"/>
+    <rect x="756" y="122" width="114" height="82" rx="24"/>
+    <path d="M260 163H312M482 163H534M704 163H756"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="700" fill="#101416">
+    <text x="125" y="170">QUESTION</text>
+    <text x="354" y="170">EVIDENCE</text>
+    <text x="566" y="170">SYNTHESIS</text>
+    <text x="785" y="170">DECIDE</text>
+  </g>
+  <path d="M120 360C250 235 360 440 480 320C610 188 710 250 850 170" stroke="#075FF7" stroke-width="13" stroke-linecap="round"/>
+  <path d="M120 420C250 340 330 380 456 430C610 488 705 300 850 282" stroke="#12BDA4" stroke-width="7" stroke-linecap="round"/>
+  <defs>
+    <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse">
+      <path d="M38 0H0V38" stroke="#101416" stroke-opacity=".06"/>
+    </pattern>
+  </defs>
+</svg>

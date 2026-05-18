@@ -2,19 +2,17 @@
   "name": "deep-wave-research-site",
   "version": "0.1.0",
   "private": true,
-  "description": "A modern JavaScript website draft for Deep Wave Research.",
   "type": "module",
+  "description": "Static JavaScript website draft for Deep Wave Research.",
   "scripts": {
     "start": "python3 -m http.server 5173",
-    "dev": "npx vite --host 0.0.0.0",
-    "check": "node --check src/main.js && node --check src/data.js"
+    "serve": "python3 -m http.server 5173"
   },
   "keywords": [
     "research",
-    "corporate-minimalism",
-    "modern-javascript",
-    "brand-system"
-  ],
-  "author": "OpenAI ChatGPT",
-  "license": "UNLICENSED"
+    "website",
+    "vanilla-javascript",
+    "accessibility",
+    "design-system"
+  ]
 }

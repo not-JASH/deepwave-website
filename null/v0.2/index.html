@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6fbff" />
+    <meta
+      name="description"
+      content="Deep Wave Research is a speculative research company website draft built with modern JavaScript, accessible typography, and a restrained corporate-minimal design system."
+    />
+    <meta property="og:title" content="Deep Wave Research" />
+    <meta property="og:description" content="Research systems for turbulent futures." />
+    <meta property="og:image" content="assets/og-card.svg" />
+    <title>Deep Wave Research</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="src/styles.css" as="style" />
+    <link rel="stylesheet" href="src/styles.css" />
+    <script type="module" src="src/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="site-header" data-header>
+      <a class="brand-lockup" href="#top" aria-label="Deep Wave Research home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img">
+            <path d="M10 40c8-20 16-20 24 0s16 20 30-3" />
+            <path d="M10 24c8 20 16 20 24 0s16-20 30 3" />
+          </svg>
+        </span>
+        <span class="brand-wordmark">
+          <span>Deep Wave</span>
+          <span>Research</span>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#method">Method</a>
+        <a href="#observatory">Observatory</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+          <span aria-hidden="true">◐</span>
+          <span>Mode</span>
+        </button>
+        <a class="button button-small" href="#contact">Start a brief</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Independent systems research studio</p>
+          <h1 id="hero-title">Research systems for turbulent futures.</h1>
+          <p class="hero-lede">
+            Deep Wave Research maps hidden signals, builds decision models, and turns complex knowledge into usable operating systems for teams working at the edge of change.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#work">Explore capabilities</a>
+            <a class="button button-ghost" href="#method">View method</a>
+          </div>
+          <dl class="hero-metrics" aria-label="Prototype research metrics">
+            <div>
+              <dt>09</dt>
+              <dd>signal domains</dd>
+            </div>
+            <div>
+              <dt>42</dt>
+              <dd>model audits</dd>
+            </div>
+            <div>
+              <dt>3.7×</dt>
+              <dd>faster synthesis</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-panel reveal" aria-label="Animated wave research visualization">
+          <div class="panel-topline">
+            <span>Wave Field 01</span>
+            <span>live model</span>
+          </div>
+          <canvas id="waveCanvas" width="860" height="720"></canvas>
+          <div class="signal-readout" aria-hidden="true">
+            <span>∆ anomaly</span>
+            <strong data-counter="87">0</strong>
+            <span>confidence</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="marquee" aria-label="Research themes">
+        <div class="marquee-track" data-marquee>
+          <span>Signal intelligence</span>
+          <span>Adaptive infrastructure</span>
+          <span>Human-machine systems</span>
+          <span>Climate complexity</span>
+          <span>Economic behavior</span>
+          <span>Strategic foresight</span>
+        </div>
+      </section>
+
+      <section class="section split-section" id="work" aria-labelledby="work-title">
+        <div class="section-kicker reveal">Capabilities</div>
+        <div class="section-heading reveal">
+          <h2 id="work-title">One research language, deployed across many surfaces.</h2>
+          <p>
+            The draft uses a deliberately small visual vocabulary: modular waveforms, concise typography, clear evidence blocks, and motion that behaves like a research instrument rather than decoration.
+          </p>
+        </div>
+        <div class="capability-grid" data-capabilities></div>
+      </section>
+
+      <section class="section dark-band" id="method" aria-labelledby="method-title">
+        <div class="section-kicker reveal">Method</div>
+        <div class="method-layout">
+          <div class="method-copy reveal">
+            <h2 id="method-title">From weak signals to operating clarity.</h2>
+            <p>
+              Deep Wave combines field research, model critique, scenario design, and executive translation. Each engagement ends with a decision artifact: a map, protocol, data room, or live briefing system.
+            </p>
+          </div>
+          <div class="method-steps" data-methods></div>
+        </div>
+      </section>
+
+      <section class="section observatory" id="observatory" aria-labelledby="observatory-title">
+        <div class="section-kicker reveal">Observatory</div>
+        <div class="observatory-head reveal">
+          <h2 id="observatory-title">A calm interface for unstable subject matter.</h2>
+          <p>
+            Use the toggles to preview how the same system can support multiple research verticals without creating a different website style for each department.
+          </p>
+        </div>
+        <div class="observatory-shell reveal">
+          <div class="tab-list" role="tablist" aria-label="Research verticals" data-tab-list></div>
+          <article class="tab-panel" data-tab-panel aria-live="polite"></article>
+        </div>
+      </section>
+
+      <section class="section proof" aria-labelledby="proof-title">
+        <div class="section-kicker reveal">Signals</div>
+        <div class="proof-header reveal">
+          <h2 id="proof-title">Designed to feel precise before it feels loud.</h2>
+          <p>
+            The visual system keeps the page credible for institutional audiences while reserving motion, color, and geometry for moments where they clarify the message.
+          </p>
+        </div>
+        <div class="proof-grid" data-proof></div>
+      </section>
+
+      <section class="section studio" aria-labelledby="studio-title">
+        <div class="studio-card reveal">
+          <div>
+            <p class="eyebrow">Studio note</p>
+            <h2 id="studio-title">A brand system that can scale from website to dashboard.</h2>
+          </div>
+          <p>
+            The same tokens used here—spacing, elevation, contrast, motion duration, and typographic scale—can be moved into a product interface or research portal without changing the identity’s voice.
+          </p>
+          <a class="button button-ghost" href="assets/deep-wave-logo.svg">View logo SVG</a>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-copy reveal">
+          <p class="eyebrow">Start a research brief</p>
+          <h2 id="contact-title">Bring an uncertain question. Leave with a working system.</h2>
+          <p>
+            Use this section as a conversion destination for inquiries, fellowships, and enterprise research partnerships.
+          </p>
+        </div>
+        <form class="brief-form reveal" aria-label="Research brief form">
+          <label>
+            <span>Name</span>
+            <input name="name" autocomplete="name" placeholder="Your name" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label>
+            <span>Research question</span>
+            <textarea name="question" rows="5" placeholder="What do you need to understand, model, or decide?"></textarea>
+          </label>
+          <button class="button" type="submit">Draft inquiry</button>
+          <p class="form-note" data-form-note>Prototype form: no data is sent.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>Deep Wave Research</strong>
+        <span>© 2026 website draft</span>
+      </div>
+      <div class="footer-links">
+        <a href="#top">Top</a>
+        <button type="button" data-copy-email>Copy email</button>
+      </div>
+    </footer>
+  </body>
+</html>

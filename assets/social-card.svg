@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#F7F3EA"/>
+  <g opacity=".18" stroke="#0F2547" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M100 0v630M200 0v630M300 0v630M400 0v630M500 0v630M600 0v630M700 0v630M800 0v630M900 0v630M1000 0v630M1100 0v630"/>
+  </g>
+  <path d="M120 370c70 0 70-120 140-120s70 120 140 120 70-120 140-120 70 120 140 120 70-120 140-120 70 120 140 120" fill="none" stroke="#0B7C86" stroke-width="18" stroke-linecap="round"/>
+  <path d="M120 430c70 0 70-120 140-120s70 120 140 120 70-120 140-120 70 120 140 120 70-120 140-120 70 120 140 120" fill="none" stroke="#E25B3F" stroke-width="7" stroke-linecap="round" opacity=".9"/>
+  <text x="120" y="175" fill="#10213F" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="74">Deep Wave Research</text>
+  <text x="122" y="238" fill="#34425D" font-family="Inter, Arial, sans-serif" font-size="34">Evidence-led research for complex decisions.</text>
+</svg>
