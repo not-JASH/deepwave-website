@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-label="Original graphic study: website layout wireframe">
+  <rect width="1400" height="900" fill="#F7E8C9"/>
+  <g style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" fill="#24171E">
+    <text x="72" y="84" font-size="22" letter-spacing="3">DEEP WAVE RESEARCH</text>
+    <text x="1110" y="84" font-size="14" letter-spacing="2">RESEARCH · LAB · ARCHIVE · CONTACT</text>
+    <line x1="72" y1="112" x2="1328" y2="112" stroke="#24171E" opacity="0.45"/>
+    <text x="72" y="230" font-size="78" font-weight="300" letter-spacing="-2">A retro-modern</text>
+    <text x="72" y="315" font-size="78" font-weight="300" letter-spacing="-2">oceanic research</text>
+    <text x="72" y="400" font-size="78" font-weight="300" letter-spacing="-2">terminal.</text>
+    <text x="78" y="465" font-size="20" letter-spacing="0.6" fill="#62574B">Signal systems, field intelligence, and deep-water modeling.</text>
+    <g transform="translate(78 520)">
+      <rect x="0" y="0" width="220" height="58" fill="#24171E"/><text x="28" y="37" font-size="16" letter-spacing="2" fill="#F7E8C9">ENTER FACILITY</text>
+      <rect x="244" y="0" width="220" height="58" fill="none" stroke="#24171E"/><text x="272" y="37" font-size="16" letter-spacing="2">VIEW ARCHIVE</text>
+    </g>
+  </g>
+  <g transform="translate(680 185)">
+    <rect x="0" y="0" width="600" height="470" fill="#F0DFBC" stroke="#24171E" opacity="0.8"/>
+    <text x="36" y="52" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="18" letter-spacing="2" fill="#24171E">FACILITY MAP / LIVE</text>
+    <g transform="translate(30 70) scale(0.52)" stroke="#24171E" stroke-width="2">
+      <polygon points="220,265 360,200 500,265 360,330" fill="#C86AAE"/><polygon points="360,330 500,265 500,315 360,382" fill="#D780C2"/><polygon points="220,265 360,330 360,382 220,318" fill="#A54F8E"/>
+      <polygon points="430,190 625,100 795,187 600,277" fill="#9BACD5"/><polygon points="600,277 795,187 795,245 600,337" fill="#B7C4E4"/><polygon points="430,190 600,277 600,337 430,249" fill="#758BC4"/>
+      <polygon points="555,340 840,210 1130,350 845,482" fill="#F2D98E"/><polygon points="845,482 1130,350 1130,410 845,542" fill="#F8E5AA"/><polygon points="555,340 845,482 845,542 555,402" fill="#D8B96E"/>
+      <polygon points="250,485 450,390 650,490 450,585" fill="#DD5F4A"/><polygon points="450,585 650,490 650,545 450,644" fill="#EF835D"/><polygon points="250,485 450,585 450,644 250,545" fill="#B8533F"/>
+    </g>
+  </g>
+  <g transform="translate(72 710)">
+    <g>
+      <rect width="300" height="120" fill="#EFE0BD" stroke="#24171E"/><text x="24" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="36">01</text><text x="86" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="18" letter-spacing="2">SIGNAL LAB</text><text x="24" y="84" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="14">Instrument-like dark UI for data work.</text>
+    </g>
+    <g transform="translate(330 0)">
+      <rect width="300" height="120" fill="#EFE0BD" stroke="#24171E"/><text x="24" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="36">02</text><text x="86" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="18" letter-spacing="2">FIELD SYSTEMS</text><text x="24" y="84" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="14">Warm diagrams and operational notes.</text>
+    </g>
+    <g transform="translate(660 0)">
+      <rect width="300" height="120" fill="#EFE0BD" stroke="#24171E"/><text x="24" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="36">03</text><text x="86" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="18" letter-spacing="2">ARCHIVE</text><text x="24" y="84" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="14">Scanned reports and institutional memory.</text>
+    </g>
+    <g transform="translate(990 0)">
+      <rect width="300" height="120" fill="#EFE0BD" stroke="#24171E"/><text x="24" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="36">04</text><text x="86" y="44" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="18" letter-spacing="2">CONTACT</text><text x="24" y="84" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="14">Reception-desk metaphor, sparse and clear.</text>
+    </g>
+  </g>
+  <path d="M865 710 H1220 Q1280 710 1280 650 V610" fill="none" stroke="#81CBBE" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+</svg>

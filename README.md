@@ -1,38 +1,33 @@
-# Deep Wave Research Website Draft
+# Deep Wave Research — Website Draft
 
-A modern JavaScript website draft for **Deep Wave Research**, designed as a textured, high-contrast research-company landing page.
+A static, modern JavaScript website draft for **Deep Wave Research**, inspired by the provided visual study: Swiss-grid research archive, analog sci-fi terminal, mid-century corporate research campus, warm archival palette, and rounded wave-routing supergraphics.
 
 ## What is included
 
-- `index.html` - semantic single-page website
-- `src/styles.css` - layered modern CSS, container queries, scroll animations, registered CSS properties, responsive layouts
-- `src/main.js` - native ES modules, dynamic content rendering, View Transitions API enhancement, IntersectionObserver reveal states, canvas wave field, client-side filtering, theme toggle
-- `assets/` - original SVG logo, favicon, noise texture, and topographic wave artwork
-- `package.json` + `vite.config.js` - optional Vite development workflow
+- `index.html` — single-page website shell.
+- `src/styles.css` — full visual system with CSS tokens, responsive layout, container queries, reduced-motion support, and modern CSS layers.
+- `src/main.js` — data-driven rendering, active section tracking, interactive SVG facility map, view-transition-aware navigation, and animated readouts.
+- `src/data.js` — editable content for research areas, reports, metrics, and archive cards.
+- `assets/study/` — the supplied study graphics copied locally for reference and use in the mockup.
+- `assets/generated/` — original site-specific SVG graphics.
 
 ## Run locally
 
-### Option 1: static server, no install
+This draft has no required runtime build step. From this folder, run:
 
 ```bash
-cd deep-wave-research-website
-python3 -m http.server 5173
+python3 -m http.server 4173
 ```
 
-Open `http://localhost:5173`.
+Then open `http://localhost:4173`.
 
-### Option 2: Vite
+For a Vite development workflow:
 
 ```bash
-cd deep-wave-research-website
 npm install
 npm run dev
 ```
 
-## Design notes
+## Design direction
 
-The visual system is original and does not reuse imagery from the reference PDF. It takes high-level inspiration from distressed oversized typography, neon annotations, binary/noise fields, scanner/scrapbook texture, and catalog-style grids.
-
-## Content notes
-
-The contact form is a front-end prototype. It opens a `mailto:` draft addressed to `hello@deepwaveresearch.example`; replace this with a real endpoint or form service before launch.
+The site is intentionally not a generic AI/SaaS layout. It treats navigation as a research-facility directory with numbered nodes, instrument panels, report cards, warm paper surfaces, and subtle signal routing motion.

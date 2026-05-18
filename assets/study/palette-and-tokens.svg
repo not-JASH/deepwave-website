@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-label="Deep Wave Research palette and design tokens">
+  <rect width="1200" height="520" fill="#F7E8C9"/>
+  <text x="60" y="78" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="28" letter-spacing="3" fill="#24171E">DEEP WAVE RESEARCH / PALETTE TOKENS</text>
+  <g style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="15" letter-spacing="1.2" fill="#24171E">
+    <g transform="translate(60 125)"><rect width="120" height="120" fill="#F7E8C9" stroke="#24171E"/><text y="154">ARCHIVE CREAM</text><text y="178">#F7E8C9</text></g>
+    <g transform="translate(205 125)"><rect width="120" height="120" fill="#E9DABC" stroke="#24171E"/><text y="154">WARM PAPER</text><text y="178">#E9DABC</text></g>
+    <g transform="translate(350 125)"><rect width="120" height="120" fill="#BDBAA7" stroke="#24171E"/><text y="154">RESEARCH TAUPE</text><text y="178">#BDBAA7</text></g>
+    <g transform="translate(495 125)"><rect width="120" height="120" fill="#24171E" stroke="#24171E"/><text y="154">DEEP UMBER</text><text y="178">#24171E</text></g>
+    <g transform="translate(640 125)"><rect width="120" height="120" fill="#0F1004" stroke="#24171E"/><text y="154">NEAR-BLACK GREEN</text><text y="178">#0F1004</text></g>
+    <g transform="translate(785 125)"><rect width="120" height="120" fill="#DD5F4A" stroke="#24171E"/><text y="154">SIGNAL CORAL</text><text y="178">#DD5F4A</text></g>
+    <g transform="translate(930 125)"><rect width="120" height="120" fill="#81CBBE" stroke="#24171E"/><text y="154">AQUA TRACE</text><text y="178">#81CBBE</text></g>
+    <g transform="translate(60 345)"><rect width="120" height="70" fill="#F2CD88" stroke="#24171E"/><text y="104">WARNING AMBER</text><text y="128">#F2CD88</text></g>
+    <g transform="translate(205 345)"><rect width="120" height="70" fill="#9BACD5" stroke="#24171E"/><text y="104">SECURITY BLUE</text><text y="128">#9BACD5</text></g>
+    <g transform="translate(350 345)"><rect width="120" height="70" fill="#C86AAE" stroke="#24171E"/><text y="104">LAB MAGENTA</text><text y="128">#C86AAE</text></g>
+    <g transform="translate(540 340)">
+      <text x="0" y="22" font-size="17">RATIO</text>
+      <text x="0" y="58">60% warm paper + stone</text>
+      <text x="0" y="86">20% dark interface fields</text>
+      <text x="0" y="114">15% orange, coral, amber accents</text>
+      <text x="0" y="142">5% aqua, blue, magenta signals</text>
+    </g>
+  </g>
+</svg>

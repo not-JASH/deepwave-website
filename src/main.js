@@ -1,342 +1,327 @@
-const signalIndex = [
-  {
-    title: 'Weak signal scans',
-    text: 'Weekly synthesis across climate, technology, culture, policy, capital, and behavior.'
-  },
-  {
-    title: 'Deep uncertainty maps',
-    text: 'Scenario architecture for decisions that must survive imperfect information.'
-  },
-  {
-    title: 'Human texture',
-    text: 'Qualitative evidence that keeps strategy connected to lived reality.'
-  },
-  {
-    title: 'Model critique',
-    text: 'Assumption stress tests, blind-spot reviews, and counterfactual planning.'
-  },
-  {
-    title: 'Opportunity territories',
-    text: 'Actionable opportunity spaces grounded in signal strength and timing.'
-  },
-  {
-    title: 'Executive field notes',
-    text: 'Concise, visual intelligence briefs made to move teams from noticing to acting.'
-  }
-];
+import { archiveEntries, metrics, reports, researchNodes, waveform } from './data.js';
 
-const caseStudies = [
-  {
-    title: 'Coastal resilience behaviors',
-    tag: 'Climate',
-    year: '2026',
-    text: 'Mapped how residents, insurers, and city teams interpret flood readiness signals across three coastal markets.',
-    meta: ['fieldwork', 'scenario lab', 'policy']
-  },
-  {
-    title: 'AI trust threshold',
-    tag: 'Technology',
-    year: '2026',
-    text: 'Identified the moments when enterprise buyers move from curiosity to confidence in agentic software systems.',
-    meta: ['expert panels', 'market map', 'go-to-market']
-  },
-  {
-    title: 'Care economy futures',
-    tag: 'Behavior',
-    year: '2025',
-    text: 'Synthesized household routines, labor constraints, and social narratives reshaping elder-care innovation.',
-    meta: ['ethnography', 'culture', 'forecast']
-  },
-  {
-    title: 'Synthetic media risk',
-    tag: 'Technology',
-    year: '2025',
-    text: 'Built a signal taxonomy for reputational, legal, and brand risks in generated media workflows.',
-    meta: ['risk', 'governance', 'signals']
-  },
-  {
-    title: 'Material circularity demand',
-    tag: 'Markets',
-    year: '2026',
-    text: 'Separated durable demand from sustainability theater in consumer and B2B material adoption.',
-    meta: ['markets', 'materials', 'strategy']
-  },
-  {
-    title: 'Post-platform youth culture',
-    tag: 'Behavior',
-    year: '2026',
-    text: 'Tracked why younger audiences are shifting from polished identity performance to smaller, stranger communities.',
-    meta: ['culture', 'social', 'identity']
-  },
-  {
-    title: 'Grid-edge investment map',
-    tag: 'Climate',
-    year: '2025',
-    text: 'Prioritized deployment opportunities for distributed energy, storage, and demand flexibility services.',
-    meta: ['energy', 'capital', 'infrastructure']
-  },
-  {
-    title: 'Premium fatigue index',
-    tag: 'Markets',
-    year: '2026',
-    text: 'Measured where consumers still reward craft, and where elevated branding has become background noise.',
-    meta: ['brand', 'pricing', 'consumer']
-  }
-];
+const $ = (selector, scope = document) => scope.querySelector(selector);
+const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
-const $ = (selector, context = document) => context.querySelector(selector);
-const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let activeZone = researchNodes[0].id;
 
-function pad(num) {
-  return String(num).padStart(2, '0');
+function pathFromWaveform(values, width = 440, height = 140) {
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const step = width / (values.length - 1);
+
+  return values
+    .map((value, index) => {
+      const normal = (value - min) / (max - min || 1);
+      const x = index * step;
+      const y = height - normal * (height * 0.74) - height * 0.12;
+      return `${index === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`;
+    })
+    .join(' ');
 }
 
-function hydrateIndex() {
-  const grid = $('[data-index-grid]');
-  const template = $('#index-card-template');
-  if (!grid || !template) return;
+function nodeById(id) {
+  return researchNodes.find((node) => node.id === id) ?? researchNodes[0];
+}
 
-  signalIndex.forEach((item, index) => {
-    const fragment = template.content.cloneNode(true);
-    const article = $('article', fragment);
-    $('.index-card__number', fragment).textContent = `[ ${pad(index + 1)} ]`;
-    $('h3', fragment).textContent = item.title;
-    $('p', fragment).textContent = item.text;
-    article.style.setProperty('--delay', `${index * 80}ms`);
-    grid.append(fragment);
+function setActiveZone(id) {
+  activeZone = id;
+  const active = nodeById(id);
+
+  document.documentElement.style.setProperty('--active-zone-color', active.color);
+  document.documentElement.dataset.activeZone = id;
+
+  $$('.node-card, [data-map-zone]').forEach((element) => {
+    element.toggleAttribute('data-active', element.dataset.zone === id);
+  });
+
+  const dossier = $('#map-dossier');
+  if (dossier) {
+    dossier.innerHTML = `
+      <p class="kicker">ACTIVE NODE / ${active.id}</p>
+      <h3>${active.title}</h3>
+      <p>${active.summary}</p>
+      <dl>
+        <div><dt>Status</dt><dd>${active.status}</dd></div>
+        <div><dt>Accession</dt><dd>${active.accession}</dd></div>
+        <div><dt>Coordinate</dt><dd>${active.coordinates}</dd></div>
+      </dl>
+    `;
+  }
+}
+
+function facilityMapTemplate(compact = false) {
+  const label = compact ? 'compact research facility map' : 'interactive research facility map';
+
+  return `
+    <svg class="facility-map-svg" viewBox="0 0 720 470" role="img" aria-label="${label}">
+      <defs>
+        <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#24171E" flood-opacity="0.16" />
+        </filter>
+        <pattern id="map-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+          <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#24171E" stroke-opacity=".08" stroke-width="1" />
+        </pattern>
+      </defs>
+      <rect x="18" y="18" width="684" height="434" rx="18" fill="#F7E8C9" />
+      <rect x="34" y="34" width="652" height="402" rx="12" fill="url(#map-grid)" />
+
+      <path class="route-line route-line--a" d="M90 328H215c36 0 36-54 72-54h151c54 0 54-84 108-84h86" />
+      <path class="route-line route-line--b" d="M84 174h98c72 0 72 146 144 146h312" />
+      <path class="route-line route-line--c" d="M126 388h160c48 0 48-48 96-48h240" />
+
+      ${researchNodes.map((node, index) => {
+        const positions = [
+          { x: 108, y: 94, w: 144, h: 96 },
+          { x: 290, y: 74, w: 116, h: 138 },
+          { x: 470, y: 100, w: 128, h: 96 },
+          { x: 168, y: 262, w: 138, h: 92 },
+          { x: 352, y: 268, w: 132, h: 110 },
+          { x: 520, y: 282, w: 90, h: 72 }
+        ];
+        const p = positions[index];
+        return `
+          <g class="map-zone" data-map-zone data-zone="${node.id}" tabindex="0" role="button" aria-label="${node.id} ${node.title}">
+            <rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="${index === 5 ? 999 : 10}" fill="${node.color}" filter="url(#soft-shadow)" />
+            <rect x="${p.x + 10}" y="${p.y + 10}" width="${Math.max(40, p.w - 20)}" height="${Math.max(24, p.h - 20)}" rx="${index === 5 ? 999 : 4}" fill="#F7E8C9" opacity=".34" />
+            <text x="${p.x + 18}" y="${p.y + 30}" class="map-zone__id">${node.id}</text>
+            <text x="${p.x + 18}" y="${p.y + p.h - 20}" class="map-zone__name">${node.title.toUpperCase()}</text>
+          </g>
+        `;
+      }).join('')}
+
+      <g class="you-are-here" transform="translate(572 354)">
+        <circle r="18" />
+        <path d="M-34 0H-8M8 0h34M0-34v26M0 8v34" />
+        <text x="-66" y="-26">YOU ARE HERE</text>
+      </g>
+
+      <text x="54" y="62" class="map-label">DWR FACILITY INDEX / PUBLIC ACCESS</text>
+      <text x="484" y="426" class="map-label">ZONE SYNC: ${activeZone}</text>
+    </svg>
+  `;
+}
+
+function bindMapInteractions(scope = document) {
+  $$('[data-map-zone]', scope).forEach((zone) => {
+    const activate = () => setActiveZone(zone.dataset.zone);
+    zone.addEventListener('mouseenter', activate);
+    zone.addEventListener('focus', activate);
+    zone.addEventListener('click', activate);
+    zone.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        activate();
+      }
+    });
   });
 }
 
-function hydrateCases() {
-  const grid = $('[data-case-grid]');
-  const bar = $('[data-filter-bar]');
-  const template = $('#case-card-template');
-  if (!grid || !bar || !template) return;
-
-  const tags = ['All', ...new Set(caseStudies.map((study) => study.tag))];
-  let active = 'All';
-
-  const renderFilters = () => {
-    bar.innerHTML = '';
-    tags.forEach((tag) => {
-      const button = document.createElement('button');
-      button.className = 'filter-chip';
-      button.type = 'button';
-      button.textContent = tag;
-      button.setAttribute('aria-pressed', String(tag === active));
-      button.addEventListener('click', () => {
-        active = tag;
-        renderFilters();
-        renderCards();
-      });
-      bar.append(button);
-    });
-  };
-
-  const renderCards = () => {
-    const studies = active === 'All' ? caseStudies : caseStudies.filter((study) => study.tag === active);
-    const update = () => {
-      grid.innerHTML = '';
-      studies.forEach((study) => {
-        const fragment = template.content.cloneNode(true);
-        $('.case-card__tag', fragment).textContent = study.tag;
-        $('.case-card__year', fragment).textContent = study.year;
-        $('h3', fragment).textContent = study.title;
-        $('p', fragment).textContent = study.text;
-        const meta = $('.case-card__meta', fragment);
-        study.meta.forEach((item) => {
-          const chip = document.createElement('span');
-          chip.textContent = item;
-          meta.append(chip);
-        });
-        grid.append(fragment);
-      });
-      observeReveals(grid);
-    };
-
-    if ('startViewTransition' in document) {
-      document.startViewTransition(update);
-    } else {
-      update();
-    }
-  };
-
-  renderFilters();
-  renderCards();
+function renderFacilityMaps() {
+  const heroMap = $('#facility-map');
+  if (heroMap) {
+    heroMap.innerHTML = facilityMapTemplate(true);
+    bindMapInteractions(heroMap);
+  }
 }
 
-function observeReveals(root = document) {
-  const items = $$('[data-reveal]:not(.is-visible)', root);
-  if (!items.length) return;
+function renderNodeCards() {
+  const grid = $('#node-grid');
+  if (!grid) return;
 
-  if (!('IntersectionObserver' in window)) {
-    items.forEach((item) => item.classList.add('is-visible'));
+  grid.innerHTML = researchNodes.map((node) => `
+    <article class="node-card reveal" data-zone="${node.id}" style="--node-color: ${node.color}">
+      <div class="node-card__topline">
+        <span>${node.id}</span>
+        <span>${node.status}</span>
+      </div>
+      <h3>${node.title}</h3>
+      <p>${node.summary}</p>
+      <footer>
+        <span>${node.accession}</span>
+        <span>${node.coordinates}</span>
+      </footer>
+    </article>
+  `).join('');
+
+  $$('.node-card', grid).forEach((card) => {
+    const activate = () => setActiveZone(card.dataset.zone);
+    card.addEventListener('mouseenter', activate);
+    card.addEventListener('focusin', activate);
+  });
+}
+
+function renderInstrumentPanel() {
+  const panel = $('#instrument-panel');
+  if (!panel) return;
+
+  const chartPath = pathFromWaveform(waveform);
+  const metricRows = metrics.map((metric) => `
+    <div class="metric-row">
+      <span>${metric.label}</span>
+      <strong>${metric.value}${metric.unit}</strong>
+      <i style="--metric-value:${Math.min(metric.value, 100)}%"></i>
+    </div>
+  `).join('');
+
+  panel.innerHTML = `
+    <div class="instrument-panel__topline">
+      <span>INSTRUMENT / DWR-SIG-02</span>
+      <span>LIVE SIMULATION</span>
+    </div>
+    <div class="scope">
+      <svg viewBox="0 0 440 140" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="scanGlow" x1="0" x2="1">
+            <stop offset="0%" stop-color="#81CBBE" stop-opacity="0" />
+            <stop offset="45%" stop-color="#81CBBE" stop-opacity=".96" />
+            <stop offset="100%" stop-color="#F2CD88" stop-opacity=".72" />
+          </linearGradient>
+        </defs>
+        <path class="scope__grid" d="M0 35H440M0 70H440M0 105H440M55 0V140M110 0V140M165 0V140M220 0V140M275 0V140M330 0V140M385 0V140" />
+        <path class="scope__trace" d="${chartPath}" />
+        <path class="scope__trace scope__trace--glow" d="${chartPath}" />
+      </svg>
+    </div>
+    <div class="metrics">${metricRows}</div>
+    <div class="sonar-readout" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+  `;
+}
+
+function renderReports() {
+  const grid = $('#report-grid');
+  if (!grid) return;
+
+  grid.innerHTML = reports.map((report, index) => `
+    <article class="report-card reveal">
+      <div class="report-card__stamp">${report.stamp}</div>
+      <p class="kicker">${report.code}</p>
+      <h3>${report.title}</h3>
+      <p>${report.excerpt}</p>
+      <a href="#contact" aria-label="Open report ${report.title}">Open report</a>
+      <span class="report-card__number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+    </article>
+  `).join('');
+}
+
+function renderArchive() {
+  const list = $('#archive-list');
+  if (!list) return;
+
+  list.innerHTML = archiveEntries.map((entry) => `
+    <button type="button">
+      <span>${entry}</span>
+      <span>OPEN</span>
+    </button>
+  `).join('');
+}
+
+function setupRevealObserver() {
+  const revealItems = $$('.reveal');
+  if (!revealItems.length) return;
+
+  if (prefersReducedMotion) {
+    revealItems.forEach((item) => item.dataset.visible = 'true');
     return;
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: '0px 0px -10% 0px' }
-  );
-
-  items.forEach((item) => observer.observe(item));
-}
-
-function initThemeToggle() {
-  const shell = $('.site-shell');
-  const toggle = $('[data-theme-toggle]');
-  const themeColor = $('meta[name="theme-color"]');
-  if (!shell || !toggle) return;
-
-  const themeColors = {
-    dark: '#080908',
-    light: '#edf3ee'
-  };
-
-  const applyTheme = (theme) => {
-    shell.dataset.theme = theme;
-    toggle.querySelector('strong').textContent = theme === 'dark' ? '01' : '02';
-    if (themeColor) {
-      themeColor.setAttribute('content', themeColors[theme] || themeColors.dark);
-    }
-    localStorage.setItem('dwr-theme', theme);
-  };
-
-  applyTheme(localStorage.getItem('dwr-theme') || 'dark');
-
-  toggle.addEventListener('click', () => {
-    const next = shell.dataset.theme === 'dark' ? 'light' : 'dark';
-    if ('startViewTransition' in document) {
-      document.startViewTransition(() => applyTheme(next));
-    } else {
-      applyTheme(next);
-    }
-  });
-}
-
-function initMagneticCards() {
-  const cards = $$('.method-card, .case-card, .index-card, .scanner-card, .contact-card');
-  cards.forEach((card) => {
-    card.addEventListener('pointermove', (event) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mx', `${x}%`);
-      card.style.setProperty('--my', `${y}%`);
-    });
-  });
-}
-
-function initContactForm() {
-  const form = $('[data-contact-form]');
-  const status = $('[data-form-status]');
-  if (!form || !status) return;
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const data = Object.fromEntries(new FormData(form));
-    const subject = encodeURIComponent(`Research inquiry from ${data.name}`);
-    const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nBrief:\n${data.brief}`);
-    status.textContent = 'Opening your email client with a prefilled inquiry draft.';
-    window.location.href = `mailto:hello@deepwaveresearch.example?subject=${subject}&body=${body}`;
-  });
-}
-
-class WaveField {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d', { alpha: true });
-    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
-    this.points = [];
-    this.time = 0;
-    this.pointer = { x: 0.7, y: 0.35 };
-    this.resize = this.resize.bind(this);
-    this.tick = this.tick.bind(this);
-    this.resize();
-    this.bind();
-    this.tick();
-  }
-
-  bind() {
-    window.addEventListener('resize', this.resize, { passive: true });
-    window.addEventListener('pointermove', (event) => {
-      this.pointer.x = event.clientX / window.innerWidth;
-      this.pointer.y = event.clientY / window.innerHeight;
-    }, { passive: true });
-  }
-
-  resize() {
-    const rect = this.canvas.getBoundingClientRect();
-    this.width = Math.max(320, Math.floor(rect.width));
-    this.height = Math.max(320, Math.floor(rect.height));
-    this.canvas.width = Math.floor(this.width * this.dpr);
-    this.canvas.height = Math.floor(this.height * this.dpr);
-    this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    this.points = Array.from({ length: 90 }, (_, i) => ({
-      i,
-      x: Math.random(),
-      y: Math.random(),
-      speed: 0.4 + Math.random() * 0.8,
-      phase: Math.random() * Math.PI * 2
-    }));
-  }
-
-  tick() {
-    const { ctx, width, height } = this;
-    this.time += 0.006;
-    ctx.clearRect(0, 0, width, height);
-
-    ctx.globalCompositeOperation = 'lighter';
-    for (let band = 0; band < 9; band++) {
-      const baseY = height * (0.15 + band * 0.085);
-      ctx.beginPath();
-      for (let x = -40; x <= width + 40; x += 14) {
-        const wave = Math.sin(x * 0.012 + this.time * (2 + band * 0.16) + band) * (18 + band * 3);
-        const pointerPull = Math.sin((x / width - this.pointer.x) * Math.PI) * 14 * this.pointer.y;
-        const y = baseY + wave + pointerPull;
-        if (x === -40) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.dataset.visible = 'true';
+        observer.unobserve(entry.target);
       }
-      ctx.strokeStyle = band % 3 === 0 ? 'rgba(36,255,57,.38)' : band % 3 === 1 ? 'rgba(75,245,255,.24)' : 'rgba(255,68,56,.24)';
-      ctx.lineWidth = band % 2 ? 1 : 2;
-      ctx.stroke();
-    }
-
-    this.points.forEach((point) => {
-      const x = ((point.x + this.time * 0.018 * point.speed) % 1) * width;
-      const y = (point.y + Math.sin(this.time * 2 + point.phase) * 0.02) * height;
-      const size = 1 + Math.sin(this.time * 3 + point.phase) * 0.7;
-      ctx.fillStyle = point.i % 5 === 0 ? 'rgba(36,255,57,.75)' : 'rgba(231,235,232,.38)';
-      ctx.fillRect(x, y, size * 2, size * 2);
     });
+  }, { threshold: 0.18 });
 
-    ctx.globalCompositeOperation = 'source-over';
-    requestAnimationFrame(this.tick);
-  }
+  revealItems.forEach((item) => observer.observe(item));
 }
 
-function initWaveCanvas() {
-  const canvas = $('[data-wave-canvas]');
-  if (!canvas) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  new WaveField(canvas);
+function setupLocationObserver() {
+  const label = $('#active-location');
+  const sections = $$('.section-observed');
+  if (!label || !sections.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (!visible) return;
+    label.textContent = `YOU ARE HERE / ${visible.target.dataset.location}`;
+
+    const id = visible.target.id;
+    $$('.site-nav a').forEach((link) => {
+      link.toggleAttribute('aria-current', link.getAttribute('href') === `#${id}`);
+    });
+  }, {
+    rootMargin: '-28% 0px -58% 0px',
+    threshold: [0.08, 0.2, 0.45]
+  });
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+function setupHeaderState() {
+  const header = $('.site-header');
+  if (!header) return;
+
+  const update = () => header.dataset.elevated = String(window.scrollY > 18);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
+
+function setupNavigation() {
+  $$('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const target = $(link.getAttribute('href'));
+      if (!target) return;
+      event.preventDefault();
+
+      const navigate = () => {
+        target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        history.replaceState(null, '', link.getAttribute('href'));
+      };
+
+      if (document.startViewTransition && !prefersReducedMotion) {
+        document.startViewTransition(navigate);
+      } else {
+        navigate();
+      }
+    });
+  });
+}
+
+function setupContactMock() {
+  const button = $('.contact-form button');
+  if (!button) return;
+
+  button.addEventListener('click', () => {
+    const original = button.textContent;
+    button.textContent = 'Inquiry queued / demo only';
+    button.disabled = true;
+    window.setTimeout(() => {
+      button.textContent = original;
+      button.disabled = false;
+    }, 1800);
+  });
 }
 
 function init() {
-  hydrateIndex();
-  hydrateCases();
-  observeReveals();
-  initThemeToggle();
-  initMagneticCards();
-  initContactForm();
-  initWaveCanvas();
+  renderFacilityMaps();
+  renderNodeCards();
+  renderInstrumentPanel();
+  renderReports();
+  renderArchive();
+  setActiveZone(activeZone);
+  setupRevealObserver();
+  setupLocationObserver();
+  setupHeaderState();
+  setupNavigation();
+  setupContactMock();
 }
 
 init();

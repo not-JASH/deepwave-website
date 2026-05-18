@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" preserveAspectRatio="none">
+  <rect width="1200" height="320" fill="#E9DABC"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+    <path d="M-40 72H160c84 0 84 146 168 146h248c78 0 78-96 156-96h508" stroke="#DD5F4A" stroke-width="28"/>
+    <path d="M-40 126H214c68 0 68-74 136-74h196c106 0 106 176 212 176h482" stroke="#81CBBE" stroke-width="18"/>
+    <path d="M-40 194H138c108 0 108-126 216-126h188c82 0 82 92 164 92h534" stroke="#9BACD5" stroke-width="14"/>
+    <path d="M-40 254H250c54 0 54-44 108-44h184c82 0 82 62 164 62h534" stroke="#F2CD88" stroke-width="10"/>
+  </g>
+  <g fill="#24171E" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" opacity=".72">
+    <text x="48" y="40">ROUTE / DWR-CURRENT-INDEX</text>
+    <text x="930" y="288">SIGNAL LOCK: 81.7%</text>
+  </g>
+</svg>

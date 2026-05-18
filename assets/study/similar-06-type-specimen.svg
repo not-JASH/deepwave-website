@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="Original graphic study: type specimen system">
+  <rect width="1200" height="760" fill="#F4BFB6"/>
+  <g style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" fill="#0E0E0D">
+    <text x="98" y="330" font-size="286" font-weight="300" letter-spacing="-18">Aa</text>
+    <text x="104" y="418" font-size="40" font-weight="400" letter-spacing="-1">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>
+    <text x="104" y="472" font-size="40" font-weight="400" letter-spacing="-1">abcdefghijklmnopqrstuvwxyz</text>
+    <text x="104" y="526" font-size="40" font-weight="400" letter-spacing="-1">1234567890!?@$&amp;</text>
+    <g font-size="24" font-weight="700" letter-spacing="0.5">
+      <text x="104" y="640">TYPEFACE</text><text x="338" y="640">CATEGORY</text><text x="568" y="640">COLOPHON</text>
+    </g>
+    <g font-size="30" font-weight="400">
+      <text x="104" y="688">Manrope</text><text x="338" y="688">Sans serif</text><text x="568" y="688">Mikhail Sharanda</text>
+    </g>
+    <text x="930" y="118" font-size="18" letter-spacing="2">DWR TYPE STUDY</text>
+    <line x1="930" y1="132" x2="1100" y2="132" stroke="#0E0E0D" stroke-width="2"/>
+    <text x="930" y="166" font-size="13" letter-spacing="1.4">USE LARGE LIGHT NUMERALS</text>
+    <text x="930" y="190" font-size="13" letter-spacing="1.4">AND SMALL UPPERCASE LABELS</text>
+  </g>
+</svg>

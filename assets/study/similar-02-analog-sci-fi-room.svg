@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="Original graphic study: analog sci-fi light wall">
+  <rect width="1200" height="760" fill="#15150e"/>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="40%" r="65%"><stop offset="0" stop-color="#fff1bf" stop-opacity="1"/><stop offset="0.55" stop-color="#d7caa7" stop-opacity="0.82"/><stop offset="1" stop-color="#4a4033" stop-opacity="0"/></radialGradient>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2.5" fill="#ffe8a5" opacity="0.82"/></pattern>
+  </defs>
+  <rect x="180" y="70" width="840" height="620" rx="20" fill="url(#glow)" opacity="0.95"/>
+  <g transform="translate(230 95)" stroke="#b8aa91" stroke-width="3">
+    <polygon points="185,0 555,0 725,95 600,180 140,180 15,95" fill="#EEE0BE"/>
+    <polygon points="15,95 140,180 140,570 0,465 0,130" fill="#E4D4B5"/>
+    <polygon points="725,95 600,180 600,570 740,465 740,130" fill="#E4D4B5"/>
+    <polygon points="140,180 600,180 600,570 140,570" fill="#F3E7CF"/>
+    <g opacity="0.9">
+      <rect x="170" y="210" width="125" height="90" fill="url(#dots)"/><rect x="315" y="210" width="125" height="90" fill="url(#dots)"/><rect x="460" y="210" width="110" height="90" fill="url(#dots)"/>
+      <rect x="170" y="325" width="125" height="92" fill="url(#dots)"/><rect x="315" y="325" width="125" height="92" fill="url(#dots)"/><rect x="460" y="325" width="110" height="92" fill="url(#dots)"/>
+      <rect x="170" y="442" width="125" height="86" fill="url(#dots)"/><rect x="315" y="442" width="125" height="86" fill="url(#dots)"/><rect x="460" y="442" width="110" height="86" fill="url(#dots)"/>
+      <rect x="42" y="150" width="80" height="110" fill="url(#dots)"/><rect x="42" y="285" width="80" height="110" fill="url(#dots)"/><rect x="42" y="420" width="80" height="90" fill="url(#dots)"/>
+      <rect x="620" y="150" width="80" height="110" fill="url(#dots)"/><rect x="620" y="285" width="80" height="110" fill="url(#dots)"/><rect x="620" y="420" width="80" height="90" fill="url(#dots)"/>
+    </g>
+    <rect x="230" y="70" width="105" height="72" fill="#111" opacity="0.82"/><rect x="413" y="70" width="105" height="72" fill="#111" opacity="0.82"/>
+    <polygon points="330,565 410,565 455,655 285,655" fill="#2A2522" opacity="0.42"/>
+  </g>
+  <text x="80" y="685" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="18" letter-spacing="2" fill="#E8D7AE">STUDY / MODULAR LIGHT PANELS + CRT GEOMETRY + CEREMONIAL SCIENCE ROOM</text>
+</svg>

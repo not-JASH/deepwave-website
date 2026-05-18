@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="Original graphic study: rounded 1970s wave routing lines">
+  <rect width="1200" height="760" fill="#F7E8C9"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-40 150 H430 Q520 150 520 240 V302 Q520 370 590 370 H980 Q1060 370 1060 290 V40" stroke="#81CBBE" stroke-width="124"/>
+    <path d="M-40 150 H430 Q520 150 520 240 V302 Q520 370 590 370 H980 Q1060 370 1060 290 V40" stroke="#F7E8C9" stroke-width="96"/>
+    <path d="M-40 150 H430 Q520 150 520 240 V302 Q520 370 590 370 H980 Q1060 370 1060 290 V40" stroke="#6E4C41" stroke-width="72"/>
+    <path d="M-40 150 H430 Q520 150 520 240 V302 Q520 370 590 370 H980 Q1060 370 1060 290 V40" stroke="#DD5F4A" stroke-width="48"/>
+    <path d="M-40 150 H430 Q520 150 520 240 V302 Q520 370 590 370 H980 Q1060 370 1060 290 V40" stroke="#F2CD88" stroke-width="24"/>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-80 610 H160 Q245 610 245 525 V480 Q245 415 310 415 H420" stroke="#81CBBE" stroke-width="114"/>
+    <path d="M-80 610 H160 Q245 610 245 525 V480 Q245 415 310 415 H420" stroke="#F7E8C9" stroke-width="86"/>
+    <path d="M-80 610 H160 Q245 610 245 525 V480 Q245 415 310 415 H420" stroke="#6E4C41" stroke-width="62"/>
+    <path d="M-80 610 H160 Q245 610 245 525 V480 Q245 415 310 415 H420" stroke="#DD5F4A" stroke-width="40"/>
+    <path d="M-80 610 H160 Q245 610 245 525 V480 Q245 415 310 415 H420" stroke="#F2CD88" stroke-width="18"/>
+  </g>
+  <text x="72" y="86" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="20" letter-spacing="3" fill="#24171E">ROUNDED WAVE ROUTING SYSTEM</text>
+  <text x="72" y="116" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="13" letter-spacing="1.5" fill="#7B5E50">USE AS SECTION CONNECTORS, LOADING STATES, OR RESEARCH-PROGRAM TRACKS</text>
+</svg>

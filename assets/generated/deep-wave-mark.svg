@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 160" role="img" aria-labelledby="title desc">
+  <title id="title">Deep Wave Research mark</title>
+  <desc id="desc">Rounded wave routing lines forming a research signal mark.</desc>
+  <rect width="320" height="160" rx="22" fill="#24171E"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+    <path d="M34 46h68c28 0 28 68 56 68h128" stroke="#81CBBE"/>
+    <path d="M34 82h42c34 0 34-42 68-42h142" stroke="#F2CD88"/>
+    <path d="M34 118h90c24 0 24-36 48-36h114" stroke="#DD5F4A"/>
+  </g>
+  <circle cx="244" cy="82" r="16" fill="#F7E8C9"/>
+  <circle cx="244" cy="82" r="6" fill="#24171E"/>
+</svg>
