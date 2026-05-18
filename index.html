@@ -31,11 +31,13 @@
       </a>
 
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#programs">01 Programs</a>
-        <a href="#signal-lab">02 Signal Lab</a>
-        <a href="#field-systems">03 Field</a>
-        <a href="#archive">04 Archive</a>
-        <a href="#contact">05 Contact</a>
+        <a href="#programs">Programs</a>
+        <a href="#signal-lab">Signal Lab</a>
+        <a href="#field-systems">Field</a>
+        <a href="#current-models">Models</a>
+        <a href="#publications">Reports</a>
+        <a href="#archive">Archive</a>
+        <a href="#contact">Reception</a>
       </nav>
 
       <div class="system-badge" aria-live="polite">
@@ -85,7 +87,7 @@
         </div>
       </section>
 
-      <section id="programs" class="site-shell section programs section-observed" data-location="NODE 01 / RESEARCH PROGRAMS">
+      <section id="programs" class="site-shell section programs section-observed" data-location="RESEARCH PROGRAMS">
         <div class="section-head reveal">
           <p class="kicker">01 / RESEARCH PROGRAMS</p>
           <h2>Organized like a facility, operated like a field lab.</h2>
@@ -97,7 +99,7 @@
         </div>
       </section>
 
-      <section id="signal-lab" class="section section--dark section-observed" data-location="NODE 02 / SIGNAL LAB">
+      <section id="signal-lab" class="section section--dark section-observed" data-location="SIGNAL LAB">
         <div class="site-shell lab-grid">
           <div class="lab-copy reveal">
             <p class="kicker">02 / SIGNAL LAB</p>
@@ -109,7 +111,7 @@
         </div>
       </section>
 
-      <section id="field-systems" class="site-shell section field-systems section-observed" data-location="NODE 03 / FIELD SYSTEMS">
+      <section id="field-systems" class="site-shell section field-systems section-observed" data-location="FIELD SYSTEMS">
         <div class="section-number" aria-hidden="true">03</div>
         <div class="field-systems__copy reveal">
           <p class="kicker">03 / FIELD SYSTEMS</p>
@@ -132,38 +134,53 @@
         </div>
       </section>
 
+      <section id="current-models" class="site-shell section current-models section-observed" data-location="CURRENT MODELS">
+        <div class="section-head reveal">
+          <p class="kicker">04 / CURRENT MODELS</p>
+          <h2>Forecast layers, revision control, and drift windows for changing water systems.</h2>
+          <p>Current Models is where instrument telemetry and long-horizon climate behavior are reconciled before they become public guidance, field deployment changes, or archive-grade records.</p>
+        </div>
+        <div class="current-models__layout">
+          <div id="model-board" class="model-board reveal" aria-label="Current model forecast board"></div>
+          <div id="model-stack" class="model-stack" aria-label="Current model forecast windows"></div>
+        </div>
+      </section>
+
       <section class="route-supergraphic" aria-hidden="true">
         <img src="assets/generated/route-network.svg" alt="" />
       </section>
 
-      <section id="publications" class="site-shell section section-observed" data-location="NODE 04 / PUBLICATIONS">
+      <section id="publications" class="site-shell section section-observed" data-location="PUBLICATIONS">
         <div class="section-head reveal">
-          <p class="kicker">04 / PUBLICATIONS</p>
+          <p class="kicker">05 / PUBLICATIONS</p>
           <h2>Reports with accession numbers, field notes, and model revisions.</h2>
         </div>
         <div id="report-grid" class="report-grid"></div>
       </section>
 
-      <section id="archive" class="section archive section-observed" data-location="NODE 05 / ARCHIVE">
+      <section id="archive" class="section archive section-observed" data-location="ARCHIVE">
         <div class="site-shell archive-layout">
           <div class="archive-poster reveal">
             <img src="assets/study/similar-04-archival-poster.svg" alt="Archival science poster graphic" loading="lazy" />
           </div>
           <div class="archive-copy reveal">
-            <p class="kicker">05 / ARCHIVE</p>
+            <p class="kicker">06 / ARCHIVE</p>
             <h2>Declassified field materials, old diagrams, and verified model lineage.</h2>
             <p>Distress is used selectively here so the rest of the website stays clean and credible. The archive gives Deep Wave a sense of institutional memory.</p>
-            <div id="archive-list" class="archive-list"></div>
+            <div class="archive-console">
+              <div id="archive-preview" class="archive-preview" aria-live="polite"></div>
+              <div id="archive-list" class="archive-list"></div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="about" class="site-shell section about section-observed" data-location="NODE 06 / ABOUT">
+      <section id="about" class="site-shell section about section-observed" data-location="INSTITUTIONAL PROFILE">
         <div class="about__image reveal">
           <img src="assets/study/similar-05-corporate-lobby.svg" alt="Corporate modernist lobby abstraction" loading="lazy" />
         </div>
         <div class="about__copy reveal">
-          <p class="kicker">06 / INSTITUTIONAL PROFILE</p>
+          <p class="kicker">07 / INSTITUTIONAL PROFILE</p>
           <h2>Quiet authority, exact language, and systems that feel built.</h2>
           <p>The draft combines mid-century research-campus calm with analog sci-fi detail: grids, warm materials, map logic, instrument UI, and restrained editorial type.</p>
           <dl class="fact-list">
@@ -174,27 +191,31 @@
         </div>
       </section>
 
-      <section id="contact" class="section contact section-observed" data-location="NODE 07 / CONTACT">
+      <section id="contact" class="section contact section-observed" data-location="RECEPTION DESK">
         <div class="site-shell contact-card reveal">
           <div>
-            <p class="kicker">07 / RECEPTION DESK</p>
+            <p class="kicker">08 / RECEPTION DESK</p>
             <h2>Open a secure research channel.</h2>
             <p>For field collaborations, model releases, publication inquiries, or instrument-system briefings.</p>
           </div>
-          <form class="contact-form" aria-label="Contact form mockup">
+          <form class="contact-form" aria-label="Research inquiry form">
             <label>
               <span>Name</span>
-              <input name="name" autocomplete="name" placeholder="J. Analyst" />
+              <input name="name" autocomplete="name" placeholder="J. Analyst" required />
             </label>
             <label>
               <span>Channel</span>
-              <input name="email" type="email" autocomplete="email" placeholder="name@example.org" />
+              <input name="email" type="email" autocomplete="email" placeholder="name@example.org" required />
             </label>
             <label>
               <span>Message</span>
-              <textarea name="message" rows="4" placeholder="Describe the research request..."></textarea>
+              <textarea name="message" rows="4" placeholder="Describe the research request..." required></textarea>
             </label>
-            <button class="button button--primary" type="button">Transmit Inquiry</button>
+            <div id="contact-preview" class="contact-preview" aria-live="polite"></div>
+            <div class="contact-form__actions">
+              <p id="contact-status" class="contact-form__status" role="status" aria-live="polite"></p>
+              <button class="button button--primary" type="submit">Transmit Inquiry</button>
+            </div>
           </form>
         </div>
       </section>

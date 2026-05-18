@@ -1,4 +1,4 @@
-import { archiveEntries, metrics, reports, researchNodes, waveform } from './data.js';
+import { archiveEntries, metrics, modelWindows, reports, researchNodes, waveform } from './data.js';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -28,6 +28,9 @@ function nodeById(id) {
 function setActiveZone(id) {
   activeZone = id;
   const active = nodeById(id);
+  const action = active.anchor
+    ? `<a class="button button--ghost map-dossier__action" href="#${active.anchor}">Open node</a>`
+    : '';
 
   document.documentElement.style.setProperty('--active-zone-color', active.color);
   document.documentElement.dataset.activeZone = id;
@@ -41,12 +44,16 @@ function setActiveZone(id) {
     dossier.innerHTML = `
       <p class="kicker">ACTIVE NODE / ${active.id}</p>
       <h3>${active.title}</h3>
+      <p class="map-dossier__label">${active.label}</p>
       <p>${active.summary}</p>
-      <dl>
-        <div><dt>Status</dt><dd>${active.status}</dd></div>
-        <div><dt>Accession</dt><dd>${active.accession}</dd></div>
-        <div><dt>Coordinate</dt><dd>${active.coordinates}</dd></div>
-      </dl>
+      <div class="map-dossier__footer">
+        <dl>
+          <div><dt>Status</dt><dd>${active.status}</dd></div>
+          <div><dt>Accession</dt><dd>${active.accession}</dd></div>
+          <div><dt>Coordinate</dt><dd>${active.coordinates}</dd></div>
+        </dl>
+        ${action}
+      </div>
     `;
   }
 }
@@ -207,16 +214,88 @@ function renderReports() {
   `).join('');
 }
 
+function renderCurrentModels() {
+  const board = $('#model-board');
+  const stack = $('#model-stack');
+  if (!board || !stack) return;
+
+  const basePath = pathFromWaveform(waveform, 520, 196);
+  const offsetPath = pathFromWaveform(waveform.map((value, index) => value + (index % 5 === 0 ? 7 : -2)), 520, 196);
+  const longRangePath = pathFromWaveform(waveform.map((value, index) => value + Math.sin(index / 3) * 5), 520, 196);
+
+  board.innerHTML = `
+    <div class="model-board__topline">
+      <span>MODEL ROOM / DWR-03-241</span>
+      <span>REVISION B</span>
+    </div>
+    <div class="model-board__scope">
+      <svg viewBox="0 0 520 196" preserveAspectRatio="none" aria-hidden="true">
+        <path class="model-board__grid" d="M0 39H520M0 98H520M0 157H520M65 0V196M130 0V196M195 0V196M260 0V196M325 0V196M390 0V196M455 0V196" />
+        <path class="model-board__trace model-board__trace--base" d="${basePath}" />
+        <path class="model-board__trace model-board__trace--offset" d="${offsetPath}" />
+        <path class="model-board__trace model-board__trace--long" d="${longRangePath}" />
+      </svg>
+    </div>
+    <div class="model-board__stats">
+      <div><span>Live inputs</span><strong>14 feeds</strong></div>
+      <div><span>Forecast horizon</span><strong>72 hours</strong></div>
+      <div><span>Variance lock</span><strong>4.2%</strong></div>
+    </div>
+  `;
+
+  stack.innerHTML = modelWindows.map((window) => `
+    <article class="model-window reveal">
+      <p class="kicker">${window.code}</p>
+      <h3>${window.title}</h3>
+      <p>${window.summary}</p>
+      <footer>
+        <span>${window.status}</span>
+        <strong>${window.readout}</strong>
+      </footer>
+    </article>
+  `).join('');
+}
+
 function renderArchive() {
   const list = $('#archive-list');
-  if (!list) return;
+  const preview = $('#archive-preview');
+  if (!list || !preview) return;
 
-  list.innerHTML = archiveEntries.map((entry) => `
-    <button type="button">
-      <span>${entry}</span>
+  const syncArchive = (index) => {
+    const entry = archiveEntries[index] ?? archiveEntries[0];
+
+    $$('#archive-list button').forEach((button, buttonIndex) => {
+      const isActive = buttonIndex === index;
+      button.toggleAttribute('data-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+
+    preview.innerHTML = `
+      <div class="archive-preview__topline">
+        <span>${entry.code}</span>
+        <span>${entry.status}</span>
+      </div>
+      <h3>${entry.title}</h3>
+      <p>${entry.summary}</p>
+      <dl>
+        <div><dt>Format</dt><dd>${entry.format}</dd></div>
+        <div><dt>Date</dt><dd>${entry.year}</dd></div>
+      </dl>
+    `;
+  };
+
+  list.innerHTML = archiveEntries.map((entry, index) => `
+    <button type="button" data-archive-index="${index}" aria-pressed="false">
+      <span>${entry.code} / ${entry.title}</span>
       <span>OPEN</span>
     </button>
   `).join('');
+
+  $$('#archive-list button').forEach((button) => {
+    button.addEventListener('click', () => syncArchive(Number(button.dataset.archiveIndex)));
+  });
+
+  syncArchive(0);
 }
 
 function setupRevealObserver() {
@@ -295,14 +374,71 @@ function setupNavigation() {
   });
 }
 
-function setupContactMock() {
-  const button = $('.contact-form button');
-  if (!button) return;
+function getInquiryRoute(message) {
+  const text = message.trim().toLowerCase();
+  if (!text) return 'Reception desk';
+  if (/(archive|lineage|manual|scan|restored)/.test(text)) return 'Archive';
+  if (/(report|paper|publication|release|memo)/.test(text)) return 'Publications';
+  if (/(field|buoy|telemetry|sensor|deployment|array)/.test(text)) return 'Field Systems';
+  if (/(model|forecast|current|climate|drift|simulation)/.test(text)) return 'Current Models';
+  return 'Signal Lab';
+}
 
-  button.addEventListener('click', () => {
+function getInquiryPriority(message) {
+  const length = message.trim().length;
+  if (!length) return 'Intake required';
+  if (length > 180) return 'Long-form briefing';
+  if (length > 80) return 'Standard briefing';
+  return 'Rapid triage';
+}
+
+function renderContactPreview(form, preview) {
+  if (!preview) return { route: 'Reception desk', priority: 'Intake required' };
+
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+  const route = getInquiryRoute(String(data.message ?? ''));
+  const priority = getInquiryPriority(String(data.message ?? ''));
+  const origin = String(data.email ?? '').includes('@')
+    ? String(data.email).split('@')[1].toUpperCase()
+    : 'UNVERIFIED';
+
+  preview.innerHTML = `
+    <div class="contact-preview__topline">
+      <span>ROUTING PREVIEW</span>
+      <span>DEMO CHANNEL</span>
+    </div>
+    <div class="contact-preview__grid">
+      <div><span>Destination</span><strong>${route}</strong></div>
+      <div><span>Priority</span><strong>${priority}</strong></div>
+      <div><span>Origin</span><strong>${origin}</strong></div>
+    </div>
+  `;
+
+  return { route, priority };
+}
+
+function setupContactForm() {
+  const form = $('.contact-form');
+  const preview = $('#contact-preview');
+  const status = $('#contact-status');
+  const button = $('.contact-form button');
+  if (!form || !preview || !status || !button) return;
+
+  const update = () => renderContactPreview(form, preview);
+  update();
+
+  form.addEventListener('input', update);
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const { route, priority } = update();
     const original = button.textContent;
-    button.textContent = 'Inquiry queued / demo only';
+    const ticket = `DWR-RX-${String(Date.now()).slice(-6)}`;
+
+    status.textContent = `${ticket} queued / ${route.toUpperCase()} / ${priority.toUpperCase()}`;
+    button.textContent = `Queued ${ticket}`;
     button.disabled = true;
+
     window.setTimeout(() => {
       button.textContent = original;
       button.disabled = false;
@@ -314,6 +450,7 @@ function init() {
   renderFacilityMaps();
   renderNodeCards();
   renderInstrumentPanel();
+  renderCurrentModels();
   renderReports();
   renderArchive();
   setActiveZone(activeZone);
@@ -321,7 +458,7 @@ function init() {
   setupLocationObserver();
   setupHeaderState();
   setupNavigation();
-  setupContactMock();
+  setupContactForm();
 }
 
 init();

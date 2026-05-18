@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="Original graphic study: isometric research facility map">
+  <rect width="1200" height="760" fill="#F7E8C9"/>
+  <rect x="38" y="42" width="1124" height="676" rx="18" fill="#F2E2BF" stroke="#2A2522" stroke-width="2" opacity="0.55"/>
+  <text x="78" y="94" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="20" letter-spacing="2" fill="#2A2522">DEEP WAVE RESEARCH / FACILITY INDEX</text>
+  <text x="78" y="124" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="13" letter-spacing="1.2" fill="#7B7162">ENCRYPTION MEASURES · SIGNAL ROUTING · SECTION DWR-04</text>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="8" flood-color="#6d5747" flood-opacity="0.18"/></filter>
+  </defs>
+  <g transform="translate(105 110)" filter="url(#shadow)" stroke="#342D27" stroke-width="2">
+    <polygon points="140,280 310,200 470,280 300,360" fill="#E2D5B9" opacity="0.62"/>
+    <polygon points="355,300 590,190 820,305 585,415" fill="#E2D5B9" opacity="0.62"/>
+    <polygon points="105,395 330,290 575,415 350,520" fill="#E2D5B9" opacity="0.62"/>
+    <g>
+      <polygon points="170,255 305,190 442,260 306,324" fill="#C86AAE"/>
+      <polygon points="170,255 306,324 306,370 170,302" fill="#A54F8E"/>
+      <polygon points="306,324 442,260 442,306 306,370" fill="#D780C2"/>
+      <text x="296" y="274" text-anchor="middle" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="38" fill="#24171E">1</text>
+    </g>
+    <g transform="translate(260 -42)">
+      <polygon points="170,255 360,165 525,248 335,340" fill="#9BACD5"/>
+      <polygon points="170,255 335,340 335,391 170,306" fill="#758BC4"/>
+      <polygon points="335,340 525,248 525,299 335,391" fill="#B7C4E4"/>
+      <text x="348" y="272" text-anchor="middle" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="42" fill="#24171E">2</text>
+    </g>
+    <g transform="translate(465 98)">
+      <polygon points="110,210 390,82 690,230 410,360" fill="#F2D98E"/>
+      <polygon points="110,210 410,360 410,418 110,267" fill="#D8B96E"/>
+      <polygon points="410,360 690,230 690,288 410,418" fill="#F8E5AA"/>
+      <text x="410" y="245" text-anchor="middle" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="48" fill="#24171E">3</text>
+    </g>
+    <g transform="translate(255 245)">
+      <polygon points="135,270 335,176 520,270 320,365" fill="#DD6C4D"/>
+      <polygon points="135,270 320,365 320,422 135,328" fill="#B8533F"/>
+      <polygon points="320,365 520,270 520,327 320,422" fill="#EF835D"/>
+      <text x="322" y="295" text-anchor="middle" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="48" fill="#24171E">4</text>
+    </g>
+    <g transform="translate(-45 205)">
+      <polygon points="110,215 255,147 385,215 242,280" fill="#BDBAA7"/>
+      <polygon points="110,215 242,280 242,330 110,265" fill="#9B9683"/>
+      <polygon points="242,280 385,215 385,266 242,330" fill="#D2CDB9"/>
+      <text x="245" y="232" text-anchor="middle" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" font-size="40" fill="#24171E">5</text>
+    </g>
+  </g>
+  <g transform="translate(825 255)" style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" fill="#24171E">
+    <text x="0" y="0" font-size="38" letter-spacing="1">DIRECTORY</text>
+    <g font-size="26" letter-spacing="1.5">
+      <rect x="0" y="42" width="42" height="42" fill="#C86AAE" stroke="#24171E"/><text x="15" y="73">1</text><text x="62" y="73">SIGNAL ROOM</text>
+      <rect x="0" y="100" width="42" height="42" fill="#9BACD5" stroke="#24171E"/><text x="15" y="131">2</text><text x="62" y="131">SECURITY NODE</text>
+      <rect x="0" y="158" width="42" height="42" fill="#F2D98E" stroke="#24171E"/><text x="15" y="189">3</text><text x="62" y="189">ENGINEERING</text>
+      <rect x="0" y="216" width="42" height="42" fill="#DD6C4D" stroke="#24171E"/><text x="15" y="247">4</text><text x="62" y="247">FIELD SYSTEMS</text>
+      <rect x="0" y="274" width="42" height="42" fill="#BDBAA7" stroke="#24171E"/><text x="15" y="305">5</text><text x="62" y="305">ARCHIVE</text>
+    </g>
+    <g transform="translate(0 390)">
+      <rect x="0" y="0" width="44" height="44" fill="#FFF8E7" stroke="#24171E"/>
+      <path d="M22 8 v20 M12 20 l10 12 10-12" stroke="#B98900" stroke-width="7" fill="none" stroke-linecap="square"/>
+      <text x="62" y="32" font-size="30" letter-spacing="2">YOU ARE HERE.</text>
+    </g>
+  </g>
+  <g style="font-family: Manrope, Inter, Helvetica, Arial, sans-serif;" fill="#847967" font-size="11">
+    <text x="78" y="676">GENERAL INFORMATION</text><line x1="78" y1="688" x2="372" y2="688" stroke="#847967"/>
+    <text x="78" y="708">FACILITY MAP STUDY · USE FOR HOMEPAGE NAVIGATION AND RESEARCH-PROGRAM DIRECTORY</text>
+    <text x="785" y="676">SAFETY AND SIGNALS</text><line x1="785" y1="688" x2="1122" y2="688" stroke="#847967"/>
+    <text x="785" y="708">COLOR CODES SHOULD FUNCTION AS NAVIGATION, NOT DECORATION.</text>
+  </g>
+</svg>
