@@ -1,4 +1,4 @@
-import { cases, domains, methods, sectors } from './data.js';
+import { cases, domains, methods, reportBodies, research, sectors } from './data.js';
 import { defineComponents, escapeHtml } from './components.js';
 
 defineComponents();
@@ -7,30 +7,30 @@ const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-// Research Library state and routing are currently disabled.
-// const state = {
-//   search: '',
-//   topic: 'all',
-//   format: 'all',
-//   sort: 'newest',
-// };
+const state = {
+  search: '',
+  topic: 'all',
+  format: 'all',
+  sort: 'newest',
+};
 
-// const hasViewTransitions = 'startViewTransition' in document && !prefersReduced;
-// const dateFormatter = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
-// const listFormatter = new Intl.ListFormat('en', { style: 'short', type: 'conjunction' });
+const hasViewTransitions = 'startViewTransition' in document && !prefersReduced;
+const dateFormatter = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
+const defaultTitle = document.title;
 
-// function transition(update) {
-//   if (hasViewTransitions) document.startViewTransition(update);
-//   else update();
-// }
+function transition(update) {
+  if (hasViewTransitions) document.startViewTransition(update);
+  else update();
+}
 
-// function unique(values) {
-//   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
-// }
+function unique(values) {
+  return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+}
 
-// function populateSelect(select, values) {
-//   values.forEach((value) => select.append(new Option(value, value)));
-// }
+function populateSelect(select, values) {
+  if (!select) return;
+  values.forEach((value) => select.append(new Option(value, value)));
+}
 
 function renderStaticContent() {
   const domainGrid = $('#domain-grid');
@@ -90,8 +90,33 @@ function renderStaticContent() {
   //   .join('');
 }
 
-/*
+function initHeroInsight() {
+  const card = $('#hero-insight');
+  if (!card) return;
+
+  const availableItems = research.filter((item) => reportBodies[item.id]);
+  if (!availableItems.length) {
+    card.hidden = true;
+    return;
+  }
+
+  const item = availableItems[Math.floor(Math.random() * availableItems.length)];
+  $('#hero-insight-tag', card).textContent = `${item.format} · ${item.topic}`;
+  $('#hero-insight-title', card).textContent = item.title;
+  $('#hero-insight-summary', card).textContent = item.finding;
+
+  const link = $('#hero-insight-link', card);
+  link.href = `#report/${encodeURIComponent(item.id)}`;
+  link.textContent = `Open ${item.format.toLowerCase()}`;
+  link.setAttribute('aria-label', `Open the draft page for ${item.title}`);
+
+  card.hidden = false;
+}
+
 function initFilters() {
+  const controls = $('.library-controls');
+  if (!controls) return;
+
   populateSelect($('#topic'), unique(research.map((item) => item.topic)));
   populateSelect($('#format'), unique(research.map((item) => item.format)));
 
@@ -102,15 +127,18 @@ function initFilters() {
     if (control) control.value = state[key];
   });
 
-  $('.library-controls').addEventListener('input', (event) => {
+  const updateFromControls = (event) => {
     const { name, value } = event.target;
     if (!name) return;
     state[name] = value;
     updateUrl();
     transition(renderLibrary);
-  });
+  };
 
-  $('#reset-filters').addEventListener('click', () => {
+  controls.addEventListener('input', updateFromControls);
+  controls.addEventListener('change', updateFromControls);
+
+  $('#reset-filters')?.addEventListener('click', () => {
     Object.assign(state, { search: '', topic: 'all', format: 'all', sort: 'newest' });
     ['search', 'topic', 'format', 'sort'].forEach((key) => {
       const control = $(`#${key}`);
@@ -166,6 +194,8 @@ function filteredResearch() {
 
 function renderLibrary() {
   const grid = $('#research-grid');
+  if (!grid) return;
+
   const items = filteredResearch();
   grid.innerHTML = '';
 
@@ -173,7 +203,7 @@ function renderLibrary() {
     grid.innerHTML = `
       <div class="empty-state">
         <h3>No research matched the current filters.</h3>
-        <p>Reset the filters or try a broader topic such as “AI”, “trust”, or “markets”.</p>
+        <p>Reset the filters or try a broader topic such as "macro", "risk", or "governance".</p>
       </div>`;
   } else {
     items.forEach((item) => {
@@ -183,7 +213,72 @@ function renderLibrary() {
     });
   }
 
-  $('#result-count').textContent = `${items.length} ${items.length === 1 ? 'item' : 'items'} shown`;
+  const resultCount = $('#result-count');
+  if (resultCount) resultCount.textContent = `${items.length} ${items.length === 1 ? 'item' : 'items'} shown`;
+}
+
+function renderReportFigure(title, caption) {
+  return `
+    <figure class="chart-card">
+      <svg viewBox="0 0 640 260" role="img" aria-label="${escapeHtml(title)}">
+        <g class="chart-grid" aria-hidden="true">
+          <path d="M28 40 H612" />
+          <path d="M28 94 H612" />
+          <path d="M28 148 H612" />
+          <path d="M28 202 H612" />
+          <path d="M88 24 V236" />
+          <path d="M168 24 V236" />
+          <path d="M248 24 V236" />
+          <path d="M328 24 V236" />
+          <path d="M408 24 V236" />
+          <path d="M488 24 V236" />
+          <path d="M568 24 V236" />
+        </g>
+        <path class="chart-line chart-line--one" d="M36 186 C94 162 132 118 188 126 S286 198 344 170 446 86 604 102" />
+        <path class="chart-line chart-line--two" d="M36 214 C94 210 148 170 214 168 S332 130 392 142 488 210 604 182" />
+        <path class="chart-line chart-line--three" d="M36 118 C96 102 154 62 228 86 S340 190 422 156 520 78 604 62" />
+      </svg>
+      <figcaption><strong>${escapeHtml(title)}.</strong> ${escapeHtml(caption)}</figcaption>
+    </figure>`;
+}
+
+function renderReportSection(section) {
+  const bullets = section.bullets?.length
+    ? `
+      <ul class="report-list">
+        ${section.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
+      </ul>`
+    : '';
+
+  return `
+    <section id="${slug(section.heading)}">
+      <h2>${escapeHtml(section.heading)}</h2>
+      <p>${escapeHtml(section.body)}</p>
+      ${bullets}
+    </section>`;
+}
+
+function relatedResearchFor(report, body) {
+  const explicit = (body.relatedIds || [])
+    .map((id) => research.find((item) => item.id === id))
+    .filter(Boolean);
+
+  if (explicit.length) return explicit;
+
+  return research
+    .filter((item) => item.id !== report.id && (item.topic === report.topic || item.sector === report.sector))
+    .slice(0, 3);
+}
+
+function renderMiniCard(item) {
+  const date = dateFormatter.format(new Date(`${item.date}T12:00:00`));
+  return `
+    <article class="mini-card">
+      <span>${escapeHtml(item.format)} · ${escapeHtml(item.topic)}</span>
+      <h3><a href="#report/${encodeURIComponent(item.id)}">${escapeHtml(item.title)}</a></h3>
+      <p>${escapeHtml(item.finding)}</p>
+      <small>${escapeHtml(item.author)} · ${escapeHtml(date)}</small>
+    </article>`;
 }
 
 function renderReport(id) {
@@ -191,21 +286,70 @@ function renderReport(id) {
   const body = reportBodies[id];
   const reportView = $('#report-view');
 
-  if (!report || !body) {
-    reportView.hidden = true;
+  if (!reportView || !report || !body) {
+    if (reportView) {
+      reportView.hidden = true;
+      reportView.innerHTML = '';
+    }
+    document.title = defaultTitle;
     return false;
   }
 
   const date = dateFormatter.format(new Date(`${report.date}T12:00:00`));
-  const related = research
-    .filter((item) => item.id !== report.id && (item.topic === report.topic || item.sector === report.sector))
-    .slice(0, 3);
+  const related = relatedResearchFor(report, body).slice(0, 3);
+  const pageMap = body.sections
+    .map((section) => `<a href="#report/${encodeURIComponent(report.id)}/${slug(section.heading)}">${escapeHtml(section.heading)}</a>`)
+    .join('');
+  const relatedMarkup = related.length
+    ? `
+      <section class="related-research" id="related-research">
+        <h2>Related research</h2>
+        <div class="research-grid research-grid--compact">
+          ${related.map((item) => renderMiniCard(item)).join('')}
+        </div>
+      </section>`
+    : '';
 
   reportView.hidden = false;
-  reportView.innerHTML = `...`;
+  reportView.innerHTML = `
+    <div class="report-shell shell">
+      <div class="report-hero">
+        <p class="eyebrow">${escapeHtml(body.kicker)}</p>
+        <h1>${escapeHtml(report.title)}</h1>
+        <p class="hero__lede">${escapeHtml(body.summary)}</p>
+        <p>${escapeHtml(report.finding)}</p>
+        <dl>
+          <div><dt>Capability</dt><dd>${escapeHtml(report.capability)}</dd></div>
+          <div><dt>Scope</dt><dd>${escapeHtml(report.scope)}</dd></div>
+          <div><dt>Format</dt><dd>${escapeHtml(report.format)}</dd></div>
+          <div><dt>Published</dt><dd>${escapeHtml(date)}</dd></div>
+        </dl>
+      </div>
+      <div class="report-layout">
+        <aside class="report-aside">
+          <nav aria-label="Report sections">
+            <strong>On this page</strong>
+            ${pageMap}
+          </nav>
+          <div class="download-card">
+            <span>${escapeHtml(report.metricLabel)}</span>
+            <strong>${escapeHtml(report.metric)}</strong>
+            <p>${escapeHtml(report.dataWindow)}</p>
+            <p>${escapeHtml(body.headline)}</p>
+            <a class="button button--ghost button--compact" href="#library">Back to library</a>
+          </div>
+        </aside>
+        <div class="report-content">
+          ${renderReportFigure(body.figureTitle, body.figureCaption)}
+          ${body.sections.map((section) => renderReportSection(section)).join('')}
+          ${relatedMarkup}
+        </div>
+      </div>
+    </div>`;
 
+  document.title = `${report.title} - Deep Wave Research`;
   reportView.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
-  reportView.focus?.();
+  reportView.focus();
   return true;
 }
 
@@ -214,6 +358,7 @@ function slug(value) {
 }
 
 function route() {
+  const reportView = $('#report-view');
   const reportMatch = location.hash.match(/^#report\/([^/]+)(?:\/([^/]+))?$/);
   if (reportMatch) {
     const [, id, sectionSlug] = reportMatch;
@@ -226,11 +371,12 @@ function route() {
         });
       }
     });
-  } else {
-    $('#report-view').hidden = true;
+  } else if (reportView) {
+    reportView.hidden = true;
+    reportView.innerHTML = '';
+    document.title = defaultTitle;
   }
 }
-*/
 
 function initHeader() {
   const header = $('.site-header');
@@ -302,30 +448,13 @@ function initContact() {
   });
 }
 
-/*
-function initSectorLinks() {
-  $('#sector-grid').addEventListener('click', (event) => {
-    const link = event.target.closest('[data-filter-topic]');
-    if (!link) return;
-    const sector = link.dataset.filterTopic;
-    const item = research.find((entry) => entry.sector === sector || entry.topic === sector);
-    if (item) {
-      state.topic = item.topic;
-      $('#topic').value = item.topic;
-      updateUrl();
-      renderLibrary();
-    }
-  });
-}
-*/
-
 renderStaticContent();
-// initFilters();
-// renderLibrary();
+initHeroInsight();
+initFilters();
+renderLibrary();
 initHeader();
 initTheme();
 initReveal();
 initContact();
-// initSectorLinks();
-// route();
-// window.addEventListener('hashchange', route);
+route();
+window.addEventListener('hashchange', route);

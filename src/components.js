@@ -24,7 +24,6 @@ export class SignalField extends HTMLElement {
   }
 }
 
-/*
 export class ResearchCard extends HTMLElement {
   set item(item) {
     this._item = item;
@@ -60,12 +59,11 @@ export class ResearchCard extends HTMLElement {
         <div class="research-card__tags">${tags}</div>
         <div class="research-card__footer">
           <span>${escapeHtml(item.author)}</span>
-          <a href="#report/${encodeURIComponent(item.id)}" aria-label="Read ${escapeHtml(item.title)}">Read report</a>
+          <a href="#report/${encodeURIComponent(item.id)}" aria-label="Open the draft page for ${escapeHtml(item.title)}">Open page</a>
         </div>
       </article>`;
   }
 }
-*/
 
 export class DomainCard extends HTMLElement {
   set domain(domain) {
@@ -80,7 +78,7 @@ export class DomainCard extends HTMLElement {
 
 export function defineComponents() {
   if (!customElements.get('signal-field')) customElements.define('signal-field', SignalField);
-  // if (!customElements.get('research-card')) customElements.define('research-card', ResearchCard);
+  if (!customElements.get('research-card')) customElements.define('research-card', ResearchCard);
   if (!customElements.get('domain-card')) customElements.define('domain-card', DomainCard);
 }
 

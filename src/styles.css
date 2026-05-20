@@ -289,7 +289,6 @@
   .button--ghost:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--text); }
   .button--compact { min-height: 40px; padding: 0.58rem 0.85rem; font-size: 0.92rem; }
 
-  /* Research Library text-button styles are currently disabled.
   .text-button {
     appearance: none;
     border: 0;
@@ -301,7 +300,6 @@
     cursor: pointer;
     padding: 0;
   }
-  */
 
   .theme-toggle,
   .nav-toggle {
@@ -510,7 +508,6 @@
   .domain-card__signal { font: 800 0.86rem / 1 var(--font-mono); color: var(--warm); }
   .domain-card p { margin-block-end: 0; }
 
-  /* Research Library controls are currently disabled.
   .library-controls {
     display: grid;
     grid-template-columns: minmax(240px, 1.6fr) repeat(3, minmax(140px, 0.7fr));
@@ -521,7 +518,6 @@
     background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);
     box-shadow: 0 14px 35px color-mix(in srgb, var(--text) 6%, transparent);
   }
-  */
 
   label { display: grid; gap: 0.35rem; color: var(--text); font-weight: 760; }
   label span { font-size: 0.82rem; color: var(--text-muted); }
@@ -535,7 +531,6 @@
   }
   textarea { border-radius: 1rem; resize: vertical; }
 
-  /* Research Library card and grid styles are currently disabled.
   .library-status {
     display: flex;
     justify-content: space-between;
@@ -611,7 +606,6 @@
     border-radius: var(--radius);
     text-align: left;
   }
-  */
 
   .method-list {
     display: grid;
@@ -673,7 +667,6 @@
   .contact-form { display: grid; gap: 0.9rem; }
   .form-note { min-height: 1.4em; margin: 0; font-size: 0.95rem; }
 
-  /* Report and related research styles are currently disabled.
   .report-view:not([hidden]) {
     display: block;
     padding-block: var(--space-xl);
@@ -689,7 +682,7 @@
     border-radius: var(--radius-lg);
     background: var(--bg-elevated);
   }
-  .report-hero h1 { max-width: 13ch; }
+  .report-hero h1 { max-width: 18ch; }
   .report-hero dl {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -702,14 +695,24 @@
     border-radius: var(--radius-sm);
   }
   .report-hero dt { font: 800 0.76rem / 1.2 var(--font-mono); color: var(--text-muted); }
-  .report-hero dd { margin: 0.2rem 0 0; }
+  .report-hero dd { margin: 0.2rem 0 0; color: var(--text); font-weight: 700; }
   .report-layout { display: grid; grid-template-columns: minmax(220px, 0.35fr) 1fr; gap: var(--space-l); align-items: start; }
   .report-aside { position: sticky; inset-block-start: 6.5rem; display: grid; gap: 1rem; }
   .report-aside nav,
-  .download-card { display: grid; gap: 0.7rem; padding: 1rem; }
+  .download-card {
+    display: grid;
+    gap: 0.7rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  }
+  .report-aside nav strong { font: 800 0.8rem / 1 var(--font-mono); color: var(--accent-strong); letter-spacing: 0.08em; text-transform: uppercase; }
   .report-aside nav a { color: var(--text-muted); text-decoration: none; }
+  .report-aside nav a:hover { color: var(--text); }
   .download-card span { font: 800 0.8rem / 1 var(--font-mono); color: var(--accent-strong); }
   .download-card strong { font: 900 var(--step-2) / 1 var(--font-mono); color: var(--warm); }
+  .download-card p { margin: 0; color: var(--text-muted); }
   .report-content {
     display: grid;
     gap: var(--space-l);
@@ -720,8 +723,16 @@
     padding-block-end: var(--space-m);
     border-block-end: 1px solid var(--border);
   }
+  .report-content section:last-of-type { border-block-end: 0; }
   .report-content h2 { font-size: var(--step-2); max-width: 22ch; }
   .report-content p { color: var(--text); }
+  .report-list {
+    display: grid;
+    gap: 0.55rem;
+    margin: 1rem 0 0;
+    padding-left: 1.15rem;
+    color: var(--text-muted);
+  }
   .chart-card {
     margin: 0;
     padding: 1rem;
@@ -735,16 +746,40 @@
   .chart-line--two { stroke: var(--chart-two); }
   .chart-line--three { stroke: var(--chart-three); }
   .chart-card figcaption { margin-block-start: 0.7rem; color: var(--text-muted); }
+  .chart-card figcaption strong { color: var(--text); }
   .related-research h2 { font-size: var(--step-2); }
-  .research-grid--compact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .research-grid--compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    view-transition-name: none;
+  }
+  .mini-card {
+    display: grid;
+    gap: 0.7rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  }
   .mini-card span { color: var(--accent-strong); font: 800 0.8rem / 1.2 var(--font-mono); }
-  */
+  .mini-card h3,
+  .mini-card p,
+  .mini-card small { margin: 0; }
+  .mini-card p,
+  .mini-card small { color: var(--text-muted); }
+  .mini-card a { text-decoration: none; }
 
   @media (max-width: 980px) {
     .domain-grid,
     .sector-grid,
-    .case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .case-grid,
+    .research-grid,
+    .research-grid--compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .library-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .search-field { grid-column: 1 / -1; }
     .contact__panel { grid-template-columns: 1fr; }
+    .report-layout { grid-template-columns: 1fr; }
+    .report-aside { position: static; }
+    .report-hero dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   @media (max-width: 640px) {
@@ -752,9 +787,14 @@
     .cred-strip,
     .domain-grid,
     .sector-grid,
-    .case-grid { grid-template-columns: 1fr; }
+    .case-grid,
+    .research-grid,
+    .research-grid--compact,
+    .library-controls,
+    .report-hero dl { grid-template-columns: 1fr; }
     .hero__visual { min-height: 450px; }
     .contact__panel { padding: 1rem; }
+    .library-status { align-items: start; flex-direction: column; }
   }
 }
 

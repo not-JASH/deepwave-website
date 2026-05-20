@@ -38,7 +38,7 @@
       </button>
 
       <nav id="primary-nav" class="site-nav" aria-label="Primary navigation">
-        <!-- <a href="#library">Research library</a> -->
+        <a href="#library">Research library</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#methods">Methods</a>
         <a href="#sectors">Mandates</a>
@@ -76,14 +76,14 @@
             <div><dt>24/6</dt><dd>cross-venue monitoring coverage</dd></div>
           </dl>
         </div>
-        <div class="hero__visual reveal" aria-label="Animated research signal field" role="img">
+        <div class="hero__visual reveal">
           <signal-field density="dense"></signal-field>
-          <!-- <div class="insight-card insight-card--float">
-            <span class="tag">Flagship report</span>
-            <h2>Signal Loss in High-Noise Markets</h2>
-            <p>How decision teams separate durable patterns from short-lived volatility.</p>
-            <a href="#report/signal-loss">Read HTML report</a>
-          </div> -->
+          <article id="hero-insight" class="insight-card insight-card--float" hidden>
+            <span id="hero-insight-tag" class="tag">Research library</span>
+            <h2 id="hero-insight-title"></h2>
+            <p id="hero-insight-summary"></p>
+            <a id="hero-insight-link" href="#library">Open draft page</a>
+          </article>
         </div>
       </section>
 
@@ -96,19 +96,19 @@
         <div id="domain-grid" class="domain-grid reveal"></div>
       </section>
 
-      <!-- <section id="library" class="section shell library-section" aria-labelledby="library-title">
+      <section id="library" class="section shell library-section" aria-labelledby="library-title">
         <div class="section-heading reveal">
           <p class="eyebrow">Research library</p>
-          <h2 id="library-title">Searchable insights, not PDF archaeology.</h2>
+          <h2 id="library-title">Eight roadmap-driven pages, published as HTML-first research drafts.</h2>
           <p>
-            Filter by topic, method, sector, format, and audience. Every major report has HTML content, citation-ready metadata, and related research.
+            These draft pages translate the Quick-Start Research Roadmap into searchable briefs, notes, and reports with scope, method, risks, and next-step dependencies visible before the click.
           </p>
         </div>
 
         <form class="library-controls reveal" role="search" aria-label="Research library filters">
           <label class="search-field">
             <span>Search evidence</span>
-            <input id="search" name="search" type="search" placeholder="Try ‘AI’, ‘policy’, ‘forecasting’…" autocomplete="off" />
+            <input id="search" name="search" type="search" placeholder="Try 'macro', 'governance', 'order book'..." autocomplete="off" />
           </label>
           <label>
             <span>Topic</span>
@@ -138,7 +138,7 @@
           <button id="reset-filters" class="text-button" type="button">Reset filters</button>
         </div>
         <div id="research-grid" class="research-grid" aria-live="polite"></div>
-      </section> -->
+      </section>
 
       <section id="methods" class="section shell split" aria-labelledby="methods-title">
         <div class="section-heading reveal">
@@ -204,7 +204,7 @@
         </div>
       </section>
 
-      <!-- <article id="report-view" class="report-view" hidden aria-live="polite"></article> -->
+      <article id="report-view" class="report-view" hidden aria-live="polite" tabindex="-1"></article>
     </main>
 
     <footer class="site-footer shell">
@@ -216,7 +216,7 @@
         <p>Built for noisy markets, transparent methods, and teams that need more than a backtest.</p>
       </div>
       <nav aria-label="Footer navigation">
-        <!-- <a href="#library">Library</a> -->
+        <a href="#library">Library</a>
         <a href="#methods">Methods</a>
         <!-- <a href="#about">Team</a> -->
         <a href="./docs/source-notes.md">Source notes</a>
