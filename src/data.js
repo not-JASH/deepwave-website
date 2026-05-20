@@ -1,36 +1,37 @@
 export const domains = [
   {
-    title: 'Markets & adoption',
-    summary: 'Demand curves, switching behavior, pricing confidence, and category entry points.',
-    signal: 'M01',
+    title: 'Market signal extraction',
+    summary: 'Spectral decomposition, denoising, and latent factor recovery across tick, intraday, and end-of-day data.',
+    signal: 'DSP-01',
   },
   {
-    title: 'AI & work systems',
-    summary: 'How organizations adopt, govern, and measure AI tools in real workflows.',
-    signal: 'A14',
+    title: 'Alpha and factor research',
+    summary: 'Feature libraries, cross-sectional ranking, horizon-specific forecasting, and post-cost predictive tests.',
+    signal: 'ML-02',
   },
   {
-    title: 'Policy & public trust',
-    summary: 'Evidence for regulators, civic teams, institutions, and public-interest programs.',
-    signal: 'P09',
+    title: 'Execution and microstructure',
+    summary: 'Order book dynamics, slippage surfaces, venue behavior, and execution-quality diagnostics.',
+    signal: 'EXE-03',
   },
   {
-    title: 'Health & behavior',
-    summary: 'Patient experience, care pathways, adherence, risk perception, and service design.',
-    signal: 'H22',
+    title: 'Risk regime detection',
+    summary: 'Change-point analysis, volatility clustering, drawdown tagging, and stress propagation research.',
+    signal: 'RSK-04',
   },
   {
-    title: 'Climate & resilience',
-    summary: 'Adaptation scenarios, stakeholder mapping, investment risk, and community impact.',
-    signal: 'C07',
+    title: 'Alternative data fusion',
+    summary: 'Text, macro, event, and proprietary feeds aligned into research-grade datasets with stable feature lineage.',
+    signal: 'FUS-05',
   },
   {
-    title: 'Culture & consumers',
-    summary: 'Narratives, attention, audience intelligence, brand meaning, and emerging needs.',
-    signal: 'K16',
+    title: 'Model governance',
+    summary: 'Validation, interpretability review, drift monitoring, and documentation for research and production models.',
+    signal: 'GOV-06',
   },
 ];
 
+/* Research Library data is currently disabled.
 export const research = [
   {
     id: 'signal-loss',
@@ -177,80 +178,106 @@ export const research = [
     pdf: '#',
   },
 ];
+*/
 
 export const methods = [
   {
     step: '01',
-    title: 'Frame the decision',
-    summary: 'Translate ambiguous business questions into decision criteria, uncertainty ranges, and evidence needs.',
+    title: 'Capture and align market state',
+    summary: 'Synchronize venue, macro, and alternative-data streams so the research starts from a coherent market clock.',
   },
   {
     step: '02',
-    title: 'Design the evidence mix',
-    summary: 'Combine qualitative depth, quantitative scale, external datasets, and expert review where each method is strongest.',
+    title: 'Transform the raw signal',
+    summary: 'Denoise, decompose frequency structure, engineer features, and label the regimes that matter to the mandate.',
   },
   {
     step: '03',
-    title: 'Model what matters',
-    summary: 'Separate signal from noise with transparent assumptions, sensitivity checks, and readable data artifacts.',
+    title: 'Train and falsify models',
+    summary: 'Benchmark linear baselines against tree, sequence, and deep architectures with walk-forward validation and stress tests.',
   },
   {
     step: '04',
-    title: 'Operationalize the insight',
-    summary: 'Convert findings into report pages, dashboards, playbooks, workshops, and decision logs.',
+    title: 'Operationalize the research',
+    summary: 'Package outputs as factor notes, execution diagnostics, model cards, and monitoring dashboards that investment teams can use.',
   },
 ];
 
 export const sectors = [
-  ['Technology', 'Adoption strategy, AI governance, platform trust, developer ecosystems.'],
-  ['Public sector', 'Program design, public trust, civic service journeys, policy evaluation.'],
-  ['Healthcare', 'Patient pathways, behavior change, service quality, access and equity.'],
-  ['Finance', 'Risk perception, market narratives, product confidence, investor behavior.'],
-  ['Infrastructure', 'Climate resilience, scenario planning, stakeholder intelligence, capital risk.'],
-  ['Consumer', 'Demand creation, category entry, cultural change, audience systems.'],
+  {
+    title: 'Systematic equities',
+    summary: 'Cross-sectional feature research, factor crowding analysis, and turnover-aware ranking signals.',
+    // filterTopic: 'Markets',
+  },
+  {
+    title: 'Macro and rates',
+    summary: 'Multi-horizon state detection, event response modeling, and cross-asset transmission analysis.',
+    // filterTopic: 'Markets',
+  },
+  {
+    title: 'Derivatives and volatility',
+    summary: 'Surface behavior, skew dislocations, dispersion context, and flow-sensitive hedging research.',
+    // filterTopic: 'Markets',
+  },
+  {
+    title: 'Execution research',
+    summary: 'Market impact curves, participation logic, venue selection, and transaction-cost decomposition.',
+    // filterTopic: 'AI',
+  },
+  {
+    title: 'Portfolio risk',
+    summary: 'Stress-regime mapping, dependency breaks, and scenario research for PMs, risk teams, and allocators.',
+    // filterTopic: 'Methods',
+  },
+  {
+    title: 'Model governance',
+    summary: 'Independent challenge, monitoring design, and documentation for research and production models.',
+    // filterTopic: 'Methods',
+  },
 ];
 
 export const cases = [
   {
-    title: 'Reducing launch risk for a new analytics platform',
-    outcome: 'Identified two adoption barriers before beta launch and reframed onboarding around evidence trails.',
-    stat: '28%',
-    label: 'trial-to-paid lift in pilot cohort',
+    title: 'Stabilizing an intraday alpha stack',
+    outcome: 'Removed microstructure artifacts from three candidate features and recovered a cleaner post-cost signal before deployment.',
+    stat: '+43bps',
+    label: 'information-ratio lift in the shadow book',
   },
   {
-    title: 'Rebuilding trust in a public grant program',
-    outcome: 'Mapped abandonment points and redesigned communication around eligibility confidence.',
-    stat: '18%',
-    label: 'drop-off reduction in six weeks',
+    title: 'Repricing risk during a regime shift',
+    outcome: 'Built a change-point monitor that flagged volatility state breaks ahead of the desk\'s existing threshold framework.',
+    stat: '2.6d',
+    label: 'earlier stress detection on average',
   },
   {
-    title: 'Prioritizing climate adaptation investments',
-    outcome: 'Built a decision matrix linking risk exposure, community impact, and funding horizons.',
-    stat: '$42M',
-    label: 'capital plan clarified',
+    title: 'Auditing a deep learning forecast pipeline',
+    outcome: 'Reworked feature lineage, walk-forward validation, and drift alerts so the PM team could trust what the model was learning.',
+    stat: '91%',
+    label: 'feature lineage coverage across production inputs',
   },
 ];
 
+/* Team and report data are currently disabled.
 export const people = [
   {
     name: 'Maya Ellison, PhD',
-    role: 'Principal, Markets & Forecasting',
-    bio: 'Builds forecasting systems for demand, pricing, category change, and high-noise markets.',
+    role: 'Head of Quant Research',
+    bio: 'Researches cross-asset signals, factor structure, and regime detection in high-noise markets.',
   },
   {
     name: 'Noor Okafor',
-    role: 'Director, AI & Work Systems',
-    bio: 'Studies how new tools change work, governance, accountability, and organizational learning.',
+    role: 'Director, Machine Learning Research',
+    bio: 'Builds ranking, forecasting, and representation-learning systems for market and alternative data.',
   },
   {
     name: 'Iris Chen',
-    role: 'Lead, Public Trust Research',
-    bio: 'Turns civic, policy, and service research into plain-language decisions and measurable programs.',
+    role: 'Lead, Model Governance',
+    bio: 'Designs validation standards, interpretability reviews, and documentation for research platforms.',
   },
   {
     name: 'Samir Boulos',
-    role: 'Health Systems Researcher',
-    bio: 'Combines journey analytics and qualitative fieldwork to improve care pathways and access.',
+    role: 'Principal, Execution Analytics',
+    bio: 'Studies microstructure, transaction costs, and execution quality across venues and liquidity regimes.',
   },
 ];
 
@@ -302,3 +329,4 @@ export const reportBodies = {
     ],
   },
 };
+*/

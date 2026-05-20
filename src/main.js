@@ -1,4 +1,4 @@
-import { cases, domains, methods, people, reportBodies, research, sectors } from './data.js';
+import { cases, domains, methods, sectors } from './data.js';
 import { defineComponents, escapeHtml } from './components.js';
 
 defineComponents();
@@ -6,30 +6,31 @@ defineComponents();
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
-const state = {
-  search: '',
-  topic: 'all',
-  format: 'all',
-  sort: 'newest',
-};
-
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const hasViewTransitions = 'startViewTransition' in document && !prefersReduced;
-const dateFormatter = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
-const listFormatter = new Intl.ListFormat('en', { style: 'short', type: 'conjunction' });
+// Research Library state and routing are currently disabled.
+// const state = {
+//   search: '',
+//   topic: 'all',
+//   format: 'all',
+//   sort: 'newest',
+// };
 
-function transition(update) {
-  if (hasViewTransitions) document.startViewTransition(update);
-  else update();
-}
+// const hasViewTransitions = 'startViewTransition' in document && !prefersReduced;
+// const dateFormatter = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
+// const listFormatter = new Intl.ListFormat('en', { style: 'short', type: 'conjunction' });
 
-function unique(values) {
-  return [...new Set(values)].sort((a, b) => a.localeCompare(b));
-}
+// function transition(update) {
+//   if (hasViewTransitions) document.startViewTransition(update);
+//   else update();
+// }
 
-function populateSelect(select, values) {
-  values.forEach((value) => select.append(new Option(value, value)));
-}
+// function unique(values) {
+//   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+// }
+
+// function populateSelect(select, values) {
+//   values.forEach((value) => select.append(new Option(value, value)));
+// }
 
 function renderStaticContent() {
   const domainGrid = $('#domain-grid');
@@ -54,11 +55,11 @@ function renderStaticContent() {
 
   $('#sector-grid').innerHTML = sectors
     .map(
-      ([title, summary]) => `
+      (sector) => `
         <article class="sector-card">
-          <h3>${escapeHtml(title)}</h3>
-          <p>${escapeHtml(summary)}</p>
-          <a href="#library" data-filter-topic="${escapeHtml(title)}">View related evidence</a>
+          <h3>${escapeHtml(sector.title)}</h3>
+          <p>${escapeHtml(sector.summary)}</p>
+          <p class="sector-card__note">Comparable mandate examples are available on request.</p>
         </article>`,
     )
     .join('');
@@ -75,19 +76,21 @@ function renderStaticContent() {
     )
     .join('');
 
-  $('#people-grid').innerHTML = people
-    .map(
-      (person) => `
-        <article class="person-card">
-          <div aria-hidden="true">${escapeHtml(person.name.split(' ').map((part) => part[0]).slice(0, 2).join(''))}</div>
-          <h3>${escapeHtml(person.name)}</h3>
-          <p class="person-card__role">${escapeHtml(person.role)}</p>
-          <p>${escapeHtml(person.bio)}</p>
-        </article>`,
-    )
-    .join('');
+  // Team section rendering is currently disabled.
+  // $('#people-grid').innerHTML = people
+  //   .map(
+  //     (person) => `
+  //       <article class="person-card">
+  //         <div aria-hidden="true">${escapeHtml(person.name.split(' ').map((part) => part[0]).slice(0, 2).join(''))}</div>
+  //         <h3>${escapeHtml(person.name)}</h3>
+  //         <p class="person-card__role">${escapeHtml(person.role)}</p>
+  //         <p>${escapeHtml(person.bio)}</p>
+  //       </article>`,
+  //   )
+  //   .join('');
 }
 
+/*
 function initFilters() {
   populateSelect($('#topic'), unique(research.map((item) => item.topic)));
   populateSelect($('#format'), unique(research.map((item) => item.format)));
@@ -199,81 +202,7 @@ function renderReport(id) {
     .slice(0, 3);
 
   reportView.hidden = false;
-  reportView.innerHTML = `
-    <div class="report-shell shell">
-      <a class="text-button" href="#library">← Back to research library</a>
-      <header class="report-hero">
-        <p class="eyebrow">${escapeHtml(body.kicker)}</p>
-        <h1>${escapeHtml(body.title)}</h1>
-        <p>${escapeHtml(body.summary)}</p>
-        <dl>
-          <div><dt>Published</dt><dd>${date}</dd></div>
-          <div><dt>Author</dt><dd>${escapeHtml(report.author)}</dd></div>
-          <div><dt>Method</dt><dd>${escapeHtml(report.method)}</dd></div>
-          <div><dt>Tags</dt><dd>${escapeHtml(listFormatter.format(report.tags))}</dd></div>
-        </dl>
-      </header>
-      <div class="report-layout">
-        <aside class="report-aside" aria-label="Report metadata">
-          <div class="download-card">
-            <span>${escapeHtml(report.format)}</span>
-            <strong>${escapeHtml(report.metric)}</strong>
-            <p>${escapeHtml(report.metricLabel)}</p>
-            <a class="button button--compact" href="${escapeHtml(report.pdf)}">Download PDF placeholder</a>
-          </div>
-          <nav aria-label="Report sections">
-            ${body.sections.map((section) => `<a href="#report/${encodeURIComponent(id)}/${slug(section.heading)}">${escapeHtml(section.heading)}</a>`).join('')}
-          </nav>
-        </aside>
-        <div class="report-content">
-          ${body.sections
-            .map(
-              (section) => `
-                <section id="${slug(section.heading)}">
-                  <h2>${escapeHtml(section.heading)}</h2>
-                  <p>${escapeHtml(section.body)}</p>
-                </section>`,
-            )
-            .join('')}
-          <section>
-            <h2>Accessible figure summary</h2>
-            <figure class="chart-card">
-              <svg viewBox="0 0 640 260" role="img" aria-labelledby="chart-title chart-desc">
-                <title id="chart-title">Evidence stability by source type</title>
-                <desc id="chart-desc">A simple line chart showing primary research and modeled indicators rising more steadily than social narrative noise.</desc>
-                <g class="chart-grid">
-                  <path d="M40 40H600M40 100H600M40 160H600M40 220H600"/>
-                </g>
-                <path class="chart-line chart-line--one" d="M44 210 C120 180 170 155 250 130 S420 82 600 62"/>
-                <path class="chart-line chart-line--two" d="M44 215 C140 196 220 188 300 155 S480 122 600 90"/>
-                <path class="chart-line chart-line--three" d="M44 190 C92 60 150 230 220 105 S360 220 430 98 520 184 600 130"/>
-              </svg>
-              <figcaption>Primary research and modeled indicators held steadier than social narrative volume across the observation window.</figcaption>
-            </figure>
-          </section>
-          <section>
-            <h2>Citation-ready metadata</h2>
-            <p>${escapeHtml(report.author)}. (${new Date(`${report.date}T12:00:00`).getFullYear()}). <em>${escapeHtml(report.title)}</em>. Deep Wave Research. HTML report prototype.</p>
-          </section>
-        </div>
-      </div>
-      <section class="related-research" aria-labelledby="related-title">
-        <h2 id="related-title">Related research</h2>
-        <div class="research-grid research-grid--compact">
-          ${related
-            .map(
-              (item) => `
-                <article class="mini-card">
-                  <span>${escapeHtml(item.format)} · ${escapeHtml(item.topic)}</span>
-                  <h3>${escapeHtml(item.title)}</h3>
-                  <p>${escapeHtml(item.finding)}</p>
-                  <a href="#report/${encodeURIComponent(item.id)}">Read related report</a>
-                </article>`,
-            )
-            .join('')}
-        </div>
-      </section>
-    </div>`;
+  reportView.innerHTML = `...`;
 
   reportView.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
   reportView.focus?.();
@@ -301,6 +230,7 @@ function route() {
     $('#report-view').hidden = true;
   }
 }
+*/
 
 function initHeader() {
   const header = $('.site-header');
@@ -368,10 +298,11 @@ function initContact() {
     event.preventDefault();
     const form = event.currentTarget;
     const email = new FormData(form).get('email');
-    $('.form-note', form).textContent = `Prototype only: a consultation request would be drafted for ${email}.`;
+    $('.form-note', form).textContent = `Prototype only: a mandate intake note would be drafted for ${email}.`;
   });
 }
 
+/*
 function initSectorLinks() {
   $('#sector-grid').addEventListener('click', (event) => {
     const link = event.target.closest('[data-filter-topic]');
@@ -386,14 +317,15 @@ function initSectorLinks() {
     }
   });
 }
+*/
 
 renderStaticContent();
-initFilters();
-renderLibrary();
+// initFilters();
+// renderLibrary();
 initHeader();
 initTheme();
 initReveal();
 initContact();
-initSectorLinks();
-route();
-window.addEventListener('hashchange', route);
+// initSectorLinks();
+// route();
+// window.addEventListener('hashchange', route);

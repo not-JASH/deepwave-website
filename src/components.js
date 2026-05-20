@@ -3,10 +3,10 @@ const escapeHtml = (value = '') =>
 
 export class SignalField extends HTMLElement {
   connectedCallback() {
-    const density = this.getAttribute('density') === 'dense' ? 72 : 42;
+    const density = this.getAttribute('density') === 'dense' ? 68 : 40;
     const dots = Array.from({ length: density }, (_, index) => {
-      const x = (index * 29) % 100;
-      const y = (index * 47 + Math.sin(index) * 18) % 100;
+      const x = (index * 17 + (index % 6) * 9) % 100;
+      const y = (index * 31 + Math.cos(index * 1.4) * 12 + 50) % 100;
       const size = index % 9 === 0 ? 8 : index % 4 === 0 ? 5 : 3;
       const delay = (index % 12) * 90;
       return `<span style="--x:${x};--y:${y};--s:${size};--d:${delay}ms" aria-hidden="true"></span>`;
@@ -15,15 +15,16 @@ export class SignalField extends HTMLElement {
     this.innerHTML = `
       <div class="signal-field" aria-hidden="true">
         <svg viewBox="0 0 600 420" preserveAspectRatio="none" focusable="false">
-          <path d="M35 240 C120 110 190 340 280 205 S440 105 560 225" />
-          <path d="M35 295 C125 170 190 390 280 250 S450 150 560 285" />
-          <path d="M35 175 C145 40 205 250 305 130 S465 65 560 155" />
+          <path d="M24 300 C82 292 118 224 176 236 S286 318 352 250 464 114 576 134" />
+          <path d="M24 334 C84 322 136 278 198 286 S322 346 390 296 474 214 576 216" />
+          <path d="M24 226 C82 214 124 120 180 128 S292 236 366 184 474 70 576 106" />
         </svg>
         ${dots}
       </div>`;
   }
 }
 
+/*
 export class ResearchCard extends HTMLElement {
   set item(item) {
     this._item = item;
@@ -64,6 +65,7 @@ export class ResearchCard extends HTMLElement {
       </article>`;
   }
 }
+*/
 
 export class DomainCard extends HTMLElement {
   set domain(domain) {
@@ -78,7 +80,7 @@ export class DomainCard extends HTMLElement {
 
 export function defineComponents() {
   if (!customElements.get('signal-field')) customElements.define('signal-field', SignalField);
-  if (!customElements.get('research-card')) customElements.define('research-card', ResearchCard);
+  // if (!customElements.get('research-card')) customElements.define('research-card', ResearchCard);
   if (!customElements.get('domain-card')) customElements.define('domain-card', DomainCard);
 }
 
