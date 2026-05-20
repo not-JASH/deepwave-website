@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08192b" />
+    <meta
+      name="description"
+      content="Deep Wave Research HTML-first research page."
+    />
+    <meta property="og:title" content="Deep Wave Research" />
+    <meta
+      property="og:description"
+      content="Quant-finance research for signal-rich markets, risk systems, and model governance."
+    />
+    <meta property="og:image" content="./assets/social-card.svg" />
+    <title>Deep Wave Research - Research page</title>
+    <link rel="icon" href="./assets/deep-wave-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="./src/styles.css" as="style" />
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="module" src="./src/report-page.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" data-elevated="false">
+      <a class="brand" href="./index.html#home" aria-label="Deep Wave Research home">
+        <img src="./assets/deep-wave-mark.svg" alt="" width="42" height="42" />
+        <span>
+          <strong>Deep Wave</strong>
+          <small>Research</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+      </button>
+
+      <nav id="primary-nav" class="site-nav" aria-label="Primary navigation">
+        <a href="./index.html#library">Research library</a>
+        <a href="./index.html#capabilities">Capabilities</a>
+        <a href="./index.html#methods">Methods</a>
+        <a href="./index.html#sectors">Mandates</a>
+        <a href="./index.html#cases">Cases</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <span aria-hidden="true">&#9679;</span>
+        </button>
+        <a class="button button--compact" href="./index.html#contact">Discuss a mandate</a>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <article id="report-view" class="report-view" hidden aria-live="polite" tabindex="-1"></article>
+    </main>
+
+    <footer class="site-footer shell">
+      <div>
+        <a class="brand brand--footer" href="./index.html#home" aria-label="Deep Wave Research home">
+          <img src="./assets/deep-wave-mark.svg" alt="" width="36" height="36" />
+          <span><strong>Deep Wave</strong><small>Research</small></span>
+        </a>
+        <p>Built for noisy markets, transparent methods, and teams that need more than a backtest.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="./index.html#library">Library</a>
+        <a href="./index.html#methods">Methods</a>
+        <a href="./docs/source-notes.md">Source notes</a>
+      </nav>
+    </footer>
+  </body>
+</html>

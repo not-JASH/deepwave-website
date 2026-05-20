@@ -1,3 +1,5 @@
+import { reportUrl } from './urls.js';
+
 const escapeHtml = (value = '') =>
   String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 
@@ -59,7 +61,7 @@ export class ResearchCard extends HTMLElement {
         <div class="research-card__tags">${tags}</div>
         <div class="research-card__footer">
           <span>${escapeHtml(item.author)}</span>
-          <a href="#report/${encodeURIComponent(item.id)}" aria-label="Open the draft page for ${escapeHtml(item.title)}">Open page</a>
+          <a href="${escapeHtml(reportUrl(item.id))}" aria-label="Open the draft page for ${escapeHtml(item.title)}">Open page</a>
         </div>
       </article>`;
   }
