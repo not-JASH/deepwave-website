@@ -24,6 +24,9 @@
     --chart-one: #0e9f82;
     --chart-two: #3e9fd4;
     --chart-three: #d58b3f;
+    --chart-down: #9fb4c9;
+    --chart-train: #b9d6cf;
+    --chart-test: #f1d6a8;
     --shadow: 0 24px 70px color-mix(in srgb, var(--text) 10%, transparent);
     --radius-sm: 0.7rem;
     --radius: 1.2rem;
@@ -57,6 +60,9 @@
     --accent: #35c9a7;
     --accent-strong: #7fe8cf;
     --warm: #f0ae63;
+    --chart-down: #5d7c99;
+    --chart-train: #2f5b56;
+    --chart-test: #6e5232;
     --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
   }
 
@@ -72,6 +78,9 @@
       --accent: #35c9a7;
       --accent-strong: #7fe8cf;
       --warm: #f0ae63;
+      --chart-down: #5d7c99;
+      --chart-train: #2f5b56;
+      --chart-test: #6e5232;
       --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
     }
   }
@@ -670,8 +679,6 @@
   .report-view:not([hidden]) {
     display: block;
     padding-block: var(--space-xl);
-    background: color-mix(in srgb, var(--bg-elevated) 62%, transparent);
-    border-block: 1px solid var(--border);
   }
   .report-shell { display: grid; gap: var(--space-l); }
   .report-hero {
@@ -745,8 +752,173 @@
   .chart-line--one { stroke: var(--chart-one); }
   .chart-line--two { stroke: var(--chart-two); }
   .chart-line--three { stroke: var(--chart-three); }
-  .chart-card figcaption { margin-block-start: 0.7rem; color: var(--text-muted); }
+  .chart-card figcaption { margin-block-start: 0.7rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
   .chart-card figcaption strong { color: var(--text); }
+
+  .fig-svg { width: 100%; height: auto; font-family: var(--font-sans); }
+  .fig-grid { stroke: color-mix(in srgb, var(--text) 12%, transparent); stroke-width: 1; fill: none; }
+  .fig-frame { fill: none; stroke: color-mix(in srgb, var(--text) 20%, transparent); stroke-width: 1; }
+  .fig-ref {
+    stroke: color-mix(in srgb, var(--text) 32%, transparent);
+    stroke-width: 1.4;
+    stroke-dasharray: 4 4;
+    fill: none;
+  }
+  .fig-ref-label {
+    fill: var(--text-muted);
+    font: 600 10.5px / 1 var(--font-mono);
+    text-anchor: end;
+  }
+  .fig-zero {
+    stroke: color-mix(in srgb, var(--text) 36%, transparent);
+    stroke-width: 1.4;
+    fill: none;
+  }
+  .fig-split {
+    stroke: var(--accent-strong);
+    stroke-width: 1.4;
+    stroke-dasharray: 3 3;
+    fill: none;
+  }
+  .fig-quintile {
+    stroke: color-mix(in srgb, var(--warm) 70%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+    fill: none;
+  }
+  .fig-line { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .fig-line-one {
+    fill: none;
+    stroke: var(--chart-one);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .fig-title {
+    fill: var(--text);
+    font: 700 12.5px / 1 var(--font-sans);
+    text-anchor: middle;
+    letter-spacing: -0.005em;
+  }
+  .fig-axis-y, .fig-axis-x {
+    fill: var(--text-muted);
+    font: 500 10.5px / 1 var(--font-mono);
+  }
+  .fig-axis-y { text-anchor: end; }
+  .fig-axis-x { text-anchor: middle; }
+  .fig-axis-label {
+    fill: var(--text-muted);
+    font: 700 10.5px / 1 var(--font-sans);
+    text-anchor: middle;
+    letter-spacing: 0.03em;
+  }
+  .fig-value {
+    fill: var(--text);
+    font: 700 11px / 1 var(--font-mono);
+    text-anchor: middle;
+  }
+  .fig-value-sm {
+    fill: var(--text-muted);
+    font: 600 9.5px / 1 var(--font-mono);
+    text-anchor: middle;
+  }
+  .fig-legend {
+    fill: var(--text-muted);
+    font: 600 10.5px / 1 var(--font-sans);
+    dominant-baseline: middle;
+  }
+
+  .fig-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    margin: 0;
+  }
+  .fig-table th,
+  .fig-table td {
+    padding: 0.55rem 0.7rem;
+    border-block-end: 1px solid var(--border);
+    text-align: left;
+  }
+  .fig-table thead th {
+    color: var(--accent-strong);
+    font: 800 0.74rem / 1.2 var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-block-end-width: 1.5px;
+  }
+  .fig-table tbody th {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .fig-table tbody th code {
+    font: 700 0.86rem / 1 var(--font-mono);
+    color: var(--text);
+  }
+  .fig-table td.num,
+  .fig-table th.num {
+    font-family: var(--font-mono);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .fig-table td.pos { color: var(--accent-strong); }
+  .fig-table td.neg { color: var(--warm); }
+  .fig-table tbody tr:last-child th,
+  .fig-table tbody tr:last-child td { border-block-end: 0; }
+  .fig-table--cost { font-size: 0.86rem; }
+  .fig-table--cost th, .fig-table--cost td { padding: 0.4rem 0.55rem; }
+
+  .report-prose { display: grid; gap: 0.95rem; }
+  .report-prose p { margin: 0; color: var(--text); }
+  .report-prose strong { color: var(--text); }
+  .report-prose em { font-style: italic; }
+
+  .eq-block {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 1rem;
+    margin: 0.4rem 0 0.2rem;
+    border-left: 3px solid var(--accent-strong);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);
+    overflow-x: auto;
+  }
+  .eq-content {
+    text-align: center;
+    font-size: 1.04rem;
+    line-height: 1.4;
+    color: var(--text);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  }
+  .eq-num { color: var(--text-muted); font: 600 0.85rem / 1 var(--font-mono); }
+  .eq-content i, .eq-content var { font-style: italic; }
+  .eq-content sub, .eq-content sup { font-size: 0.66em; }
+  .eq-content sub { vertical-align: -0.3em; }
+  .eq-content sup { vertical-align: 0.6em; }
+  .eq-content .op { padding: 0 0.18em; color: var(--text-muted); }
+  .eq-content .frac {
+    display: inline-grid;
+    justify-items: center;
+    vertical-align: middle;
+    padding: 0 0.2em;
+  }
+  .eq-content .frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 0.4em 0.05em; }
+  .eq-content .frac > span:last-child { padding-top: 0.05em; }
+  .eq-content .indic { font-size: 0.95em; }
+
+  .eq-inline {
+    display: inline-flex;
+    align-items: baseline;
+    padding: 0.05em 0.3em;
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size: 0.98em;
+  }
+  .eq-inline i { font-style: italic; }
+  .eq-inline sub, .eq-inline sup { font-size: 0.7em; }
   .related-research h2 { font-size: var(--step-2); }
   .research-grid--compact {
     grid-template-columns: repeat(3, minmax(0, 1fr));

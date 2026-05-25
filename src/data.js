@@ -55,22 +55,22 @@ export const research = [
   {
     id: 'order-book-imbalance-predictor',
     title: 'Order-Book Imbalance as a One-Second Predictor',
-    finding: 'A reproducible execution brief testing whether top-five order-book imbalance adds next-second direction lift once spread and trade-sign controls are included.',
+    finding: 'A three-feature logistic model on LOBSTER AAPL clears chance at AUC 0.567 one second ahead, but every taker-cost cell turns negative once the ~$0.13 average spread is paid.',
     date: '2026-05-19',
-    readingMinutes: 10,
+    readingMinutes: 12,
     author: 'Execution Analytics Desk',
     team: 'Execution Research',
-    format: 'Brief',
+    format: 'Report',
     audience: 'Execution desks',
     topic: 'Execution',
     method: 'LOB reconstruction + logistic regression',
     sector: 'Execution',
-    tags: ['Order book', 'AUC', 'Microstructure', 'Binance'],
-    metric: '100ms',
-    metricLabel: 'snapshot cadence',
-    capability: 'EXE-03 · Execution and microstructure',
+    tags: ['Order book', 'AUC 0.567', 'LOBSTER AAPL', 'Cost overlay', 'Microstructure'],
+    metric: '0.567',
+    metricLabel: 'held-out AUC at 100 ms',
+    capability: 'Order book microstructure',
     scope: '~1-2 weeks, solo',
-    dataWindow: 'LOBSTER sample day and Binance BTC/USDT L2 snapshots',
+    dataWindow: 'LOBSTER AAPL on 2012-06-21, 100 ms snapshots, 57,213 test rows',
   },
   {
     id: 'change-point-spx-realized-vol',
@@ -336,65 +336,310 @@ export const reportBodies = {
     ],
   },
   'order-book-imbalance-predictor': {
-    kicker: 'Roadmap item 02',
+    kicker: 'Order book microstructure · LOBSTER AAPL 2012-06-21',
     summary:
-      'This draft page becomes the execution anchor in the library: an auditable baseline showing what top-five book imbalance can and cannot predict one second ahead on a known equity sample and a 24/7 crypto venue.',
+      'A single fully-reproducible LOBSTER trading day (AAPL, 2012-06-21) used to ask one execution question end-to-end: does top-five book imbalance — together with spread and prior-second signed trade imbalance — predict the next-second mid-price direction strongly enough to survive a taker execution model.',
     headline:
-      'The draft headline focuses on whether next-second lift survives once spread and venue costs are surfaced alongside AUC.',
-    figureTitle: 'Prediction surface',
-    figureCaption:
-      'Global AUC, time-of-day buckets, spread-quintile lift, and a cost-after-execution note keep the brief useful instead of merely significant.',
+      'Held-out AUC 0.567 and Brier 0.2467 across 57,213 100 ms snapshots. The gross edge of ~$0.003 per action is wiped out by a ~$0.13 average spread in every threshold and cost-multiplier cell.',
+    stats: [
+      { label: 'Held-out AUC', value: '0.567 (100 ms)' },
+      { label: 'Test slice', value: '57,213 snapshots' },
+      { label: 'Sample', value: 'AAPL · 2012-06-21' },
+      { label: 'Net EV / action', value: '-$0.167 @ p* = 0.55' },
+    ],
     relatedIds: ['cross-sectional-intraday-reversal', 'drift-monitoring-shoot-out'],
+    heroFigure: {
+      type: 'timeline',
+      title: 'Session timeline — AAPL on 2012-06-21 (chronological 70/30 split)',
+      caption:
+        'Mid-price drifts from ~$588 to ~$577 with no large gaps. The training window is 09:30–12:28; the held-out test slice is 12:28–16:00 and is the source of every AUC, calibration, and cost number on this page.',
+      splitIndex: 37,
+      yMin: 576,
+      yMax: 589,
+      points: [
+        585.7, 585.1, 584.9, 585.6, 586.2, 586.4, 585.9, 585.4, 585.0, 585.4,
+        586.0, 586.8, 587.6, 587.2, 586.4, 585.7, 585.3, 585.6, 586.1, 586.7,
+        587.4, 587.8, 588.1, 587.5, 586.9, 586.3, 585.6, 585.2, 584.9, 584.7,
+        584.6, 584.7, 584.9, 584.8, 584.4, 583.9, 583.3, 582.9, 582.6, 582.9,
+        583.4, 583.7, 583.8, 583.6, 583.2, 583.5, 584.1, 584.3, 583.9, 583.5,
+        583.2, 583.0, 582.7, 582.6, 582.8, 582.6, 582.2, 581.8, 581.4, 581.0,
+        580.7, 580.5, 580.2, 579.8, 579.5, 579.1, 578.7, 578.3, 578.0, 577.9,
+        578.1, 578.3, 578.1, 577.8, 577.5, 577.6, 577.5, 577.4,
+      ],
+    },
     sections: [
       {
-        heading: 'Why this matters',
-        body:
-          'Order-book imbalance is widely cited but inconsistently measured. This page turns it into a transparent baseline that clients can inspect before trusting any richer execution feature stack.',
-        bullets: [
-          'Anchors the EXE capability with a fully reproducible public-data piece.',
-          'Makes venue mix visible by comparing an equity sample with a crypto venue.',
-          'Creates a scoring rubric that later execution work can reuse.',
+        heading: 'Headline',
+        bodyHtml: `
+          <p>On a real LOBSTER AAPL trading day sampled at 100 ms, the full logistic specification picks up genuine one-second-ahead directional information — but the lift sits well below the venue cost it would have to clear to be deployable as a taker strategy. The numbers reported throughout this page come from the chronological 70/30 held-out slice (test ≥ 12:28:16, 57,213 observations across eight 30-minute buckets, 36 distinct spread tick values).</p>
+          <p>Held-out ROC AUC is 0.567 with a Brier score of 0.2467, and the result is essentially scale-invariant: AUC moves by less than 0.003 across 50, 100, and 250 ms snapshots. The decision rule at the primary 0.55 probability threshold and 1.0× modeled costs delivers a net expected value of −$0.048 per snapshot (−$0.167 per action across 16,584 actions, 71% no-trade share). Every cell of the cost cube reports <em>negative_after_cost</em>, so the signal does not survive realistic transaction costs in this single-day sample.</p>
+        `,
+      },
+      {
+        heading: 'Methodology box',
+        bodyHtml: `
+          <p>The pipeline reconstructs event-time top-five book states from raw LOBSTER message + orderbook CSVs into a venue-agnostic canonical schema, samples backward on a fixed cadence grid with a 1 s staleness guard, and labels the next-second mid-price direction without any forward leakage.</p>
+          <p><strong>Data.</strong> LOBSTER AAPL for 2012-06-21 (event file + 10-level orderbook CSVs). <strong>Features.</strong> Signed top-five depth imbalance, top-of-book spread in ticks, prior-one-second signed trade imbalance, and a 30-minute time-of-day bucket. <strong>Label.</strong> <em>y</em> = 1 if the mid one second ahead is strictly above the current mid; no-change ties are dropped and counted. <strong>Model.</strong> ℓ₂-regularized logistic regression (L-BFGS-B), median-imputed, compared against constant base-rate and imbalance-only baselines. <strong>Split.</strong> Chronological 70/30 (train ≤ 12:28:15, test ≥ 12:28:16). <strong>Cost overlay.</strong> Full spread crossing (α = 1) plus a 1 bp taker fee, swept over thresholds {0.50, 0.55, 0.60} and cost multipliers {0.5, 1.0, 1.5}×. The full pipeline is reproducible from raw CSVs via <code>python -m src.cli run-all --source raw</code>.</p>
+        `,
+      },
+      {
+        heading: 'Data and reconstruction',
+        bodyHtml: `
+          <p>The raw inputs join one event row to one orderbook row by position; the orderbook file is authoritative for top-five state after each event. The cadence sampler chooses the most recent event-time snapshot ≤ each grid timestamp via a backward as-of merge with a one-second staleness tolerance, so no feature value uses information from after <em>t</em>.</p>
+          <p>The session spans 09:30:00.004 – 15:59:59.913 (6.5 hours), 400,391 raw events, and 34,990 extracted trades — every one of which carries an explicit aggressor flag, so no tick-rule fallback was needed. After sampling at 100 ms, 114,426 valid one-second labels remain (49.4% positive, 50.6% negative); a further 95,902 no-change ties (45.6% of would-be labels) are dropped by construction. Quality status is <em>pass</em>: no crossed books, no non-monotonic levels, no non-positive sizes, and the test-slice spread distribution covers 36 distinct tick values with a 13-tick median and a 36-tick maximum.</p>
+        `,
+      },
+      {
+        heading: 'Features and model',
+        bodyHtml: `
+          <p>Three features enter the full model: top-five signed depth imbalance <span class="eq-inline"><i>I</i><sub>t</sub><sup>(5)</sup></span> in [−1, +1], top-of-book spread in ticks, and a prior-one-second signed trade imbalance <span class="eq-inline"><i>T</i><sub>t</sub><sup>(1s)</sup></span>. Mid-price and spread are defined from the inside quotes, and the two imbalance features are constructed as size-normalized signed sums.</p>
+        `,
+        figures: [
+          {
+            type: 'equation',
+            number: 1,
+            html: '<i>m</i><sub>t</sub> <span class="op">=</span> <span class="frac"><span>1</span><span>2</span></span> ( <i>a</i><sub>1,<i>t</i></sub> <span class="op">+</span> <i>b</i><sub>1,<i>t</i></sub> ) , <span class="op">&nbsp;</span> spr<sub>t</sub> <span class="op">=</span> <i>a</i><sub>1,<i>t</i></sub> <span class="op">−</span> <i>b</i><sub>1,<i>t</i></sub>',
+          },
+          {
+            type: 'equation',
+            number: 2,
+            html: '<i>I</i><sub>t</sub><sup>(5)</sup> <span class="op">=</span> <span class="frac"><span>Σ<sub>ℓ=1..5</sub> <i>q</i><sup>b</sup><sub>ℓ,<i>t</i></sub> <span class="op">−</span> Σ<sub>ℓ=1..5</sub> <i>q</i><sup>a</sup><sub>ℓ,<i>t</i></sub></span><span>Σ<sub>ℓ=1..5</sub> <i>q</i><sup>b</sup><sub>ℓ,<i>t</i></sub> <span class="op">+</span> Σ<sub>ℓ=1..5</sub> <i>q</i><sup>a</sup><sub>ℓ,<i>t</i></sub></span></span> <span class="op">∈</span> [ <span class="op">−</span>1 , <span class="op">+</span>1 ]',
+          },
+          {
+            type: 'equation',
+            number: 3,
+            html: '<i>T</i><sub>t</sub><sup>(1s)</sup> <span class="op">=</span> <span class="frac"><span>Σ<sub><i>i</i> : <i>t</i>−1 ≤ τ<sub><i>i</i></sub> ≤ <i>t</i></sub> <i>s</i><sub><i>i</i></sub> <span class="op">·</span> <i>v</i><sub><i>i</i></sub></span><span>Σ<sub><i>i</i> : <i>t</i>−1 ≤ τ<sub><i>i</i></sub> ≤ <i>t</i></sub> | <i>v</i><sub><i>i</i></sub> |</span></span> , <span class="op">&nbsp;</span> <i>y</i><sub>t</sub> <span class="op">=</span> <span class="indic">𝟙</span>{ <i>m</i><sub><i>t</i>+1s</sub> <span class="op">−</span> <i>m</i><sub>t</sub> <span class="op">&gt;</span> 0 }',
+          },
         ],
       },
       {
-        heading: 'Data and method',
-        body:
-          'The draft reconstructs top-of-book and top-five depth from a free LOBSTER sample and optionally repeats the same harness on Binance BTC/USDT snapshots.',
-        bullets: [
-          'Snapshot the book every 100 ms and compute signed top-five depth imbalance.',
-          'Add spread and recent trade-sign imbalance as control features.',
-          'Fit logistic regression for next-second midprice direction and stratify by time of day and spread quintile.',
+        heading: 'Standardized coefficients',
+        bodyHtml: `
+          <p>The trade-sign feature carries the largest standardized weight, and it points the opposite direction from a naive momentum reading — recent aggressor buying is followed, on average, by a small reversal of the mid one second later, consistent with temporary price impact and partial liquidity replenishment. Depth imbalance contributes roughly half the magnitude with the expected positive sign (heavier bid depth predicts up), and spread enters with a small positive coefficient that says widest-spread snapshots weakly precede up moves.</p>
+          <p>Under feature ablation, depth imbalance alone clears chance by less than two percentage points; adding spread and trade-sign imbalance lifts AUC by another five points. The trade-sign coefficient is therefore not redundant with depth — it is doing real, decoupled work.</p>
+        `,
+        figures: [
+          {
+            type: 'coef-table',
+            rows: [
+              { feature: 'trade_sign_imbalance_1s', coef: -0.154, note: 'Largest magnitude; negative ⇒ short-horizon mean reversion.' },
+              { feature: 'imbalance_top5', coef: 0.077, note: 'Half the magnitude of trade-sign; heavier bid depth predicts up.' },
+              { feature: 'spread_ticks', coef: 0.042, note: 'Small positive contribution; widest spreads weakly precede up moves.' },
+              { feature: 'intercept', coef: -0.005, note: 'Effectively zero — training class share is 49.4% positive.' },
+            ],
+          },
+          {
+            type: 'auc-bars',
+            title: 'Held-out AUC by model (100 ms)',
+            caption:
+              'Depth imbalance alone clears chance by less than two percentage points. Adding spread and trade-sign imbalance lifts AUC by another five points. The trade-sign feature does real, decoupled work — it is not redundant with depth imbalance.',
+            data: [
+              { label: 'constant', value: 0.5, color: 'var(--chart-down)' },
+              { label: 'imbalance_only', value: 0.513, color: 'var(--warm)' },
+              { label: 'full', value: 0.567, color: 'var(--chart-one)' },
+            ],
+            yMin: 0.45,
+            yMax: 0.6,
+          },
         ],
       },
       {
-        heading: 'Draft deliverable',
+        heading: 'Discrimination',
         body:
-          'The finished output is scoped as a short HTML execution brief with one reproducibility notebook attached so desks can port the template to their own venue.',
-        bullets: [
-          'Global AUC and calibration view.',
-          'Lift by time-of-day bucket.',
-          'Lift by spread quintile.',
-          'A cost-after-execution section that prevents overclaiming.',
+          'The ROC curve shows weak but real discrimination across the entire operating range, not a sharp regime. Calibration is close to the diagonal — predicted probabilities cluster tightly between 0.42 and 0.57, which is the expected shape for a small-AUC classifier on a balanced-class problem. The reliability curve at the top end (n ≈ 5,722 in the highest predicted-probability bin) hits a 62.5% realized positive rate against a 56.7% predicted rate, which is the most useful corner of the score distribution.',
+        figures: [
+          {
+            type: 'roc',
+            title: 'ROC curve at 100 ms on the held-out test slice',
+            caption:
+              'Full model (teal) sits modestly above the imbalance-only baseline (amber), which itself sits just above chance. Shape is consistent with AUC ≈ 0.57 — weak but real discrimination across the full operating range.',
+            series: [
+              {
+                label: 'chance (AUC = 0.50)',
+                color: 'var(--chart-down)',
+                points: [
+                  { x: 0, y: 0 }, { x: 0.5, y: 0.5 }, { x: 1, y: 1 },
+                ],
+              },
+              {
+                label: 'imbalance only (AUC = 0.513)',
+                color: 'var(--warm)',
+                points: [
+                  { x: 0, y: 0 }, { x: 0.1, y: 0.116 }, { x: 0.2, y: 0.225 },
+                  { x: 0.3, y: 0.325 }, { x: 0.4, y: 0.422 }, { x: 0.5, y: 0.518 },
+                  { x: 0.6, y: 0.615 }, { x: 0.7, y: 0.712 }, { x: 0.8, y: 0.812 },
+                  { x: 0.9, y: 0.91 }, { x: 1, y: 1 },
+                ],
+              },
+              {
+                label: 'full model (AUC = 0.567)',
+                color: 'var(--chart-one)',
+                points: [
+                  { x: 0, y: 0 }, { x: 0.05, y: 0.09 }, { x: 0.1, y: 0.17 },
+                  { x: 0.2, y: 0.29 }, { x: 0.3, y: 0.39 }, { x: 0.4, y: 0.48 },
+                  { x: 0.5, y: 0.575 }, { x: 0.6, y: 0.665 }, { x: 0.7, y: 0.755 },
+                  { x: 0.8, y: 0.84 }, { x: 0.9, y: 0.92 }, { x: 1, y: 1 },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'reliability',
+            title: 'Reliability curve at 100 ms (10 quantile bins, ~5.7k obs per bin)',
+            caption:
+              'Predicted probabilities cluster tightly around the base rate (range 0.42–0.57); the model rarely makes confident predictions away from 0.5, which is the expected shape for a small-AUC classifier. The top bin (n = 5,722) reaches a 62.5% realized positive rate at a 56.7% predicted rate.',
+            data: [
+              { x: 0.418, y: 0.415 }, { x: 0.443, y: 0.401 }, { x: 0.467, y: 0.466 },
+              { x: 0.483, y: 0.463 }, { x: 0.492, y: 0.466 }, { x: 0.5, y: 0.491 },
+              { x: 0.508, y: 0.494 }, { x: 0.518, y: 0.515 }, { x: 0.539, y: 0.554 },
+              { x: 0.567, y: 0.625 },
+            ],
+          },
+          {
+            type: 'score-hist',
+            title: 'Predicted-probability histogram at 100 ms (stacked by realized label)',
+            caption:
+              'Both classes are present at every probability level; the model separates them in expectation but not categorically. The mass concentrates between 0.40 and 0.58, which is the visual signature of a small-AUC signal in a balanced-class problem.',
+            bins: [
+              { down: 30, up: 50 },
+              { down: 250, up: 350 },
+              { down: 2300, up: 1600 },
+              { down: 3650, up: 2400 },
+              { down: 3300, up: 3300 },
+              { down: 7900, up: 6900 },
+              { down: 7150, up: 7300 },
+              { down: 2250, up: 3050 },
+              { down: 1900, up: 3000 },
+              { down: 500, up: 800 },
+            ],
+            xMin: 0.35,
+            xMax: 0.6,
+            yMax: 16000,
+          },
         ],
       },
       {
-        heading: 'Risks and caveats',
+        heading: 'Stratified discrimination',
         body:
-          'This page only earns trust if it stays candid about what the setup cannot prove.',
-        bullets: [
-          'The free LOBSTER sample is a single day, not a cross-day truth.',
-          'AUC is not the same thing as post-cost PnL.',
-          'Snapshot cadence and trade-sign inference should be stress-tested, not assumed.',
+          'On this single-day sample the predictive discrimination is mildly heterogeneous: AUC varies from 0.508 (12:00, just inside the test window) to 0.597 (15:30, the close half-hour), and is U-shaped in spread regime with Q3 (mid spreads, 11–14 ticks) dominating at 0.580. The widest-spread quintile Q5 is unremarkable, so the stratified result is more nuanced than a simple "wider spreads imply stronger predictability" story.',
+        figures: [
+          {
+            type: 'tod-line',
+            title: 'AUC by 30-minute time-of-day bucket (held-out only, 100 ms)',
+            caption:
+              'Test buckets only — the chronological split sends the morning into training. AUC rises into the close: 0.508 at 12:00, 0.597 at 15:30. The 11.8k-observation 15:30 bucket carries the strongest evidence.',
+            data: [
+              { label: '12:00', value: 0.508, n: 576 },
+              { label: '12:30', value: 0.558, n: 6797 },
+              { label: '13:00', value: 0.522, n: 6546 },
+              { label: '13:30', value: 0.574, n: 7182 },
+              { label: '14:00', value: 0.552, n: 7759 },
+              { label: '14:30', value: 0.576, n: 7847 },
+              { label: '15:00', value: 0.541, n: 8680 },
+              { label: '15:30', value: 0.597, n: 11817 },
+            ],
+            yMin: 0.46,
+            yMax: 0.62,
+          },
+          {
+            type: 'spread-bars',
+            title: 'AUC by spread quintile at 100 ms (test slice, per-venue boundaries)',
+            caption:
+              'AUC peaks in Q3 (11–14 ticks) at 0.580 and is lowest in Q1 (tight spreads, 1–8 ticks) at 0.538. The widest-spread quintile Q5 sits in the middle at 0.568 — predictability does not concentrate in the loosest book.',
+            data: [
+              { label: 'Q1', range: '[1–8 ticks]', value: 0.538 },
+              { label: 'Q2', range: '[8–11 ticks]', value: 0.567 },
+              { label: 'Q3', range: '[11–14 ticks]', value: 0.580 },
+              { label: 'Q4', range: '[14–18 ticks]', value: 0.574 },
+              { label: 'Q5', range: '[18–36 ticks]', value: 0.568 },
+            ],
+            yMin: 0.46,
+            yMax: 0.62,
+          },
+          {
+            type: 'spread-hist',
+            title: 'Spread distribution in the test slice (log y-axis, 57,213 obs)',
+            caption:
+              '36 distinct tick values populate a heavy right tail; the per-venue quintile boundaries (dotted) cleanly partition the distribution. The stratified analysis therefore rests on a genuinely varied spread environment rather than a few discrete values.',
+            quintileBounds: [8, 11, 14, 18],
+            bins: [
+              { x: 1, count: 235 }, { x: 2, count: 700 }, { x: 3, count: 1050 },
+              { x: 4, count: 1700 }, { x: 5, count: 1900 }, { x: 6, count: 2400 },
+              { x: 7, count: 2700 }, { x: 8, count: 3300 }, { x: 9, count: 3300 },
+              { x: 10, count: 3500 }, { x: 11, count: 3700 }, { x: 12, count: 3500 },
+              { x: 13, count: 3600 }, { x: 14, count: 3700 }, { x: 15, count: 3400 },
+              { x: 16, count: 3200 }, { x: 17, count: 2700 }, { x: 18, count: 2300 },
+              { x: 19, count: 2200 }, { x: 20, count: 1600 }, { x: 21, count: 1500 },
+              { x: 22, count: 1200 }, { x: 23, count: 900 }, { x: 24, count: 700 },
+              { x: 25, count: 650 }, { x: 26, count: 400 }, { x: 27, count: 230 },
+              { x: 28, count: 170 }, { x: 29, count: 150 }, { x: 30, count: 55 },
+              { x: 31, count: 60 }, { x: 32, count: 47 }, { x: 33, count: 7 },
+              { x: 34, count: 9 }, { x: 35, count: 4 }, { x: 36, count: 9 },
+            ],
+          },
         ],
       },
       {
-        heading: 'Next steps',
-        body:
-          'The natural follow-on is to connect the signal to actual execution quality and to later cross-sectional effects.',
-        bullets: [
-          'Add queue-position features and a slippage-curve companion piece.',
-          'Test whether residual reversal from Item 05 co-moves with stale imbalance signals.',
+        heading: 'Cadence robustness',
+        bodyHtml: `
+          <p>The signal is essentially scale-invariant on this day: AUC moves by less than 0.003 across 50, 100, and 250 ms snapshots and Brier by less than 0.0003. At 50 ms (114,232 obs) the model reports AUC 0.568 and Brier 0.2466; at the 100 ms primary cadence (57,213 obs) it reports AUC 0.567 and Brier 0.2467; at 250 ms (22,971 obs) it reports AUC 0.570 and Brier 0.2464.</p>
+          <p>This is a real robustness check rather than a sub-second artifact — at 50 ms many snapshots reuse the same event-book state because LOBSTER updates do not occur every 50 ms (the sampler back-fills), while at 250 ms each snapshot reflects more information accumulated since the previous sample. Either way, the result weakens the case for sub-100 ms snapshotting in production for this signal.</p>
+        `,
+      },
+      {
+        heading: 'Cost-after-execution',
+        bodyHtml: `
+          <p>The decision rule converts predicted probabilities into trade actions <span class="eq-inline"><i>d</i><sub>t</sub></span> ∈ {−1, 0, +1} via a symmetric threshold <em>p</em>★. Per-action taker cost is the full spread crossed at α = 1 plus a 1 bp taker fee on notional, scaled by a stress multiplier κ ∈ {0.5, 1.0, 1.5}×. The net result <span class="eq-inline"><i>r</i><sub>t</sub></span> is the realized directional return on executed snapshots minus that cost.</p>
+          <p>At the primary 0.55 / 1.0× cell, the gross edge is roughly $0.003 per action while the average per-action transaction cost is $0.177 — decomposed into ~$0.129 of spread (the dominant term, mean 12.9 ticks) and ~$0.058 of fee (1 bp on a $582 mean mid). Spread dominates fees by roughly 2.2×. To clear cost as a pure taker, the model would need a ~60× improvement in per-action edge; alternatively, a maker-rebate execution model that recovers most of the spread would change the conclusion without changing the prediction itself.</p>
+        `,
+        figures: [
+          {
+            type: 'equation',
+            number: 4,
+            html: '<i>d</i><sub>t</sub> <span class="op">=</span> <span class="frac"><span><span class="op">+</span>1 if p̂<sub>t</sub> ≥ p★, &nbsp; <span class="op">−</span>1 if p̂<sub>t</sub> ≤ 1 <span class="op">−</span> p★</span><span>0 otherwise</span></span>',
+          },
+          {
+            type: 'equation',
+            number: 5,
+            html: '<i>c</i><sub>t</sub> <span class="op">=</span> spr<sub>t</sub> <span class="op">·</span> α <span class="op">+</span> <i>f</i> <span class="op">·</span> <i>m</i><sub>t</sub> , <span class="op">&nbsp;</span> <i>r</i><sub>t</sub> <span class="op">=</span> <i>d</i><sub>t</sub> <span class="op">·</span> Δ<sub><i>h</i></sub><i>m</i><sub>t</sub> <span class="op">−</span> <i>c</i><sub>t</sub> <span class="op">·</span> <span class="indic">𝟙</span>{ <i>d</i><sub>t</sub> ≠ 0 }',
+          },
+          {
+            type: 'cost-bars',
+            title: 'Gross vs. net EV per action by spread quintile (threshold 0.55, 1.0× costs)',
+            caption:
+              'Gross EV (teal) is positive but tiny and roughly flat across quintiles. Net EV (orange) is uniformly negative and scales linearly with spread: -$0.104/action in Q1 widening to -$0.259/action in Q5.',
+            data: [
+              { label: 'Q1', range: '[$0.01–0.08]', gross: 0.003, net: -0.104 },
+              { label: 'Q2', range: '[$0.08–0.11]', gross: 0.011, net: -0.141 },
+              { label: 'Q3', range: '[$0.11–0.14]', gross: 0.012, net: -0.169 },
+              { label: 'Q4', range: '[$0.14–0.18]', gross: 0.013, net: -0.200 },
+              { label: 'Q5', range: '[$0.18–0.34]', gross: 0.011, net: -0.259 },
+            ],
+            yMin: -0.3,
+            yMax: 0.04,
+          },
+          {
+            type: 'cost-table',
+            rows: [
+              { threshold: 0.5, mult: 0.5, actions: 57213, noTrade: '0%', netObs: '-$0.0895', netAct: '-$0.0895' },
+              { threshold: 0.5, mult: 1.0, actions: 57213, noTrade: '0%', netObs: '-$0.1831', netAct: '-$0.1831' },
+              { threshold: 0.5, mult: 1.5, actions: 57213, noTrade: '0%', netObs: '-$0.2768', netAct: '-$0.2768' },
+              { threshold: 0.55, mult: 0.5, actions: 16584, noTrade: '71%', netObs: '-$0.0227', netAct: '-$0.0782' },
+              { threshold: 0.55, mult: 1.0, actions: 16584, noTrade: '71%', netObs: '-$0.0483', netAct: '-$0.1668' },
+              { threshold: 0.55, mult: 1.5, actions: 16584, noTrade: '71%', netObs: '-$0.0740', netAct: '-$0.2553' },
+              { threshold: 0.6, mult: 0.5, actions: 341, noTrade: '99%', netObs: '-$0.0003', netAct: '-$0.0504' },
+              { threshold: 0.6, mult: 1.0, actions: 341, noTrade: '99%', netObs: '-$0.0007', netAct: '-$0.1188' },
+              { threshold: 0.6, mult: 1.5, actions: 341, noTrade: '99%', netObs: '-$0.0011', netAct: '-$0.1872' },
+            ],
+          },
         ],
+      },
+      {
+        heading: 'Discussion and limitations',
+        bodyHtml: `
+          <p>The full specification picks up genuine one-second-ahead directional information — AUC clears chance, calibration tracks the diagonal across the [0.42, 0.57] predicted-probability range, and the coefficient ranking is robust under feature ablation. It does not survive a taker execution model: every cell of the cost cube is negative, and the widest-spread-quintile hypothesis is not borne out, with Q3 (mid spreads) dominating instead.</p>
+          <p>The result is also scoped tightly. It speaks to a single instrument (AAPL) on a single day (2012-06-21), so no cross-day or cross-sectional variance is measured. The 45.6% tie share means the 1-second forward mid often does not change at all in 2012 AAPL, and ties are dropped by construction of the binary label. The cost overlay is taker-only — there is no maker, partial-fill, or queue-rebate model, so the negative number is specifically a taker result. Depth aggregates rather than own-order rank, which means no queue-position feature enters the panel. And the trade-sign feature leans on LOBSTER's explicit aggressor flag (100% coverage on this sample); on venues where that flag is missing, a tick-rule fallback would introduce additional noise into the dominant feature.</p>
+        `,
       },
     ],
   },

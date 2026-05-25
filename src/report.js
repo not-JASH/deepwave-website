@@ -1,6 +1,7 @@
 import { reportBodies, research } from './data.js';
 import { escapeHtml } from './components.js';
 import { reportUrl } from './urls.js';
+import { renderFigureCard } from './report-figures.js';
 
 const dateFormatter = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
 
@@ -17,7 +18,7 @@ export function slug(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
-function renderReportFigure(title, caption) {
+function renderDecorativeFigure(title, caption) {
   return `
     <figure class="chart-card">
       <svg viewBox="0 0 640 260" role="img" aria-label="${escapeHtml(title)}">
@@ -42,6 +43,12 @@ function renderReportFigure(title, caption) {
     </figure>`;
 }
 
+function renderHeroFigure(body) {
+  if (body.heroFigure) return renderFigureCard(body.heroFigure);
+  if (body.figureTitle) return renderDecorativeFigure(body.figureTitle, body.figureCaption || '');
+  return '';
+}
+
 function renderReportSection(section) {
   const bullets = section.bullets?.length
     ? `
@@ -50,11 +57,20 @@ function renderReportSection(section) {
       </ul>`
     : '';
 
+  const figures = section.figures?.length
+    ? section.figures.map((fig) => renderFigureCard(fig)).join('')
+    : '';
+
+  const body = section.bodyHtml
+    ? `<div class="report-prose">${section.bodyHtml}</div>`
+    : `<p>${escapeHtml(section.body)}</p>`;
+
   return `
     <section id="${slug(section.heading)}">
       <h2>${escapeHtml(section.heading)}</h2>
-      <p>${escapeHtml(section.body)}</p>
+      ${body}
       ${bullets}
+      ${figures}
     </section>`;
 }
 
@@ -89,6 +105,16 @@ export function renderReportMarkup(id) {
 
   const date = dateFormatter.format(new Date(`${report.date}T12:00:00`));
   const related = relatedResearchFor(report, body).slice(0, 3);
+  const defaultStats = [
+    { label: 'Capability', value: report.capability },
+    { label: 'Scope', value: report.scope },
+    { label: 'Format', value: report.format },
+    { label: 'Published', value: date },
+  ];
+  const stats = body.stats?.length ? body.stats : defaultStats;
+  const statsMarkup = stats
+    .map((stat) => `<div><dt>${escapeHtml(stat.label)}</dt><dd>${escapeHtml(stat.value)}</dd></div>`)
+    .join('');
   const pageMap = body.sections
     .map((section) => `<a href="#${slug(section.heading)}">${escapeHtml(section.heading)}</a>`)
     .join('');
@@ -109,12 +135,7 @@ export function renderReportMarkup(id) {
         <h1>${escapeHtml(report.title)}</h1>
         <p class="hero__lede">${escapeHtml(body.summary)}</p>
         <p>${escapeHtml(report.finding)}</p>
-        <dl>
-          <div><dt>Capability</dt><dd>${escapeHtml(report.capability)}</dd></div>
-          <div><dt>Scope</dt><dd>${escapeHtml(report.scope)}</dd></div>
-          <div><dt>Format</dt><dd>${escapeHtml(report.format)}</dd></div>
-          <div><dt>Published</dt><dd>${escapeHtml(date)}</dd></div>
-        </dl>
+        <dl>${statsMarkup}</dl>
       </div>
       <div class="report-layout">
         <aside class="report-aside">
@@ -131,7 +152,7 @@ export function renderReportMarkup(id) {
           </div>
         </aside>
         <div class="report-content">
-          ${renderReportFigure(body.figureTitle, body.figureCaption)}
+          ${renderHeroFigure(body)}
           ${body.sections.map((section) => renderReportSection(section)).join('')}
           ${relatedMarkup}
         </div>
